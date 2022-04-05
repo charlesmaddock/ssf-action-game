@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://game/HideRoom.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+resource_local_to_scene = true
+extents = Vector2( 0, 0 )
+
+[node name="HideRoom" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.188235, 0.188235, 0.188235, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowArea" type="Area2D" parent="ColorRect"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ColorRect/ShowArea"]
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="ColorRect/ShowArea" to="." method="_on_ShowArea_body_entered"]
+[connection signal="body_exited" from="ColorRect/ShowArea" to="." method="_on_ShowArea_body_exited"]

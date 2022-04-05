@@ -1,0 +1,160 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://ui/PlayerInfoPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/font/smallFont.tres" type="DynamicFont" id=4]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Welcome" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.294118, 0.729412, 0.894118, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
+margin_left = 202.0
+margin_right = 306.0
+margin_bottom = 300.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 122.0
+margin_right = 104.0
+margin_bottom = 178.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_right = 104.0
+margin_bottom = 8.0
+text = "SSF Action Game"
+align = 1
+
+[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 12.0
+margin_right = 104.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 20 )
+text = "Host"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 36.0
+margin_right = 104.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 70.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+placeholder_text = "Room code"
+
+[node name="JoinButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 74.0
+margin_right = 104.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 30, 0 )
+text = "Join"
+
+[node name="Control" type="Control" parent="Welcome/HBoxContainer"]
+margin_left = 310.0
+margin_right = 310.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Lobby" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.294118, 0.729412, 0.894118, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
+margin_left = 100.0
+margin_right = 240.0
+margin_bottom = 200.0
+alignment = 1
+
+[node name="CodeLabel" type="RichTextLabel" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 15.0
+margin_right = 140.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 10 )
+focus_mode = 2
+custom_fonts/normal_font = ExtResource( 4 )
+bbcode_enabled = true
+bbcode_text = "asdasd"
+text = "asdasd"
+selection_enabled = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CopyCodeButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 140.0
+margin_bottom = 37.0
+text = "Copy code"
+
+[node name="PlayerInfoContainer" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 41.0
+margin_right = 140.0
+margin_bottom = 173.0
+
+[node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer" instance=ExtResource( 3 )]
+
+[node name="PlayerInfoPanel2" parent="Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_top = 34.0
+margin_bottom = 64.0
+
+[node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_top = 68.0
+margin_bottom = 98.0
+
+[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_top = 102.0
+margin_bottom = 132.0
+
+[node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
+margin_top = 177.0
+margin_right = 140.0
+margin_bottom = 185.0
+text = "Start Game"
+
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
+[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]

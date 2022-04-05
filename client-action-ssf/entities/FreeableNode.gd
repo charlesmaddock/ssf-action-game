@@ -1,0 +1,48 @@
+extends Node2D
+
+
+onready var TextureProgress = $TextureProgress
+onready var HackedNodeSprite = $Hacked
+
+
+var _freed: bool = false
+var _players_nearby: Array = []
+var _progress: float = 0
+
+
+var node_id = str(randi())
+
+
+func _ready():
+	Server.connect("packet_received", self, "_on_packet_received")
+
+
+func _on_packet_received(packet: Dictionary) -> void:
+	match(packet.type):
+		Constants.PacketTypes.NODE_FREED:
+			if packet.id == node_id:
+				_freed = true
+				HackedNodeSprite.set_visible(false)
+
+
+func _process(delta):
+	if _freed == false:
+		if _players_nearby.size() > 0:
+			_progress += delta * 25
+		elif _progress > 0:
+			_progress -= delta * 25
+		
+		TextureProgress.value = _progress
+		
+		if _progress > 99.9 && Lobby.is_host:
+			Server.send_free_node(node_id)
+
+
+func _on_FreeArea_body_entered(body):
+	if body is KinematicBody2D:
+		_players_nearby.append(body)
+
+
+func _on_FreeArea_body_exited(body):
+	if body is KinematicBody2D:
+		_players_nearby.erase(body)

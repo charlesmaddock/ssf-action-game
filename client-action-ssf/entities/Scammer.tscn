@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://gfx/FootstepParticles.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/tiles/footsteps.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/romanceScammer.png" type="Texture" id=3]
+[ext_resource path="res://entities/Scammer.gd" type="Script" id=4]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 7.20814
+height = 0.0
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 18.0
+height = 18.0
+
+[sub_resource type="ParticlesMaterial" id=3]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+color = Color( 0.913725, 0.729412, 0.729412, 1 )
+
+[node name="Scammer" type="KinematicBody2D"]
+position = Vector2( 171, -277 )
+script = ExtResource( 4 )
+speed = 85
+nav_path = NodePath("../../Navigation2D")
+game_node_path = NodePath("../..")
+room_nav_points_path = NodePath("../../RoomNavPoints")
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 7, -26 )
+scale = Vector2( 0.143606, 0.143606 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.250061, -0.20813 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Damage" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damage"]
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="FootstepParticles" type="Particles2D" parent="." instance=ExtResource( 1 )]
+z_index = 10
+amount = 3
+local_coords = false
+process_material = SubResource( 3 )
+texture = ExtResource( 2 )
+
+[connection signal="body_entered" from="Damage" to="." method="_on_Damage_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
