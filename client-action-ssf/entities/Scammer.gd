@@ -28,11 +28,12 @@ var threshold = 16
 var behaviour_mode: int = behaviour.SEARCH
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
+var players_in_view: Array = []
 
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_recieved")
-	yield(get_tree().create_timer(0), "timeout")
+	yield(get_tree().create_timer(10), "timeout")
 	timer.start()
 
 
@@ -74,10 +75,8 @@ func _on_Damage_body_entered(body):
 
 
 func _on_Timer_timeout():
-	var players = gameNode.get_players()
-	for player in players:
-		var player_pos: Vector2 = player.position
-		if player_pos.distance_to(position) < 290 && player.visible == true:
+	for player in players_in_view:
+		if player.visible == true:
 			get_target_path(player.position)
 			return
 	
@@ -97,3 +96,14 @@ func _on_Timer_timeout():
 		room_point = random_room_point
 	
 	get_target_path(room_point.position)
+
+
+func _on_FOVArea_body_entered(body):
+	if body.get("Sprite") != null:
+		players_in_view.append(body)
+
+
+func _on_FOVArea_body_exited(body):
+	var remove_at = players_in_view.find(body)
+	if remove_at != -1:
+		players_in_view.remove(remove_at)

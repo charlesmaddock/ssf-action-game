@@ -28,7 +28,7 @@ tile_data = PoolIntArray( -720905, 0, 0, -720904, 0, 0, -720903, 0, 0, -720902, 
 [node name="Entities" type="YSort" parent="."]
 
 [node name="Scammer" parent="Entities" instance=ExtResource( 7 )]
-speed = 90
+position = Vector2( 128, -265 )
 
 [node name="FreeableNode" parent="Entities" instance=ExtResource( 6 )]
 position = Vector2( 32, 32 )
@@ -135,15 +135,12 @@ anchor_bottom = 1.0
 margin_top = -11.0
 margin_bottom = -11.0
 custom_colors/font_color = Color( 0.180392, 0.207843, 0.0588235, 1 )
-text = "* Episk cutscene *
+text = "Åh nej! Min telefon har blivit hackad! 
+Kan någon rädda mig?!
 
-Åh nej! Min telefon har blivit hackad!
+Befria alla datachip genom att stå nära dem.
 
-SSF virus squad (TM), kan ni rädda mig?!
-
-Hitta och befria varje nod genom att stå vid den.
-
-SE UPP FÖR ROMANSBEDRÄGERI MONSTRET!"
+SE UPP FÖR BEDRAGAREN..."
 align = 1
 valign = 1
 

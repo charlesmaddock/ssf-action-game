@@ -10,7 +10,7 @@ onready var FreedNodesLabel = $Camera/CanvasLayer/Panel/Label
 onready var WinScreen = $Camera/CanvasLayer/WinScreen
 
 
-var nodes_freed: int = 0
+var nodes_freed: Array = []
 var total_nodes: int = 0
 
 
@@ -28,14 +28,15 @@ func _ready():
 func _on_packet_received(packet: Dictionary):
 	match(packet.type):
 		Constants.PacketTypes.NODE_FREED:
-			nodes_freed += 1
-			set_nodes_freed_text()
-			if nodes_freed == total_nodes:
-				WinScreen.set_visible(true)
+			if nodes_freed.find(packet.id) == -1:
+				nodes_freed.append(packet.id)
+				set_nodes_freed_text()
+				if nodes_freed.size() == total_nodes:
+					WinScreen.set_visible(true)
 
 
 func set_nodes_freed_text():
-	FreedNodesLabel.text = str(nodes_freed) + "/" + str(total_nodes) 
+	FreedNodesLabel.text = str(nodes_freed.size()) + "/" + str(total_nodes) 
 
 
 func get_players() -> Array:

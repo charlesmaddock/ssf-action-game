@@ -233,6 +233,7 @@ const handleFreeNode = (
     type: PacketTypes.NODE_FREED,
     id: packet.id,
   };
+
   broadcastToRoom(room, payload);
 };
 
