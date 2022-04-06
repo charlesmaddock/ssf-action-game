@@ -33,7 +33,7 @@ func _closed(was_clean = false):
 	if Constants.app_mode == Constants.AppMode.DEVELOPMENT:
 		get_tree().quit()
 	else:
-		Events.emit_signal("error_message", "Couldn't connect to server with url " + url)
+		Events.emit_signal("error_message", "Couldn't connect to server with the url " + url)
 
 
 func _connected(proto = ""):
