@@ -1,6 +1,12 @@
 extends Node
 
 
+enum AppMode {
+	DEVELOPMENT,
+	RELEASE
+}
+
+
 enum PacketTypes {
 	CONNECTED,
 	HOST_ROOM,
@@ -14,3 +20,6 @@ enum PacketTypes {
 	FREE_NODE,
 	NODE_FREED,
 }
+
+
+var app_mode: int = AppMode.RELEASE 

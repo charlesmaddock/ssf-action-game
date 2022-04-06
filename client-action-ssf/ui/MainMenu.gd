@@ -7,6 +7,7 @@ onready var LobbyNode = $Lobby
 onready var CodeInput = $Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/CodeInput
 onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeLabel
 onready var PlayerInfoContainer = $Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer
+onready var ErrorLabel = $Welcome/ErrorLabel
 
 var _lobby_client_info: Array = []
 
@@ -14,6 +15,11 @@ var _lobby_client_info: Array = []
 func _ready():
 	show_page(Welcome)
 	Server.connect("packet_received", self, "_on_packet_received")
+	Events.connect("error_message", self, "_on_error_message")
+
+
+func _on_error_message(msg: String) -> void:
+	ErrorLabel.text = msg
 
 
 func _on_packet_received(packet: Dictionary) -> void:

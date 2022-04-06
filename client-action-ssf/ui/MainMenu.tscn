@@ -17,6 +17,7 @@ __meta__ = {
 [node name="Welcome" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 color = Color( 0.294118, 0.729412, 0.894118, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -85,10 +86,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ErrorLabel" type="Label" parent="Welcome"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = -29.0
+margin_right = 185.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 0.890196, 0.0392157, 0.0392157, 1 )
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Lobby" type="ColorRect" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 color = Color( 0.294118, 0.729412, 0.894118, 1 )
 __meta__ = {
 "_edit_use_anchors_": false

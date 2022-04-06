@@ -20,6 +20,7 @@ Server="*res://globals/Server.gd"
 Constants="*res://globals/Constants.gd"
 Lobby="*res://globals/Lobby.gd"
 Util="*res://globals/Util.gd"
+Events="*res://globals/Events.gd"
 
 [display]
 

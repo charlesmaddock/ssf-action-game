@@ -1,7 +1,9 @@
 extends Node
 
 
-var websocket_url = "ws://127.0.0.1:9001"
+onready var url = "ws://127.0.0.1:9001" if Constants.app_mode == Constants.AppMode.DEVELOPMENT else "http://173.212.232.13:9001/"
+
+
 var _client = WebSocketClient.new()
 
 
@@ -14,7 +16,7 @@ func _ready():
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_on_data")
 	
-	var err = _client.connect_to_url(websocket_url)
+	var err = _client.connect_to_url(url)
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
@@ -25,7 +27,10 @@ func _closed(was_clean = false):
 	# by the remote peer before closing the socket.
 	print("Closed, clean: ", was_clean)
 	set_process(false)
-	get_tree().quit()
+	if Constants.app_mode == Constants.AppMode.DEVELOPMENT:
+		get_tree().quit()
+	else:
+		Events.emit_signal("error_message", "Connection error")
 
 
 func _connected(proto = ""):
