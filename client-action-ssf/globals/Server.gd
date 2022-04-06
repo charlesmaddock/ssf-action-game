@@ -20,6 +20,9 @@ func _ready():
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
+	
+	yield(get_tree(), "idle_frame")
+	Events.emit_signal("error_message", "Connecting to " + url + "...")
 
 
 func _closed(was_clean = false):
@@ -30,7 +33,7 @@ func _closed(was_clean = false):
 	if Constants.app_mode == Constants.AppMode.DEVELOPMENT:
 		get_tree().quit()
 	else:
-		Events.emit_signal("error_message", "Connection error")
+		Events.emit_signal("error_message", "Couldn't connect to server with url " + url)
 
 
 func _connected(proto = ""):
