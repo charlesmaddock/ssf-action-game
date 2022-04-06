@@ -78,6 +78,13 @@ func join(code: String) -> void:
 	send_packet(payload)
 
 
+func leave() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.LEAVE_ROOM, 
+	}
+	send_packet(payload)
+
+
 func start() -> void:
 	print("Starting the game...")
 	var payload = {
@@ -91,6 +98,14 @@ func send_input(input: Vector2) -> void:
 		"type": Constants.PacketTypes.SET_INPUT, 
 		"x": input.x,
 		"y": input.y
+	}
+	send_packet(payload)
+
+
+func use_ability(key: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.USE_ABILITY, 
+		"key": key
 	}
 	send_packet(payload)
 

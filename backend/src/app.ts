@@ -6,17 +6,22 @@ const port = 9001;
 const wss = new WebSocketServer({ port: port });
 
 enum PacketTypes {
+  SERVER_MESSAGE,
   CONNECTED,
   HOST_ROOM,
   ROOM_HOSTED,
   JOIN_ROOM,
   ROOM_JOINED,
+  LEAVE_ROOM,
+  ROOM_LEFT,
   START_GAME,
   GAME_STARTED,
   SET_INPUT,
   SET_PLAYER_POS,
   FREE_NODE,
   NODE_FREED,
+  USE_ABILITY,
+  ABILITY_USED,
 }
 
 type PacketType = PacketTypes;
@@ -53,11 +58,20 @@ const getClientsRoom = (c: Client): Room => {
 };
 
 const getRoomsClient = (room: Room): Client => {
-  return room.clients.filter((c) => c.id == room.hostId)[0];
+  if (room !== null) {
+    for (let i = 0; i < room.clients.length; i++) {
+      if (room.clients[i].id == room.hostId) return room.clients[i];
+    }
+    return null;
+  }
+  return null;
 };
 
 const getRoomWithCode = (code: string): Room => {
-  return rooms.filter((r) => r.code == code)[0];
+  for (let i = 0; i < rooms.length; i++) {
+    if (rooms[i].code == code) return rooms[i];
+  }
+  return null;
 };
 
 const getClientFromWs = (socket: WebSocket): Client => {
@@ -86,11 +100,17 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.JOIN_ROOM:
             handleJoinRoom(ws, data);
             break;
+          case PacketTypes.LEAVE_ROOM:
+            handleLeaveRoom(ws);
+            break;
           case PacketTypes.START_GAME:
             handleStartGame(ws);
             break;
           case PacketTypes.SET_INPUT:
             handleSetInput(ws, data);
+            break;
+          case PacketTypes.USE_ABILITY:
+            handleUseAbility(ws, data.key);
             break;
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
@@ -110,9 +130,13 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
   ws.on("close", (code, reason) => {
     let client: Client = getClientFromWs(ws);
     if (client !== null) {
+      let clientsRoom: Room = getClientsRoom(client);
+      if (clientsRoom !== null) {
+        handleLeaveRoom(client.socket);
+      }
+
       var removeAt = clients.indexOf(client);
       clients.splice(removeAt, 1);
-      var room;
       console.log(
         `player ${client.id} disconnected. Clients.length: ${clients.length}`
       );
@@ -124,8 +148,8 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
 
 const handleConnected = (ws: WebSocket) => {
   let id: string = Math.random().toString(16).slice(2);
-  let names = ["Charles", "Sigge", "Isac"];
-  let name = names[Math.floor(Math.random())];
+  let names = ["Charles", "Sigge", "Isac", "Johan", "Paul"];
+  let name = names[Math.floor(Math.random() * names.length)];
   let newClient: Client = {
     id: id,
     name: name + Math.floor(Math.random() * 100),
@@ -168,13 +192,75 @@ const handleJoinRoom = (
   ws: WebSocket,
   packet: { type: number; code: string }
 ) => {
-  let room = getRoomWithCode(packet.code);
-  let joiningClient = getClientFromWs(ws);
-  if (room !== undefined && joiningClient !== null) {
-    room.clients.push(joiningClient);
-    room.clients.forEach((client) => {
-      sendJoined(client.socket, room);
-    });
+  let room = null;
+  if (packet.code === "") {
+    if (rooms.length > 0) {
+      room = rooms[0];
+      console.log("Found random room: ", room);
+    } else {
+      sendError(ws, "No rooms available, host one yourself!");
+    }
+  } else {
+    room = getRoomWithCode(packet.code);
+    if (room === null) sendError(ws, "Invalid code.");
+  }
+
+  if (room !== null) {
+    let joiningClient = getClientFromWs(ws);
+    if (joiningClient !== null) {
+      room.clients.push(joiningClient);
+      room.clients.forEach((client: Client) => {
+        sendJoined(client.socket, room);
+
+        // For speeding up development
+        if (packet.code === "") {
+          handleStartGame(client.socket);
+        }
+      });
+    }
+  }
+};
+
+const handleLeaveRoom = (ws: WebSocket) => {
+  let leavingClient = getClientFromWs(ws);
+  if (leavingClient !== null) {
+    let clientsRoom = getClientsRoom(leavingClient);
+    if (clientsRoom !== null) {
+      console.log(
+        "Client with id ",
+        leavingClient.id,
+        " left the room ",
+        clientsRoom.code
+      );
+
+      // Remove room if we are the host
+      if (clientsRoom.hostId == leavingClient.id) {
+        broadcastError(clientsRoom, "Host disconnected, room closed.", true);
+        for (let i = clientsRoom.clients.length - 1; i >= 0; i--) {
+          leaveRoom(clientsRoom, clientsRoom.clients[i]);
+        }
+        var removeAt = rooms.indexOf(clientsRoom);
+        rooms.splice(removeAt, 1);
+        console.log(
+          `Room ${clientsRoom.code} was removed. Rooms length: ${rooms.length}`
+        );
+      } else {
+        leaveRoom(clientsRoom, leavingClient);
+      }
+    }
+  }
+};
+
+const leaveRoom = (room: Room, client: Client) => {
+  let payload = {
+    type: PacketTypes.ROOM_LEFT,
+    id: client.id,
+  };
+  broadcastToRoom(room, payload);
+
+  var removeAt = clients.indexOf(client);
+  if (removeAt !== -1) {
+    room.clients.splice(removeAt, 1);
   }
 };
 
@@ -203,13 +289,26 @@ const handleSetInput = (
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   let hostClient = getRoomsClient(room);
-  if (hostClient != undefined) {
+
+  if (hostClient !== null) {
     let payload = {
       ...packet,
       id: client.id,
     };
     hostClient.socket.send(JSON.stringify(payload));
   }
+};
+
+const handleUseAbility = (ws: WebSocket, key: string) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+
+  let payload = {
+    type: PacketTypes.ABILITY_USED,
+    key: key,
+    id: client.id,
+  };
+  broadcastToRoom(room, payload);
 };
 
 const handleSetPos = (
@@ -242,11 +341,13 @@ const broadcastToRoom = (
   payload: object,
   excludeId: string = ""
 ) => {
-  room.clients.forEach((client) => {
-    if (client.id !== excludeId) {
-      client.socket.send(JSON.stringify(payload));
-    }
-  });
+  if (room !== null) {
+    room.clients.forEach((client) => {
+      if (client.id !== excludeId) {
+        client.socket.send(JSON.stringify(payload));
+      }
+    });
+  }
 };
 
 const sendJoined = (ws: WebSocket, room: Room) => {
@@ -258,6 +359,24 @@ const sendJoined = (ws: WebSocket, room: Room) => {
       className: "Bob",
     })),
     code: room.code,
+  };
+  ws.send(JSON.stringify(payload));
+};
+
+const broadcastError = (room: Room, text: string, excludeHost: boolean) => {
+  let payload = {
+    type: PacketTypes.SERVER_MESSAGE,
+    msgType: "error",
+    text: text,
+  };
+  broadcastToRoom(room, payload, excludeHost ? room.hostId : "");
+};
+
+const sendError = (ws: WebSocket, text: string) => {
+  let payload = {
+    type: PacketTypes.SERVER_MESSAGE,
+    msgType: "error",
+    text: text,
   };
   ws.send(JSON.stringify(payload));
 };

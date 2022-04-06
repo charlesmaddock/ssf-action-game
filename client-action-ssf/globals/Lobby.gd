@@ -29,6 +29,16 @@ func _on_packet_recieved(packet: Dictionary) -> void:
 			room_code = packet.code
 		Constants.PacketTypes.GAME_STARTED:
 			handle_game_started(packet) 
+		Constants.PacketTypes.ROOM_LEFT:
+			handle_room_left(packet)
+
+
+func handle_room_left(packet: Dictionary) -> void:
+	if my_id == packet.id:
+		room_code = ""
+		is_host = false
+		players_data.clear()
+		get_tree().change_scene_to(mainMenuScene)
 
 
 func handle_game_started(packet: Dictionary) -> void:

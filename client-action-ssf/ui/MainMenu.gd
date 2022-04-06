@@ -8,6 +8,8 @@ onready var CodeInput = $Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxC
 onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeLabel
 onready var PlayerInfoContainer = $Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer
 onready var ErrorLabel = $Welcome/ErrorLabel
+onready var StartButton = $Lobby/HBoxContainer/VBoxContainer/StartButton
+
 
 var _lobby_client_info: Array = []
 
@@ -32,6 +34,8 @@ func _on_packet_received(packet: Dictionary) -> void:
 func set_lobby(packet: Dictionary) -> void:
 	CodeLabel.text = "Rooms code: " + str(packet.code)
 	_lobby_client_info = packet.client_info
+	
+	StartButton.set_visible(Lobby.is_host)
 	
 	for playerInfoPanel in PlayerInfoContainer.get_children():
 		playerInfoPanel.clear()
