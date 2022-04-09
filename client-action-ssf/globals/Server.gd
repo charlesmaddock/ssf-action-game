@@ -63,6 +63,14 @@ func send_packet(packet: Dictionary) -> void:
 	_client.get_peer(1).put_packet(json.to_utf8())
 
 
+func req_update_client_data(client_data: Dictionary) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.UPDATE_CLIENT_DATA, 
+		"clientData": client_data
+	}
+	send_packet(payload)
+
+
 func host() -> void:
 	print("Hosting room...")
 	send_packet({"type": Constants.PacketTypes.HOST_ROOM})
@@ -124,5 +132,26 @@ func send_pos(id: String, pos: Vector2) -> void:
 		"id": id,
 		"x": pos.x,
 		"y": pos.y
+	}
+	send_packet(payload)
+
+
+func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SET_HEALTH, 
+		"id": id,
+		"health": health,
+		"dirX": knockback_dir.x,
+		"dirY": knockback_dir.y
+	}
+	send_packet(payload)
+
+func shoot_projectile(start_pos: Vector2, dir: Vector2)  -> void:
+	var payload = {
+		"type": Constants.PacketTypes.SHOOT_PROJECTILE, 
+		"posX": start_pos.x,
+		"posY": start_pos.y,
+		"dirX": dir.x,
+		"dirY": dir.y
 	}
 	send_packet(payload)

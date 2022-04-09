@@ -1,7 +1,8 @@
 extends Node2D
 
 
-var player_scene: PackedScene = preload("res://entities/Player.tscn")
+var player_scene = preload("res://entities/Player.tscn")
+var scammer_scene = preload("res://entities/Scammer.tscn")
 
 
 onready var Camera: Camera2D = $Camera
@@ -49,10 +50,23 @@ func get_players() -> Array:
 
 
 func generate_players(player_data: Array) -> void:
+	var spawn_scammer: bool = true
 	for data in player_data:
-		var player = player_scene.instance()
-		Entities.add_child(player)
-		player.set_players_data(data.id, data.pos)
-		
-		if data.id == Lobby.my_id:
-			Camera.set_follow(player)
+		if data.class == "Romance Scammer":
+			spawn_scammer = false
+			var scammer = scammer_scene.instance()
+			Entities.add_child(scammer)
+			scammer.set_scammer_data(data.id, data.pos, data.class, false)
+			if data.id == Lobby.my_id:
+				Camera.set_follow(scammer)
+		else:
+			var player = player_scene.instance()
+			player.set_players_data(data.id, data.pos, data.class)
+			Entities.add_child(player)
+			if data.id == Lobby.my_id:
+				Camera.set_follow(player)
+	
+	if spawn_scammer == true:
+		var scammer = scammer_scene.instance()
+		scammer.global_position = Vector2(128, -265)
+		Entities.add_child(scammer)

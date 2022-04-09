@@ -10,7 +10,7 @@ var _players_nearby: Array = []
 var _progress: float = 0
 
 
-var node_id = str(randi())
+onready var node_id = self.name
 
 
 func _ready():
@@ -23,6 +23,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			if packet.id == node_id:
 				_freed = true
 				HackedNodeSprite.set_visible(false)
+				TextureProgress.value = 100
 
 
 func _process(delta):
@@ -39,10 +40,10 @@ func _process(delta):
 
 
 func _on_FreeArea_body_entered(body):
-	if body is KinematicBody2D:
+	if body is KinematicBody2D && body.get("is_player"):
 		_players_nearby.append(body)
 
 
 func _on_FreeArea_body_exited(body):
-	if body is KinematicBody2D:
+	if body is KinematicBody2D && body.get("is_player"):
 		_players_nearby.erase(body)

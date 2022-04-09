@@ -5,13 +5,13 @@ onready var Welcome = $Welcome
 onready var LobbyNode = $Lobby
 
 onready var CodeInput = $Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/CodeInput
-onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeLabel
-onready var PlayerInfoContainer = $Lobby/HBoxContainer/VBoxContainer/PlayerInfoContainer
+onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeWrapper/CodeLabel
+onready var PlayerInfoContainer = $Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer
 onready var ErrorLabel = $Welcome/ErrorLabel
 onready var StartButton = $Lobby/HBoxContainer/VBoxContainer/StartButton
 
 
-var _lobby_client_info: Array = []
+var _lobby_client_data: Array = []
 
 
 func _ready():
@@ -33,17 +33,16 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 func set_lobby(packet: Dictionary) -> void:
 	CodeLabel.text = "Rooms code: " + str(packet.code)
-	_lobby_client_info = packet.client_info
+	_lobby_client_data = packet.clientData
 	
 	StartButton.set_visible(Lobby.is_host)
 	
 	for playerInfoPanel in PlayerInfoContainer.get_children():
 		playerInfoPanel.clear()
 	
-	for i in _lobby_client_info.size():
+	for i in _lobby_client_data.size():
 		var playerInfoPanel = PlayerInfoContainer.get_child(i)
-		var info = _lobby_client_info[i]
-		playerInfoPanel.set_player_info(info.name, info.id, info.className)
+		playerInfoPanel.set_player_info(_lobby_client_data[i])
 
 
 func show_page(page: Control) -> void:
@@ -71,3 +70,7 @@ func _on_StartButton_pressed():
 
 func _on_CopyCodeButton_pressed():
 	OS.set_clipboard(Lobby.room_code)
+
+
+func _on_JoinRandom_pressed():
+	Server.join("random")

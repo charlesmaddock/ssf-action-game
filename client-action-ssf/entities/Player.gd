@@ -1,20 +1,28 @@
 extends KinematicBody2D
 
+var is_player = true
 
-var speed = 80
-var sprite_scale: Vector2 = Vector2.ONE
 var _id: String = ""
-var server_velocity = Vector2.ZERO
-
-
 var abilities_used = [false, false, false]
 
 
 onready var Sprite = $Sprite
+onready var AbilityParticles: Particles2D = $AbilityParticles
+
+
+signal take_damage(damage, dir)
+signal damage_taken(health, dir)
 
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
+	connect("damage_taken", self, "_on_damage_taken")
+
+
+func _on_damage_taken(damage, dir) -> void:
+	Sprite.modulate = Color(1000, 0, 0, 1)
+	yield(get_tree().create_timer(0.1), "timeout")
+	Sprite.modulate = Color.white
 
 
 func get_id() -> String:
@@ -23,39 +31,20 @@ func get_id() -> String:
 
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
-		Constants.PacketTypes.SET_INPUT:
-			if _id == packet.id:
-				server_velocity = Vector2(packet.x, packet.y)
-		Constants.PacketTypes.SET_PLAYER_POS:
-			if _id == packet.id:
-				# Don't move the host's player if we are the host
-				if Lobby.is_host == true && _id == Lobby.my_id:
-					return
-				
-				if Lobby.my_id == packet.id:
-					position = Vector2(packet.x, packet.y)
 		Constants.PacketTypes.ABILITY_USED:
 			if _id == packet.id:
 				handle_ability_used(packet)
+		Constants.PacketTypes.ROOM_LEFT:
+			if _id == packet.id:
+				queue_free()
 
 
-func set_players_data(id: String, pos: Dictionary) -> void:
+func set_players_data(id: String, pos: Dictionary, className: String) -> void:
 	var spawn_pos = Vector2(pos.x, pos.y)
 	position = spawn_pos
 	_id = id
-
-
-func get_input():
-	var velocity = Vector2.ZERO
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
-	return velocity.normalized() * speed
+	
+	get_node("Sprite").texture = Util.get_sprite_for_class(className)
 
 
 func _input(event):
@@ -67,33 +56,28 @@ func _input(event):
 		Server.use_ability("3")
 
 
-func _physics_process(delta):
-	var velocity = get_input()
-	Server.send_input(velocity)
-	
-	if Lobby.is_host == true:
-		move_and_slide(server_velocity)
-		Server.send_pos(_id, position)
-	
-	if server_velocity != Vector2.ZERO:
-		sprite_scale = Vector2(-1 if server_velocity.x < 0 else 1, 1)
-	Sprite.scale = sprite_scale
-
-
 func handle_ability_used(packet) -> void:
 	if packet.key == "1" && abilities_used[0] == false:
+		AbilityParticles.emitting = true
+		
 		if Lobby.is_host:
 			abilities_used[0] = true
-			speed = 130
+			var prev_speed = get_node("Movement").speed
+			get_node("Movement").speed = 130
 			yield(get_tree().create_timer(6), "timeout")
-			speed = 80
+			get_node("Movement").speed = prev_speed
 	elif packet.key == "2"&& abilities_used[1] == false:
+		AbilityParticles.emitting = true
+		
 		if Lobby.is_host:
+			yield(get_tree().create_timer(0.2), "timeout")
 			abilities_used[1] = true
 			var nav_points = Util.get_nav_points()
 			var teleport_pos = nav_points[randi() % nav_points.size()].position
 			position = teleport_pos
 	elif packet.key == "3":
+		AbilityParticles.emitting = true
+		
 		abilities_used[2] = true
 		set_visible(false)
 		yield(get_tree().create_timer(6), "timeout")

@@ -37,29 +37,23 @@ func _process(delta):
 	HideColorRect.modulate = Color(1, 1, 1, opacity)
 
 
-func is_my_player(body) -> bool:
-	if body.get("Sprite") != null:
-		if body.get_id() == Lobby.my_id:
-			return true
+func is_my_entity(body: PhysicsBody2D) -> bool:
+	if body != null:
+		if body.has_method("get_id") == true:
+			if body.get_id() == Lobby.my_id:
+				return true
 	
 	return false
 
 
-func is_entity(body) -> bool:
-	if is_my_player(body) == true:
-		return false
-	 
-	return body is KinematicBody2D
-
-
 func _on_HideEntityArea_body_entered(body):
-	if is_entity(body):
+	if is_my_entity(body) == false && body is KinematicBody2D:
 		body.get_node("Sprite").modulate = Color(1, 1, 1, 1 - opacity)
 		other_entities_in_room.append(body)
 
 
 func _on_HideEntityArea_body_exited(body):
-	if is_entity(body):
+	if is_my_entity(body) == false && body is KinematicBody2D:
 		var remove_at = other_entities_in_room.find(body)
 		if remove_at != -1:
 			body.get_node("Sprite").modulate = Color(1, 1, 1, 1)
@@ -67,10 +61,10 @@ func _on_HideEntityArea_body_exited(body):
 
 
 func _on_ShowArea_body_entered(body):
-	if is_my_player(body):
+	if is_my_entity(body):
 		_our_player_is_in_room = true
 
 
 func _on_ShowArea_body_exited(body):
-	if is_my_player(body):
+	if is_my_entity(body):
 		_our_player_is_in_room = false

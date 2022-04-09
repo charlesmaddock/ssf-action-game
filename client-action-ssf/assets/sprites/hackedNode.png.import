@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hackedNode.png-33d99f3a2825da25272921466d3f7acc.stex"
+path="res://.import/hackedNode.png-f3f7f7db32284cc3bfb88b0c43f2a780.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/hackedNode.png"
-dest_files=[ "res://.import/hackedNode.png-33d99f3a2825da25272921466d3f7acc.stex" ]
+source_file="res://assets/sprites/hackedNode.png"
+dest_files=[ "res://.import/hackedNode.png-f3f7f7db32284cc3bfb88b0c43f2a780.stex" ]
 
 [params]
 

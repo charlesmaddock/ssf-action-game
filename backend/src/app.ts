@@ -5,9 +5,16 @@ import { IncomingMessage } from "http";
 const port = 9001;
 const wss = new WebSocketServer({ port: port });
 
+type Class =
+  | "Sam the Sniper"
+  | "Ryan the Robot"
+  | "Anna the Assassin"
+  | "Romance Scammer";
+
 enum PacketTypes {
   SERVER_MESSAGE,
   CONNECTED,
+  UPDATE_CLIENT_DATA,
   HOST_ROOM,
   ROOM_HOSTED,
   JOIN_ROOM,
@@ -22,6 +29,8 @@ enum PacketTypes {
   NODE_FREED,
   USE_ABILITY,
   ABILITY_USED,
+  SET_HEALTH,
+  SHOOT_PROJECTILE,
 }
 
 type PacketType = PacketTypes;
@@ -36,6 +45,14 @@ interface Client {
   id: string;
   name: string;
   socket: WebSocket;
+  class: Class;
+}
+
+interface MinClientData {
+  id: string;
+  name: string;
+  class: Class;
+  pos?: { x: number; y: number };
 }
 
 let rooms: Array<Room> = [];
@@ -94,6 +111,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
           case PacketTypes.CONNECTED:
             handleConnected(ws);
             break;
+          case PacketTypes.UPDATE_CLIENT_DATA:
+            handleUpdateClientData(ws, data);
+            break;
           case PacketTypes.HOST_ROOM:
             handleHostRoom(ws, getClientFromWs(ws));
             break;
@@ -117,6 +137,12 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.FREE_NODE:
             handleFreeNode(ws, data);
+            break;
+          case PacketTypes.SET_HEALTH:
+            handleSetHealth(ws, data);
+            break;
+          case PacketTypes.SHOOT_PROJECTILE:
+            handleShootProjectile(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -154,17 +180,35 @@ const handleConnected = (ws: WebSocket) => {
     id: id,
     name: name + Math.floor(Math.random() * 100),
     socket: ws,
+    class: "Sam the Sniper",
   };
 
   console.log(`New player, id: ${id}`);
 
   clients.push(newClient);
 
-  let payload = {
+  let payload: { type: PacketType; clientData: MinClientData } = {
     type: PacketTypes.CONNECTED,
-    id: id,
+    clientData: {
+      id: newClient.id,
+      class: newClient.class,
+      name: newClient.name,
+    },
   };
   ws.send(JSON.stringify(payload));
+};
+
+const handleUpdateClientData = (
+  ws: WebSocket,
+  packet: { type: number; clientData: MinClientData }
+) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+
+  client.class = packet.clientData.class;
+  client.name = packet.clientData.name;
+
+  broadcastToRoom(room, packet);
 };
 
 const handleHostRoom = (ws: WebSocket, client: Client) => {
@@ -193,10 +237,9 @@ const handleJoinRoom = (
   packet: { type: number; code: string }
 ) => {
   let room = null;
-  if (packet.code === "") {
+  if (packet.code === "random") {
     if (rooms.length > 0) {
       room = rooms[0];
-      console.log("Found random room: ", room);
     } else {
       sendError(ws, "No rooms available, host one yourself!");
     }
@@ -213,7 +256,7 @@ const handleJoinRoom = (
         sendJoined(client.socket, room);
 
         // For speeding up development
-        if (packet.code === "") {
+        if (packet.code === "random") {
           handleStartGame(client.socket);
         }
       });
@@ -269,11 +312,16 @@ const handleStartGame = (ws: WebSocket) => {
   if (startingClient !== null) {
     rooms.forEach((room: Room) => {
       if (room.hostId === startingClient.id) {
-        let payload = {
+        let spawnPosScammer = { x: 128, y: -265 };
+        let spawnPosPlayer = { x: -164, y: 351 };
+        let payload: { type: PacketType; players: Array<MinClientData> } = {
           type: PacketTypes.GAME_STARTED,
           players: room.clients.map((c) => ({
             id: c.id,
-            pos: { x: -164, y: 351 },
+            name: c.name,
+            class: c.class,
+            pos:
+              c.class == "Romance Scammer" ? spawnPosScammer : spawnPosPlayer,
           })),
         };
         broadcastToRoom(room, payload);
@@ -336,6 +384,28 @@ const handleFreeNode = (
   broadcastToRoom(room, payload);
 };
 
+const handleSetHealth = (
+  ws: WebSocket,
+  packet: {
+    type: number;
+    id: string;
+    health: number;
+    dirX: number;
+    dirY: number;
+  }
+) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+
+  broadcastToRoom(room, packet);
+};
+
+const handleShootProjectile = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
 const broadcastToRoom = (
   room: Room,
   payload: object,
@@ -351,12 +421,16 @@ const broadcastToRoom = (
 };
 
 const sendJoined = (ws: WebSocket, room: Room) => {
-  let payload = {
+  let payload: {
+    type: PacketType;
+    clientData: Array<MinClientData>;
+    code: string;
+  } = {
     type: PacketTypes.ROOM_JOINED,
-    client_info: room.clients.map((c) => ({
+    clientData: room.clients.map((c) => ({
       id: c.id,
       name: c.name,
-      className: "Bob",
+      class: c.class,
     })),
     code: room.code,
   };
