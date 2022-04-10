@@ -1,13 +1,13 @@
 extends Node
 
 
-
 var room_code: String = ""
 var my_id: String = ""
 var my_client_data: Dictionary = {}
 var is_host: bool
 var players_data: Array
 var dead_player_ids: Array = []
+var bot_amount: int = 0
 
 
 signal game_has_loaded(game_node)
@@ -19,11 +19,20 @@ func _ready():
 	connect("game_has_loaded", self, "_on_game_loaded")
 
 
+func get_amount_good_guys() -> int:
+	var amount: int = 0
+	for data in players_data:
+		if data.class != "Romance Scammer":
+			amount += 1
+	
+	return amount
+
+
 func _on_player_dead(id) -> void:
 	if dead_player_ids.find(id) == -1:
 		dead_player_ids.append(id)
 	
-	if dead_player_ids.size() == players_data.size():
+	if dead_player_ids.size() == get_amount_good_guys() + bot_amount:
 		Events.emit_signal("game_over")
 
 

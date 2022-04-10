@@ -17,6 +17,11 @@ func _on_player_dead(id) -> void:
 
 
 func _input(event):
+	if Input.is_key_pressed(KEY_C):
+		zoom = Vector2(5, 5)
+	else:
+		zoom = Vector2(1, 1)
+	
 	if my_player_is_dead == true:
 		if Input.is_action_just_pressed("ui_left"):
 			var all_players = Util.get_players() 
@@ -38,7 +43,7 @@ func set_follow(node: Node2D) -> void:
 
 func _process(delta):
 	if follow != null:
-		var follow_dir = (follow.global_position - follow_prev_pos).normalized() * 40
-		var target = follow.position + follow_dir 
-		position = position.linear_interpolate(target, delta * 4)
-		follow_prev_pos = follow.global_position
+		#var follow_dir = (follow.global_position - follow_prev_pos).normalized() * 40
+		#var target = follow.position + follow_dir 
+		position = position.linear_interpolate(follow.global_position, delta * 4)
+		#follow_prev_pos = follow.global_position

@@ -32,9 +32,15 @@ func _process(delta):
 	
 	opacity = clamp(opacity, 0, 1)
 	for body in other_entities_in_room:
-		body.get_node("Sprite").modulate = Color(1, 1, 1, 1 - opacity)
+		set_entity_modulate(body, 1 - opacity)
 	
 	HideColorRect.modulate = Color(1, 1, 1, opacity)
+
+
+func set_entity_modulate(body, opacity) -> void:
+	body.get_node("Sprite").modulate = Color(1, 1, 1, opacity)
+	if body.has_node("Health"):
+		body.get_node("Health").modulate = Color(1, 1, 1, opacity)
 
 
 func is_my_entity(body: PhysicsBody2D) -> bool:
@@ -48,7 +54,7 @@ func is_my_entity(body: PhysicsBody2D) -> bool:
 
 func _on_HideEntityArea_body_entered(body):
 	if is_my_entity(body) == false && body is KinematicBody2D:
-		body.get_node("Sprite").modulate = Color(1, 1, 1, 1 - opacity)
+		set_entity_modulate(body, 1 - opacity)
 		other_entities_in_room.append(body)
 
 
@@ -56,7 +62,7 @@ func _on_HideEntityArea_body_exited(body):
 	if is_my_entity(body) == false && body is KinematicBody2D:
 		var remove_at = other_entities_in_room.find(body)
 		if remove_at != -1:
-			body.get_node("Sprite").modulate = Color(1, 1, 1, 1)
+			set_entity_modulate(body, 1)
 			other_entities_in_room.remove(remove_at)
 
 

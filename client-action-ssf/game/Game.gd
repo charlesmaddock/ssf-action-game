@@ -7,7 +7,6 @@ var scammer_scene = preload("res://entities/Scammer.tscn")
 
 onready var Camera: Camera2D = $Camera
 onready var Entities = $Entities
-onready var FreedNodesLabel = $Camera/CanvasLayer/Panel/Label
 onready var WinScreen = $Camera/CanvasLayer/WinScreen
 
 
@@ -23,7 +22,6 @@ func _ready():
 		var entity: Node2D = e
 		if entity.get("node_id") != null: # is freeable node
 			total_nodes += 1
-	set_nodes_freed_text()
 
 
 func _on_packet_received(packet: Dictionary):
@@ -31,13 +29,8 @@ func _on_packet_received(packet: Dictionary):
 		Constants.PacketTypes.NODE_FREED:
 			if nodes_freed.find(packet.id) == -1:
 				nodes_freed.append(packet.id)
-				set_nodes_freed_text()
 				if nodes_freed.size() == total_nodes:
 					WinScreen.set_visible(true)
-
-
-func set_nodes_freed_text():
-	FreedNodesLabel.text = str(nodes_freed.size()) + "/" + str(total_nodes) 
 
 
 func get_players() -> Array:
@@ -51,20 +44,29 @@ func get_players() -> Array:
 
 func generate_players(player_data: Array) -> void:
 	var spawn_scammer: bool = true
+	var amount_players: int 
 	for data in player_data:
 		if data.class == "Romance Scammer":
 			spawn_scammer = false
 			var scammer = scammer_scene.instance()
-			Entities.add_child(scammer)
 			scammer.set_scammer_data(data.id, data.pos, data.class, false)
+			Entities.add_child(scammer)
 			if data.id == Lobby.my_id:
 				Camera.set_follow(scammer)
 		else:
+			amount_players += 1
 			var player = player_scene.instance()
-			player.set_players_data(data.id, data.pos, data.class)
+			player.set_players_data(data.id, data.pos, data.class, false)
 			Entities.add_child(player)
 			if data.id == Lobby.my_id:
 				Camera.set_follow(player)
+	
+	if amount_players < 4:
+		for i in 4 - amount_players:
+			var player = player_scene.instance()
+			player.set_players_data("player_bot_" + str(i), {"x": -164 + randf() * 5, "y": 351 + randf() * 5}, "Sam the Sniper", true)
+			Entities.add_child(player)
+			Lobby.bot_amount += 1
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()

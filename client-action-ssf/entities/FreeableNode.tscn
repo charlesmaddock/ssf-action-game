@@ -22,7 +22,7 @@ texture = ExtResource( 2 )
 texture = ExtResource( 4 )
 
 [node name="FreeArea" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FreeArea"]
 shape = SubResource( 1 )

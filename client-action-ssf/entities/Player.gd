@@ -4,6 +4,7 @@ var is_player = true
 
 var _id: String = ""
 var abilities_used = [false, false, false]
+var _is_bot: bool
 
 
 onready var Sprite = $Sprite
@@ -17,6 +18,9 @@ signal damage_taken(health, dir)
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	connect("damage_taken", self, "_on_damage_taken")
+	
+	if _is_bot == false:
+		get_node("PlayerAI").set_physics_process(false)
 
 
 func _on_damage_taken(damage, dir) -> void:
@@ -39,10 +43,12 @@ func _on_packet_received(packet: Dictionary) -> void:
 				queue_free()
 
 
-func set_players_data(id: String, pos: Dictionary, className: String) -> void:
+func set_players_data(id: String, pos: Dictionary, className: String, is_bot: bool) -> void:
 	var spawn_pos = Vector2(pos.x, pos.y)
 	position = spawn_pos
 	_id = id
+	
+	_is_bot = is_bot
 	
 	get_node("Sprite").texture = Util.get_sprite_for_class(className)
 

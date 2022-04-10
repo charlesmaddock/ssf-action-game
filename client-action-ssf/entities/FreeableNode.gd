@@ -17,6 +17,17 @@ func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 
 
+func was_first_freer(id: String) -> bool:
+	if _players_nearby.size() == 0:
+		return true
+	else:
+		return _players_nearby[0].get_id() == id
+
+
+func get_is_freed() -> bool:
+	return _freed
+
+
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.NODE_FREED:
@@ -29,9 +40,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 func _process(delta):
 	if _freed == false:
 		if _players_nearby.size() > 0:
-			_progress += delta * 25
+			_progress += delta * 14
 		elif _progress > 0:
-			_progress -= delta * 25
+			_progress -= delta * 16
 		
 		TextureProgress.value = _progress
 		
