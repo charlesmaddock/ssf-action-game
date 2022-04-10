@@ -24,7 +24,6 @@ var behaviour_mode: int = behaviour.SEARCH
 var room_point: Node2D = null
 var unchecked_room_points: Array = []
 var players_in_view: Array = []
-var shoot_i: int 
 
 
 func _ready():
@@ -53,10 +52,6 @@ func move_to_target():
 
 
 func get_target_path(target_pos):
-	shoot_i += 1
-	if Lobby.is_host && shoot_i % 5 == 0 && players_in_view.size() > 0:
-		Server.shoot_projectile(global_position + Vector2.UP * 10, target_pos - global_position)
-	
 	path = nav.get_simple_path(global_position, target_pos, false)
 
 

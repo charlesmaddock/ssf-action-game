@@ -5,7 +5,9 @@ onready var Sprite = $Sprite
 
 
 var _id = "scammer_ai" + str(randi())
-var _is_bot: bool
+var _is_bot: bool = true
+var shoot_i: int 
+var _prev_pos: Vector2
 
 
 func get_id() -> String:
@@ -14,6 +16,13 @@ func get_id() -> String:
 
 func _ready() -> void:
 	get_node("AI").set_physics_process(_is_bot)
+
+
+func _physics_process(delta):
+	shoot_i += 1
+	if Lobby.is_host && shoot_i % 30 == 0 && _prev_pos != global_position:
+		Server.shoot_projectile(global_position + Vector2.UP * 10, (global_position - _prev_pos).normalized())
+	_prev_pos = global_position
 
 
 func set_scammer_data(id: String, pos: Dictionary, className: String, has_ai: bool) -> void:

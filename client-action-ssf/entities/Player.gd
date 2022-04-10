@@ -24,9 +24,9 @@ func _ready():
 
 
 func _on_damage_taken(damage, dir) -> void:
-	Sprite.modulate = Color(1000, 0, 0, 1)
+	modulate = Color(1000, 0, 0, 1)
 	yield(get_tree().create_timer(0.1), "timeout")
-	Sprite.modulate = Color.white
+	modulate = Color.white
 
 
 func get_id() -> String:
