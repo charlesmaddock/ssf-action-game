@@ -69,8 +69,8 @@ func handle_ability_used(packet) -> void:
 		if Lobby.is_host:
 			abilities_used[0] = true
 			var prev_speed = get_node("Movement").speed
-			get_node("Movement").speed = 130
-			yield(get_tree().create_timer(6), "timeout")
+			get_node("Movement").speed = 140
+			yield(get_tree().create_timer(8), "timeout")
 			get_node("Movement").speed = prev_speed
 	elif packet.key == "2"&& abilities_used[1] == false:
 		AbilityParticles.emitting = true
@@ -86,5 +86,5 @@ func handle_ability_used(packet) -> void:
 		
 		abilities_used[2] = true
 		set_visible(false)
-		yield(get_tree().create_timer(6), "timeout")
+		yield(get_tree().create_timer(8), "timeout")
 		set_visible(true)
