@@ -4,6 +4,7 @@ extends Node
 var room_code: String = ""
 var my_id: String = ""
 var my_client_data: Dictionary = {}
+
 var is_host: bool
 var players_data: Array
 var dead_player_ids: Array = []
@@ -48,7 +49,6 @@ func _on_packet_recieved(packet: Dictionary) -> void:
 		Constants.PacketTypes.ROOM_JOINED:
 			room_code = packet.code
 			players_data = packet.clientData
-			print("players_data: ", players_data)
 		Constants.PacketTypes.UPDATE_CLIENT_DATA:
 			handle_update_client_data(packet)
 		Constants.PacketTypes.GAME_STARTED:
@@ -62,6 +62,8 @@ func handle_room_left(packet: Dictionary) -> void:
 		room_code = ""
 		is_host = false
 		players_data.clear()
+		dead_player_ids.clear()
+		bot_amount = 0
 		get_tree().change_scene("res://ui/MainMenu.tscn")
 
 

@@ -29,7 +29,8 @@ enum PacketTypes {
 	USE_ABILITY,
 	ABILITY_USED,
 	SET_HEALTH,
-	SHOOT_PROJECTILE
+	SHOOT_PROJECTILE,
+	START_DOORS
 }
 
 
@@ -41,4 +42,4 @@ var class_info = [
 ]
 
 
-var app_mode: int = AppMode.RELEASE 
+var app_mode: int = AppMode.DEVELOPMENT 

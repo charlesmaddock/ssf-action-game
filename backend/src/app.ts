@@ -31,6 +31,7 @@ enum PacketTypes {
   ABILITY_USED,
   SET_HEALTH,
   SHOOT_PROJECTILE,
+  START_DOORS,
 }
 
 type PacketType = PacketTypes;
@@ -310,16 +311,29 @@ const leaveRoom = (room: Room, client: Client) => {
 const handleStartGame = (ws: WebSocket) => {
   let startingClient = getClientFromWs(ws);
   if (startingClient !== null) {
+    let playerSpawnPoints = [
+      {
+        x: 266 + (Math.random() - 0.5 * 2),
+        y: 410 + (Math.random() - 0.5 * 2),
+      },
+      {
+        x: 974 + (Math.random() - 0.5 * 2),
+        y: -27 + (Math.random() - 0.5 * 2),
+      },
+      {
+        x: -437 + (Math.random() - 0.5 * 2),
+        y: 146 + (Math.random() - 0.5 * 2),
+      },
+    ];
+    let spawnPosPlayer =
+      playerSpawnPoints[Math.floor(Math.random() * playerSpawnPoints.length)];
     rooms.forEach((room: Room) => {
       if (room.hostId === startingClient.id) {
         let spawnPosScammer = {
           x: 128 + (Math.random() - 0.5 * 4),
           y: -265 + (Math.random() - 0.5 * 4),
         };
-        let spawnPosPlayer = {
-          x: -164 + (Math.random() - 0.5 * 4),
-          y: 351 + (Math.random() - 0.5 * 4),
-        };
+
         let payload: { type: PacketType; players: Array<MinClientData> } = {
           type: PacketTypes.GAME_STARTED,
           players: room.clients.map((c) => ({
@@ -331,6 +345,14 @@ const handleStartGame = (ws: WebSocket) => {
           })),
         };
         broadcastToRoom(room, payload);
+
+        // Sync doors for all clients, temporary
+        setTimeout(() => {
+          let doorPayload = {
+            type: PacketTypes.START_DOORS,
+          };
+          broadcastToRoom(room, doorPayload);
+        }, 3000);
       }
     });
   }
