@@ -5,6 +5,7 @@ export(float) var speed: float = 80.0
 
 
 onready var entity_id = get_parent().get_id()
+onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 
 
 var sprite_scale: Vector2 = Vector2.ONE
@@ -47,6 +48,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 func get_input():
 	var velocity = Vector2.ZERO
+	var joy_stick_velocity = JoyStick.get_velocity()
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -55,7 +57,7 @@ func get_input():
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
-	return velocity.normalized()
+	return velocity.normalized() + joy_stick_velocity
 
 
 func _physics_process(delta):

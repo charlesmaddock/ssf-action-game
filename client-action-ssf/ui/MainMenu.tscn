@@ -42,9 +42,9 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 99.0
+margin_top = 111.0
 margin_right = 104.0
-margin_bottom = 201.0
+margin_bottom = 189.0
 rect_min_size = Vector2( 100, 0 )
 
 [node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
@@ -67,17 +67,10 @@ margin_bottom = 54.0
 rect_min_size = Vector2( 0, 20 )
 text = "Host a room"
 
-[node name="JoinRandom" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
 margin_top = 58.0
 margin_right = 104.0
 margin_bottom = 78.0
-rect_min_size = Vector2( 0, 20 )
-text = "Join random room"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 82.0
-margin_right = 104.0
-margin_bottom = 102.0
 rect_min_size = Vector2( 0, 20 )
 
 [node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
@@ -133,14 +126,14 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 154.0
-margin_right = 358.0
+margin_left = 102.0
+margin_right = 410.0
 margin_bottom = 300.0
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
 margin_top = 13.0
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 43.0
 rect_min_size = Vector2( 0, 30 )
 __meta__ = {
@@ -175,25 +168,25 @@ text = "Copy code"
 
 [node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
 margin_top = 47.0
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 263.0
 custom_constants/separation = 24
 
 [node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 216.0
 
 [node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 8.0
 text = "Players"
 align = 1
 
 [node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
 margin_top = 12.0
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 216.0
-columns = 2
+columns = 3
 
 [node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
 
@@ -202,13 +195,23 @@ margin_left = 104.0
 margin_right = 204.0
 
 [node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 208.0
+margin_right = 308.0
+
+[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
 margin_top = 104.0
 margin_bottom = 204.0
 
-[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+[node name="PlayerInfoPanel5" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
 margin_left = 104.0
 margin_top = 104.0
 margin_right = 204.0
+margin_bottom = 204.0
+
+[node name="PlayerInfoPanel6" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+margin_left = 208.0
+margin_top = 104.0
+margin_right = 308.0
 margin_bottom = 204.0
 
 [node name="BadGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
@@ -247,14 +250,13 @@ margin_bottom = 204.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
 margin_top = 267.0
-margin_right = 204.0
+margin_right = 308.0
 margin_bottom = 287.0
 rect_min_size = Vector2( 0, 20 )
 text = "Start Game"
 
 [connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/JoinRandom" to="." method="_on_JoinRandom_pressed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]

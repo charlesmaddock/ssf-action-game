@@ -1,6 +1,9 @@
 extends Node
 
 
+const PLAYERS_PER_ROOM: int = 6
+
+
 enum AppMode {
 	DEVELOPMENT,
 	RELEASE

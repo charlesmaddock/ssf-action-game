@@ -1,7 +1,8 @@
 extends Panel
 
 
-onready var label = $Label
+onready var ChipsLeft = $ChipsLeft
+onready var PlayersLeft = $PlayersLeft
 
 
 var dead_player_ids: Array
@@ -12,9 +13,6 @@ var total_nodes: int = 0
 func _ready():
 	Events.connect("player_dead", self, "_on_player_dead")
 	Server.connect("packet_received", self, "_on_packet_received")
-	
-	$ChipSprite.set_visible(Lobby.my_client_data.class != "Romance Scammer")
-	$PlayerSprite.set_visible(Lobby.my_client_data.class == "Romance Scammer")
 	
 	for e in Util.get_game_node().get_node("Entities").get_children():
 		var entity: Node2D = e
@@ -34,10 +32,9 @@ func _on_packet_received(packet: Dictionary):
 
 
 func set_objective_text():
-	if Lobby.my_client_data.class != "Romance Scammer":
-		label.text = str(nodes_freed.size()) + "/" + str(total_nodes) 
-	else:
-		label.text = str(dead_player_ids.size()) + "/" + str(Lobby.get_amount_good_guys() + Lobby.bot_amount)
+	var total_player_amount = Lobby.get_amount_good_guys() + Lobby.bot_amount
+	ChipsLeft.text = str(nodes_freed.size()) + "/" + str(total_nodes) 
+	PlayersLeft.text = str(total_player_amount - dead_player_ids.size()) + "/" + str(total_player_amount)
 
 
 func _on_player_dead(id) -> void:

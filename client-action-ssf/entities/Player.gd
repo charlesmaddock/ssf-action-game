@@ -5,6 +5,7 @@ var is_player = true
 var _id: String = ""
 var abilities_used = [false, false, false]
 var _is_bot: bool
+var using_invis_ability: bool = false
 
 
 onready var Sprite = $Sprite
@@ -76,15 +77,26 @@ func handle_ability_used(packet) -> void:
 		AbilityParticles.emitting = true
 		
 		if Lobby.is_host:
+			set_visible(false)
 			yield(get_tree().create_timer(0.2), "timeout")
 			abilities_used[1] = true
 			var nav_points = Util.get_nav_points()
 			var teleport_pos = nav_points[randi() % nav_points.size()].position
 			position = teleport_pos
+			yield(get_tree().create_timer(0.1), "timeout")
+			set_visible(true)
 	elif packet.key == "3":
 		AbilityParticles.emitting = true
 		
 		abilities_used[2] = true
-		set_visible(false)
+		if _id == Lobby.my_id:
+			modulate = Color(1, 1, 1, 0.3)
+		else:
+			set_visible(false)
+		using_invis_ability = true
 		yield(get_tree().create_timer(8), "timeout")
-		set_visible(true)
+		if _id == Lobby.my_id:
+			modulate = Color(1, 1, 1, 1)
+		else:
+			set_visible(true)
+		using_invis_ability = false

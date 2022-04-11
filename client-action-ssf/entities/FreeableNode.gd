@@ -40,9 +40,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 func _process(delta):
 	if _freed == false:
 		if _players_nearby.size() > 0:
-			_progress += delta * 20
+			_progress += delta * 13
 		elif _progress > 0:
-			_progress -= delta * 20
+			_progress -= delta * 15
 		
 		TextureProgress.value = _progress
 		

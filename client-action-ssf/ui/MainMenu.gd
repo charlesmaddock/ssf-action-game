@@ -24,6 +24,11 @@ func _on_error_message(msg: String) -> void:
 	ErrorLabel.text = msg
 
 
+func _input(event):
+	if Input.is_key_pressed(KEY_CONTROL) && Input.is_key_pressed(KEY_Z):
+		Server.join("random")
+
+
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.ROOM_JOINED:
@@ -70,7 +75,3 @@ func _on_StartButton_pressed():
 
 func _on_CopyCodeButton_pressed():
 	OS.set_clipboard(Lobby.room_code)
-
-
-func _on_JoinRandom_pressed():
-	Server.join("random")

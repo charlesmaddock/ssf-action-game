@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/AbilityPanel.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 28, 15 )
 
 [node name="AbilityPanel" type="ColorRect"]
 margin_right = 56.0
@@ -33,9 +36,14 @@ __meta__ = {
 margin_top = 18.0
 margin_right = 56.0
 margin_bottom = 26.0
-text = "Uppdatering"
+text = "Uppdaterin"
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+shape = SubResource( 1 )
+
+[connection signal="pressed" from="TouchScreenButton" to="." method="_on_TouchScreenButton_pressed"]

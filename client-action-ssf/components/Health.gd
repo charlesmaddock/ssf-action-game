@@ -29,6 +29,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 			if health <= 0 && _is_dead == false:
 				_is_dead = true
 				get_parent().rotation_degrees = 90
+				get_parent().collision_layer = 0
 				
 				var movement_component = get_parent().get_node("Movement")
 				if movement_component != null:
@@ -36,6 +37,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 					movement_component.set_physics_process(false)
 				yield(get_tree().create_timer(2), "timeout")
 				get_parent().set_visible(false)
+				
 				Events.emit_signal("player_dead", get_parent().get_id())
 
 

@@ -7,7 +7,7 @@ var scammer_scene = preload("res://entities/Scammer.tscn")
 
 onready var Camera: Camera2D = $Camera
 onready var Entities = $Entities
-onready var WinScreen = $Camera/CanvasLayer/WinScreen
+onready var WinScreen = $CanvasLayer/WinScreen
 
 
 var nodes_freed: Array = []
@@ -33,15 +33,6 @@ func _on_packet_received(packet: Dictionary):
 					WinScreen.set_visible(true)
 
 
-func get_players() -> Array:
-	var players: Array = []
-	for entity in Entities.get_children():
-		if entity.get("Sprite") != null:
-			players.append(entity)
-	
-	return players
-
-
 func generate_players(player_data: Array) -> void:
 	var spawn_scammer: bool = true
 	var amount_players: int 
@@ -61,12 +52,13 @@ func generate_players(player_data: Array) -> void:
 			if data.id == Lobby.my_id:
 				Camera.set_follow(player)
 	
-	if amount_players < 4:
-		for i in 4 - amount_players:
+	if amount_players < Constants.PLAYERS_PER_ROOM:
+		Lobby.bot_amount = Constants.PLAYERS_PER_ROOM - amount_players
+		for i in Constants.PLAYERS_PER_ROOM - amount_players:
 			var player = player_scene.instance()
 			player.set_players_data("player_bot_" + str(i), {"x": -164 + randf() * 5, "y": 351 + randf() * 5}, "Sam the Sniper", true)
 			Entities.add_child(player)
-			Lobby.bot_amount += 1
+			
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()

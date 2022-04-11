@@ -9,6 +9,8 @@ var players_data: Array
 var dead_player_ids: Array = []
 var bot_amount: int = 0
 
+var specating_player_w_id: String = ""
+
 
 signal game_has_loaded(game_node)
 
@@ -45,6 +47,8 @@ func _on_packet_recieved(packet: Dictionary) -> void:
 			is_host = true
 		Constants.PacketTypes.ROOM_JOINED:
 			room_code = packet.code
+			players_data = packet.clientData
+			print("players_data: ", players_data)
 		Constants.PacketTypes.UPDATE_CLIENT_DATA:
 			handle_update_client_data(packet)
 		Constants.PacketTypes.GAME_STARTED:
@@ -65,17 +69,20 @@ func handle_update_client_data(packet: Dictionary) -> void:
 	var new_client_data = packet.clientData
 	for player_data in players_data:
 		if new_client_data.id == player_data.id:
-			var remove_at = player_data.find(player_data)
+			var remove_at = players_data.find(player_data)
 			players_data.remove(remove_at)
 			players_data.insert(remove_at, new_client_data)
 	
 	if new_client_data.id == my_id:
 		my_client_data = new_client_data
+	
+	print("players_data: ", players_data)
 
 
 func handle_game_started(packet: Dictionary) -> void:
-	print("players_data: ", packet.players)
 	players_data = packet.players
+	
+	print("players_data: ", packet.players)
 	
 	get_tree().change_scene("res://game/Game.tscn")
 	# Now we wait for _on_game_loaded
