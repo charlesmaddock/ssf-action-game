@@ -49,3 +49,7 @@ func calculate_bounds(tilemap: TileMap) -> Rect2:
 	var cell_bounds = tilemap.get_used_rect()
 	var cell_to_pixel = Transform2D(Vector2(tilemap.cell_size.x * tilemap.scale.x, 0), Vector2(0, tilemap.cell_size.y * tilemap.scale.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
+
+
+func _on_TouchScreenButton_pressed():
+	pass # Replace with function body.

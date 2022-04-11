@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/freedNode.png" type="Texture" id=2]
@@ -19,506 +19,12 @@
 [ext_resource path="res://ui/LargeMap.gd" type="Script" id=17]
 [ext_resource path="res://ui/ObjectiveMarker.gd" type="Script" id=18]
 [ext_resource path="res://assets/sprites/character.png" type="Texture" id=19]
-[ext_resource path="res://assets/tiles/wall.png" type="Texture" id=20]
-[ext_resource path="res://game/AutomaticDoor.gd" type="Script" id=21]
+[ext_resource path="res://game/AutomaticDoor.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/sprites/arrow.png" type="Texture" id=21]
+[ext_resource path="res://assets/sprites/romanceScammer.png" type="Texture" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 16 )
-
-[sub_resource type="Animation" id=2]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=5]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=6]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=8]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=9]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=10]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=11]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=12]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=13]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=14]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=15]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=16]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=17]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=19]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=20]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=21]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=22]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=23]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=24]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=25]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=26]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=27]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=28]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=29]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=30]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=31]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=32]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=33]
-resource_name = "close"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -32, 0 ) ]
-}
-
-[sub_resource type="Animation" id=34]
-resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Door:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -32, 0 ), Vector2( 0, 0 ) ]
-}
+extents = Vector2( 44, 23 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -618,313 +124,41 @@ position = Vector2( 64, -544 )
 [node name="FreeableNode27" parent="Entities" instance=ExtResource( 6 )]
 position = Vector2( 128, -512 )
 
-[node name="AutomaticDoor" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( -192, -64 )
-script = ExtResource( 21 )
+[node name="AutomaticDoor" parent="Entities" instance=ExtResource( 20 )]
 
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor"]
-wait_time = 3.0
-autostart = true
+[node name="AutomaticDoor2" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( -480, -64 )
 
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor"]
-position = Vector2( -32, 0 )
+[node name="AutomaticDoor3" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 736, -32 )
 
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor"]
-anims/RESET = SubResource( 2 )
-anims/close = SubResource( 3 )
-anims/open = SubResource( 4 )
-
-[node name="AutomaticDoor2" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( -480, -288 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor2"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor2"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor2/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor2/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor2/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor2"]
-anims/RESET = SubResource( 5 )
-anims/close = SubResource( 6 )
-anims/open = SubResource( 7 )
-
-[node name="AutomaticDoor3" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( -480, 320 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor3"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor3"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor3/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor3/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor3/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor3"]
-anims/RESET = SubResource( 8 )
-anims/close = SubResource( 9 )
-anims/open = SubResource( 10 )
-
-[node name="AutomaticDoor4" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 160, 256 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor4"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor4"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor4/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor4/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor4/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor4"]
-anims/RESET = SubResource( 11 )
-anims/close = SubResource( 12 )
-anims/open = SubResource( 13 )
-
-[node name="AutomaticDoor5" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 192, -128 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor5"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor5"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor5/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor5/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor5/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor5"]
-anims/RESET = SubResource( 14 )
-anims/close = SubResource( 15 )
-anims/open = SubResource( 16 )
-
-[node name="AutomaticDoor6" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( -32, -448 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor6"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor6"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor6/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor6/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor6/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor6"]
-anims/RESET = SubResource( 17 )
-anims/close = SubResource( 18 )
-anims/open = SubResource( 19 )
-
-[node name="AutomaticDoor7" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 960, -224 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor7"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor7"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor7/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor7/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor7/Door/StaticBody2D"]
-position = Vector2( 16, 15 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor7"]
-anims/RESET = SubResource( 20 )
-anims/close = SubResource( 21 )
-anims/open = SubResource( 22 )
-
-[node name="AutomaticDoor8" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 960, 160 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor8"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor8"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor8/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor8/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor8/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor8"]
-anims/RESET = SubResource( 23 )
-anims/close = SubResource( 24 )
-anims/open = SubResource( 25 )
-
-[node name="AutomaticDoor9" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
+[node name="AutomaticDoor4" parent="Entities" instance=ExtResource( 20 )]
 position = Vector2( 512, 352 )
-script = ExtResource( 21 )
 
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor9"]
-wait_time = 3.0
-autostart = true
+[node name="AutomaticDoor5" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 960, 160 )
 
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor9"]
-position = Vector2( -32, 0 )
+[node name="AutomaticDoor6" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 960, -224 )
 
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor9/Door"]
-texture = ExtResource( 20 )
-centered = false
+[node name="AutomaticDoor7" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 416, -576 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor9/Door"]
-collision_layer = 8
+[node name="AutomaticDoor8" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( -32, -448 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor9/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
+[node name="AutomaticDoor9" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 192, -128 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor9"]
-anims/RESET = SubResource( 26 )
-anims/close = SubResource( 27 )
-anims/open = SubResource( 28 )
+[node name="AutomaticDoor10" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 608, -96 )
 
-[node name="AutomaticDoor10" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 608, -32 )
-script = ExtResource( 21 )
+[node name="AutomaticDoor11" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 672, -96 )
+scale = Vector2( -1, 1 )
 
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor10"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor10"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor10/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor10/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor10/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor10"]
-anims/RESET = SubResource( 29 )
-anims/close = SubResource( 30 )
-anims/open = SubResource( 31 )
-
-[node name="AutomaticDoor11" type="Node2D" parent="Entities"]
-modulate = Color( 0.603922, 0.490196, 0.490196, 1 )
-position = Vector2( 640, -32 )
-script = ExtResource( 21 )
-
-[node name="OpenCloseTimer" type="Timer" parent="Entities/AutomaticDoor11"]
-wait_time = 3.0
-autostart = true
-
-[node name="Door" type="Node2D" parent="Entities/AutomaticDoor11"]
-position = Vector2( -32, 0 )
-
-[node name="Sprite" type="Sprite" parent="Entities/AutomaticDoor11/Door"]
-texture = ExtResource( 20 )
-centered = false
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Entities/AutomaticDoor11/Door"]
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entities/AutomaticDoor11/Door/StaticBody2D"]
-position = Vector2( 16, 16 )
-shape = SubResource( 1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Entities/AutomaticDoor11"]
-anims/RESET = SubResource( 32 )
-anims/close = SubResource( 33 )
-anims/open = SubResource( 34 )
+[node name="AutomaticDoor12" parent="Entities" instance=ExtResource( 20 )]
+position = Vector2( 160, 256 )
 
 [node name="Minimaps" type="CanvasLayer" parent="."]
 
@@ -933,6 +167,7 @@ margin_left = 3.0
 margin_top = 24.0
 margin_right = 92.0
 margin_bottom = 67.0
+mouse_filter = 2
 theme = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -972,9 +207,13 @@ M för
 hela
 kartan"
 
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Minimaps/SmallMap"]
+shape = SubResource( 1 )
+
 [node name="Control" type="Control" parent="Minimaps"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1004,8 +243,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="Minimaps/Control/LargeMap/MarginContainer"]
 margin_left = 6.0
 margin_top = 6.0
-margin_right = 506.0
-margin_bottom = 294.0
+margin_right = 459.0
+margin_bottom = 266.0
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Minimaps/Control/LargeMap/MarginContainer/VBoxContainer"]
@@ -1123,8 +362,9 @@ margin_bottom = 82.5
 custom_colors/font_color = Color( 0.180392, 0.207843, 0.0588235, 1 )
 text = "Du blev utslagen!
 
-Du kan åskåda dina vänner genom att 
-trycka på piltangenterna."
+Åskåda dina vänner genom att 
+trycka på piltangenterna eller genom
+att klicka på skärmen."
 align = 1
 valign = 1
 __meta__ = {
@@ -1202,35 +442,103 @@ margin_top = -100.0
 margin_right = 184.5
 margin_bottom = 100.0
 custom_colors/font_color = Color( 0.180392, 0.207843, 0.0588235, 1 )
-text = "Åh nej! Min telefon har blivit hackad! 
-Kan någon rädda mig?!
-
+text = "
 Befria alla datachip genom att stå nära dem.
 
-SE UPP FÖR BEDRAGAREN..."
-align = 1
-valign = 1
-
-[node name="Label2" type="Label" parent="CanvasLayer/IntroScreen"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 160.0
-margin_top = 192.0
-margin_right = -160.0
-margin_bottom = -64.0
-custom_colors/font_color = Color( 0.364706, 0.364706, 0.364706, 0.698039 )
-text = "Tryck en tangent för att fortsätta"
+Fly från Romansbedragaren med 1,2 och 3."
 align = 1
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label2" type="Label" parent="CanvasLayer/IntroScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -117.0
+margin_top = 32.0
+margin_right = 117.0
+margin_bottom = 48.0
+custom_colors/font_color = Color( 0.364706, 0.364706, 0.364706, 0.698039 )
+text = "Tryck på skärmen eller en tangent för att fortsätta"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="CanvasLayer/IntroScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.5
+margin_top = -84.0
+margin_right = -74.5
+margin_bottom = -69.0
+custom_colors/font_color = Color( 0.0901961, 0.2, 0.839216, 1 )
+text = "!!!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="CanvasLayer/IntroScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 83.5
+margin_top = -92.0
+margin_right = 109.5
+margin_bottom = -77.0
+rect_rotation = 90.0
+custom_colors/font_color = Color( 0.0901961, 0.2, 0.839216, 1 )
+text = ":)"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="CanvasLayer/IntroScreen"]
+position = Vector2( 309, 79 )
+texture = ExtResource( 19 )
+
+[node name="Sprite2" type="Sprite" parent="CanvasLayer/IntroScreen"]
+position = Vector2( 352, 79 )
+texture = ExtResource( 2 )
+
+[node name="Sprite3" type="Sprite" parent="CanvasLayer/IntroScreen"]
+position = Vector2( 83, 66 )
+texture = ExtResource( 22 )
+
+[node name="Sprite4" type="Sprite" parent="CanvasLayer/IntroScreen"]
+position = Vector2( 144, 80 )
+texture = ExtResource( 19 )
+
+[node name="Sprite5" type="Sprite" parent="CanvasLayer/IntroScreen"]
+modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
+position = Vector2( 115, 79 )
+rotation = 1.57437
+texture = ExtResource( 21 )
+
+[node name="Sprite6" type="Sprite" parent="CanvasLayer/IntroScreen"]
+modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
+position = Vector2( 328, 81 )
+rotation = 1.57437
+texture = ExtResource( 21 )
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -30.0
-margin_right = 40.0
+margin_left = 7.0
+margin_top = -37.0
+margin_right = 183.0
+margin_bottom = -7.0
 mouse_filter = 2
 theme = ExtResource( 3 )
 __meta__ = {
@@ -1468,12 +776,6 @@ margin_top = -224.0
 margin_right = 704.0
 margin_bottom = -192.0
 
-[node name="HideRoom14" parent="RoomHiders" instance=ExtResource( 10 )]
-margin_left = 384.0
-margin_top = -192.0
-margin_right = 416.0
-margin_bottom = 0.0
-
 [node name="HideRoom15" parent="RoomHiders" instance=ExtResource( 10 )]
 margin_left = 608.0
 margin_top = -192.0
@@ -1556,16 +858,7 @@ position = Vector2( 974, -27 )
 [node name="Footsteps" type="Node2D" parent="."]
 script = ExtResource( 7 )
 
-[connection signal="timeout" from="Entities/AutomaticDoor/OpenCloseTimer" to="Entities/AutomaticDoor" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor2/OpenCloseTimer" to="Entities/AutomaticDoor2" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor3/OpenCloseTimer" to="Entities/AutomaticDoor3" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor4/OpenCloseTimer" to="Entities/AutomaticDoor4" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor5/OpenCloseTimer" to="Entities/AutomaticDoor5" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor6/OpenCloseTimer" to="Entities/AutomaticDoor6" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor7/OpenCloseTimer" to="Entities/AutomaticDoor7" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor8/OpenCloseTimer" to="Entities/AutomaticDoor8" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor9/OpenCloseTimer" to="Entities/AutomaticDoor9" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor10/OpenCloseTimer" to="Entities/AutomaticDoor10" method="_on_OpenCloseTimer_timeout"]
-[connection signal="timeout" from="Entities/AutomaticDoor11/OpenCloseTimer" to="Entities/AutomaticDoor11" method="_on_OpenCloseTimer_timeout"]
+[connection signal="pressed" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_pressed"]
+[connection signal="released" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_released"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/LeaveButton" to="CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="EscPanel/LeaveButton" to="EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]

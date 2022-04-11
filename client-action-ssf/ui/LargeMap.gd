@@ -6,3 +6,11 @@ func _physics_process(delta):
 		set_visible(true)
 	else:
 		set_visible(false)
+
+
+func _on_TouchScreenButton_pressed():
+	set_visible(true)
+
+
+func _on_TouchScreenButton_released():
+	set_visible(false)

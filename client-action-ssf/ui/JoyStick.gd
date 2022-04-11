@@ -14,8 +14,10 @@ var inner_circle_offset: Vector2 = Vector2(-6, -6)
 
 func _ready():
 	var is_mobile = Util.is_mobile()
-	set_visible(is_mobile)
-	set_visible(get_node(movement_path).entity_id == Lobby.my_id) 
+	yield(get_tree(), "idle_frame")
+	var use_joy_stick = is_mobile && get_node(movement_path).entity_id == Lobby.my_id
+	set_visible(use_joy_stick) 
+	set_physics_process(use_joy_stick)
 
 
 func _input(event):

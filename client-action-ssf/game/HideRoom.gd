@@ -55,6 +55,8 @@ func set_entity_modulate(body, opacity) -> void:
 	body.get_node("Sprite").modulate = Color(1, 1, 1, opacity)
 	if body.has_node("Health"):
 		body.get_node("Health").modulate = Color(1, 1, 1, opacity)
+	if body.has_node("UsernameLabel"):
+		body.get_node("UsernameLabel").modulate = Color(1, 1, 1, opacity)
 
 
 func is_my_entity(body: PhysicsBody2D) -> bool:

@@ -3,7 +3,6 @@ extends KinematicBody2D
 
 onready var Sprite = $Sprite
 
-
 var _id = "scammer_ai" + str(randi())
 var _is_bot: bool = true
 var shoot_i: int 
@@ -12,6 +11,10 @@ var _prev_pos: Vector2
 
 func get_id() -> String:
 	return _id
+
+
+func get_is_bot() -> bool:
+	return _is_bot
 
 
 func _ready() -> void:
@@ -25,8 +28,8 @@ func _physics_process(delta):
 	_prev_pos = global_position
 
 
-func set_scammer_data(id: String, pos: Dictionary, className: String, has_ai: bool) -> void:
-	var spawn_pos = Vector2(pos.x, pos.y)
+func set_scammer_data(id: String, pos: Dictionary, className: String, has_ai: bool, scammer_i: int) -> void:
+	var spawn_pos = Vector2(80 + scammer_i * 30, -270)
 	position = spawn_pos
 	_id = id
 	_is_bot = has_ai

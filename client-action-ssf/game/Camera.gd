@@ -23,7 +23,7 @@ func _input(event):
 		zoom = Vector2(1, 1)
 	
 	if my_player_is_dead == true:
-		if Input.is_action_just_pressed("ui_left"):
+		if Input.is_action_just_pressed("ui_left") or event is InputEventScreenTouch:
 			var all_players = Util.get_living_players() 
 			spectate_index -= 1
 			if spectate_index < 0:

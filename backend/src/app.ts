@@ -312,8 +312,14 @@ const handleStartGame = (ws: WebSocket) => {
   if (startingClient !== null) {
     rooms.forEach((room: Room) => {
       if (room.hostId === startingClient.id) {
-        let spawnPosScammer = { x: 128, y: -265 };
-        let spawnPosPlayer = { x: -164, y: 351 };
+        let spawnPosScammer = {
+          x: 128 + (Math.random() - 0.5 * 4),
+          y: -265 + (Math.random() - 0.5 * 4),
+        };
+        let spawnPosPlayer = {
+          x: -164 + (Math.random() - 0.5 * 4),
+          y: 351 + (Math.random() - 0.5 * 4),
+        };
         let payload: { type: PacketType; players: Array<MinClientData> } = {
           type: PacketTypes.GAME_STARTED,
           players: room.clients.map((c) => ({

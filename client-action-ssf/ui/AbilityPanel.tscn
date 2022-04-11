@@ -13,7 +13,7 @@ rect_min_size = Vector2( 56, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
-color = Color( 0.854902, 0.882353, 0.384314, 1 )
+color = Color( 0.854902, 0.882353, 0.384314, 0.886275 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

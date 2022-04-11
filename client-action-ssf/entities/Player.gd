@@ -9,7 +9,6 @@ var using_invis_ability: bool = false
 
 
 onready var Sprite = $Sprite
-onready var AbilityParticles: Particles2D = $AbilityParticles
 
 
 signal take_damage(damage, dir)
@@ -34,6 +33,10 @@ func get_id() -> String:
 	return _id
 
 
+func get_is_bot() -> bool:
+	return _is_bot
+
+
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.ABILITY_USED:
@@ -44,12 +47,13 @@ func _on_packet_received(packet: Dictionary) -> void:
 				queue_free()
 
 
-func set_players_data(id: String, pos: Dictionary, className: String, is_bot: bool) -> void:
+func set_players_data(id: String, name: String, pos: Dictionary, className: String, is_bot: bool) -> void:
 	var spawn_pos = Vector2(pos.x, pos.y)
 	position = spawn_pos
 	_id = id
 	
 	_is_bot = is_bot
+	$UsernameLabel.text = name
 	
 	get_node("Sprite").texture = Util.get_sprite_for_class(className)
 
@@ -65,7 +69,6 @@ func _input(event):
 
 func handle_ability_used(packet) -> void:
 	if packet.key == "1" && abilities_used[0] == false:
-		AbilityParticles.emitting = true
 		
 		if Lobby.is_host:
 			abilities_used[0] = true
@@ -74,7 +77,6 @@ func handle_ability_used(packet) -> void:
 			yield(get_tree().create_timer(8), "timeout")
 			get_node("Movement").speed = prev_speed
 	elif packet.key == "2"&& abilities_used[1] == false:
-		AbilityParticles.emitting = true
 		
 		if Lobby.is_host:
 			set_visible(false)
@@ -86,7 +88,6 @@ func handle_ability_used(packet) -> void:
 			yield(get_tree().create_timer(0.1), "timeout")
 			set_visible(true)
 	elif packet.key == "3":
-		AbilityParticles.emitting = true
 		
 		abilities_used[2] = true
 		if _id == Lobby.my_id:
