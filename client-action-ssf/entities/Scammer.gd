@@ -3,7 +3,7 @@ extends KinematicBody2D
 
 onready var Sprite = $Sprite
 
-var _id = "scammer_ai" + str(randi())
+var _id = "scammer_ai"
 var _is_bot: bool = true
 var shoot_i: int 
 var _prev_pos: Vector2

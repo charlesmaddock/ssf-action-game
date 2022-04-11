@@ -62,7 +62,6 @@ func generate_players(player_data: Array) -> void:
 			var player = player_scene.instance()
 			player.set_players_data("player_bot_" + str(i), "SSF Bot " + str(i), player_spawn_pos, "Sam the Sniper", true)
 			Entities.add_child(player)
-			
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()
