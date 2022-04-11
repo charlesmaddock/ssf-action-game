@@ -65,5 +65,5 @@ func generate_players(player_data: Array) -> void:
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()
-		scammer.global_position = Vector2(128, -265)
+		scammer.set_scammer_data("scammer_ai", {"x": 128, "y": -265}, "Romance Scammer", true, 0)
 		Entities.add_child(scammer)

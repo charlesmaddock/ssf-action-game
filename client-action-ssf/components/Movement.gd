@@ -7,6 +7,7 @@ export(float) var speed: float = 80.0
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 onready var entity_id = get_parent().get_id()
 
+
 var sprite_scale: Vector2 = Vector2.ONE
 var target_position: Vector2 = Vector2.ZERO
 var _send_pos_iteration = 0
