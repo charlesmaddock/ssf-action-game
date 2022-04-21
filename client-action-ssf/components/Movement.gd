@@ -38,7 +38,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.SET_INPUT:
 			if entity_id == packet.id:
-				_velocity = Vector2(packet.x, packet.y) * speed
+				_velocity = Vector2(packet.x, packet.y).normalized() * speed
 		Constants.PacketTypes.SET_PLAYER_POS:
 			if entity_id == packet.id:
 				# Don't move the host's player if we are the host

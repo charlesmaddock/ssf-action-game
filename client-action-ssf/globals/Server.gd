@@ -74,7 +74,6 @@ func req_update_client_data(client_data: Dictionary) -> void:
 func host() -> void:
 	print("Hosting room...")
 	send_packet({"type": Constants.PacketTypes.HOST_ROOM})
-	
 
 
 func join(code: String) -> void:
@@ -145,6 +144,7 @@ func set_health(id: String, health: float, knockback_dir: Vector2)  -> void:
 		"dirY": knockback_dir.y
 	}
 	send_packet(payload)
+
 
 func shoot_projectile(start_pos: Vector2, dir: Vector2)  -> void:
 	var payload = {

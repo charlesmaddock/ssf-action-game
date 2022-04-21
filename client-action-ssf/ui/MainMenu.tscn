@@ -126,15 +126,15 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 102.0
-margin_right = 410.0
-margin_bottom = 300.0
+margin_left = 78.0
+margin_right = 386.0
+margin_bottom = 272.0
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 13.0
+margin_top = 9.0
 margin_right = 308.0
-margin_bottom = 43.0
+margin_bottom = 39.0
 rect_min_size = Vector2( 0, 30 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -167,14 +167,14 @@ rect_min_size = Vector2( 0, 20 )
 text = "Copy code"
 
 [node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 47.0
+margin_top = 43.0
 margin_right = 308.0
-margin_bottom = 263.0
+margin_bottom = 239.0
 custom_constants/separation = 24
 
 [node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
 margin_right = 308.0
-margin_bottom = 216.0
+margin_bottom = 196.0
 
 [node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
 margin_right = 308.0
@@ -185,7 +185,7 @@ align = 1
 [node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
 margin_top = 12.0
 margin_right = 308.0
-margin_bottom = 216.0
+margin_bottom = 196.0
 columns = 3
 
 [node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
@@ -199,20 +199,20 @@ margin_left = 208.0
 margin_right = 308.0
 
 [node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_top = 104.0
-margin_bottom = 204.0
+margin_top = 94.0
+margin_bottom = 184.0
 
 [node name="PlayerInfoPanel5" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
 margin_left = 104.0
-margin_top = 104.0
+margin_top = 94.0
 margin_right = 204.0
-margin_bottom = 204.0
+margin_bottom = 184.0
 
 [node name="PlayerInfoPanel6" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
 margin_left = 208.0
-margin_top = 104.0
+margin_top = 94.0
 margin_right = 308.0
-margin_bottom = 204.0
+margin_bottom = 184.0
 
 [node name="BadGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
 visible = false
@@ -249,9 +249,9 @@ margin_right = 204.0
 margin_bottom = 204.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 267.0
+margin_top = 243.0
 margin_right = 308.0
-margin_bottom = 287.0
+margin_bottom = 263.0
 rect_min_size = Vector2( 0, 20 )
 text = "Start Game"
 
