@@ -31,14 +31,14 @@ func set_speed(speed: float) -> void:
 
 
 func set_velocity(dir: Vector2) -> void:
-	_velocity = dir * speed
+	_velocity = dir
 
 
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.SET_INPUT:
 			if entity_id == packet.id:
-				_velocity = Vector2(packet.x, packet.y).normalized() * speed
+				_velocity = Vector2(packet.x, packet.y).normalized()
 		Constants.PacketTypes.SET_PLAYER_POS:
 			if entity_id == packet.id:
 				# Don't move the host's player if we are the host
@@ -70,12 +70,12 @@ func _physics_process(delta):
 		_prev_input = input
 	
 	if Lobby.is_host == true:
-		var vel = get_parent().move_and_slide(_velocity + _force)
+		var vel = get_parent().move_and_slide(_velocity * speed + _force)
 		var entity_id = get_parent().get_id()
-		if _send_pos_iteration % 8 == 0:
+		if _send_pos_iteration % 4 == 0:
 			Server.send_pos(entity_id, global_position + (vel * delta))
 	else:
-		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 5)
+		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)
 	
 	if _velocity != Vector2.ZERO:
 		sprite_scale = Vector2(-1 if _velocity.x < 0 else 1, 1)

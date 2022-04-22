@@ -24,9 +24,10 @@ func _ready():
 
 
 func _on_damage_taken(damage, dir) -> void:
-	modulate = Color(1000, 0, 0, 1)
-	yield(get_tree().create_timer(0.1), "timeout")
-	modulate = Color.white
+	if modulate == Color.white:
+		modulate = Color(1000, 0, 0, 1)
+		yield(get_tree().create_timer(0.1), "timeout")
+		modulate = Color.white
 
 
 func get_id() -> String:
@@ -74,7 +75,7 @@ func handle_ability_used(packet) -> void:
 			abilities_used[0] = true
 			var prev_speed = get_node("Movement").speed
 			get_node("Movement").speed = 140
-			yield(get_tree().create_timer(8), "timeout")
+			yield(get_tree().create_timer(10), "timeout")
 			get_node("Movement").speed = prev_speed
 	elif packet.key == "2"&& abilities_used[1] == false:
 		

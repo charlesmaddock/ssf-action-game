@@ -76,27 +76,27 @@ margin_bottom = 64.0
 alignment = 1
 
 [node name="Left" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
-margin_left = 8.0
-margin_right = 18.0
+margin_left = 4.0
+margin_right = 28.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 10, 10 )
+rect_min_size = Vector2( 24, 24 )
 text = "<"
 
 [node name="SpriteContainer" type="Control" parent="Panel/MarginContainer/vbox/ClassContainer"]
-margin_left = 22.0
-margin_right = 70.0
+margin_left = 32.0
+margin_right = 60.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 48, 24 )
+rect_min_size = Vector2( 28, 24 )
 
 [node name="Sprite" type="Sprite" parent="Panel/MarginContainer/vbox/ClassContainer/SpriteContainer"]
-position = Vector2( 25, 11 )
+position = Vector2( 15, 11 )
 texture = ExtResource( 3 )
 
 [node name="Right" type="Button" parent="Panel/MarginContainer/vbox/ClassContainer"]
-margin_left = 74.0
-margin_right = 84.0
+margin_left = 64.0
+margin_right = 88.0
 margin_bottom = 24.0
-rect_min_size = Vector2( 10, 10 )
+rect_min_size = Vector2( 24, 24 )
 text = ">"
 
 [connection signal="pressed" from="Panel/MarginContainer/vbox/ClassContainer/Left" to="." method="_on_Left_pressed"]

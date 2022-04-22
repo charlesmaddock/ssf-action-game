@@ -27,3 +27,7 @@ func _on_Projectile_area_entered(area):
 
 func _on_Projectile_body_entered(body):
 	self.queue_free()
+
+
+func _on_DeathTimer_timeout():
+	self.queue_free()
