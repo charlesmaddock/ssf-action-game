@@ -18,6 +18,7 @@ func _ready():
 	show_page(Welcome)
 	Server.connect("packet_received", self, "_on_packet_received")
 	Events.connect("error_message", self, "_on_error_message")
+	OS.set_screen_orientation(OS.SCREEN_ORIENTATION_LANDSCAPE)
 
 
 func _on_error_message(msg: String) -> void:

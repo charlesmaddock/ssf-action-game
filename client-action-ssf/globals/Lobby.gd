@@ -49,6 +49,7 @@ func _on_packet_recieved(packet: Dictionary) -> void:
 		Constants.PacketTypes.ROOM_JOINED:
 			room_code = packet.code
 			players_data = packet.clientData
+			update_my_client_data(packet.clientData)
 		Constants.PacketTypes.UPDATE_CLIENT_DATA:
 			handle_update_client_data(packet)
 		Constants.PacketTypes.GAME_STARTED:
@@ -67,6 +68,13 @@ func handle_room_left(packet: Dictionary) -> void:
 		get_tree().change_scene("res://ui/MainMenu.tscn")
 
 
+func update_my_client_data(new_players_data) -> void:
+	for player_data in new_players_data:
+		if my_id == player_data.id:
+			my_client_data = player_data.duplicate(true)
+			break
+
+
 func handle_update_client_data(packet: Dictionary) -> void:
 	var new_client_data = packet.clientData
 	for player_data in players_data:
@@ -75,11 +83,6 @@ func handle_update_client_data(packet: Dictionary) -> void:
 			players_data.remove(remove_at)
 			players_data.insert(remove_at, new_client_data)
 			my_client_data = new_client_data.duplicate(true)
-	
-	if new_client_data.id == my_id:
-		my_client_data = new_client_data
-	
-	print("players_data: ", players_data)
 
 
 func handle_game_started(packet: Dictionary) -> void:
