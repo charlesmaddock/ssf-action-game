@@ -70,17 +70,19 @@ func get_input():
 
 func _physics_process(delta):
 	_send_pos_iteration += 1
+	
 	if get_parent().get_is_bot() == false:
 		var input = get_input()
-		if input != _prev_input:
-			Server.send_input(input)
-		_prev_input = input
+		_velocity = Vector2(input.x, input.y).normalized()
+		#if input != _prev_input:
+		#	Server.send_input(input)
+		#_prev_input = input
 	
-	if Lobby.is_host == true:
+	if (Lobby.is_host && get_parent().get_is_bot() == true) || entity_id == Lobby.my_id:
 		_move_dir = _velocity
 		var vel = get_parent().move_and_slide(_velocity * speed + _force)
 		var entity_id = get_parent().get_id()
-		if _send_pos_iteration % 4 == 0:
+		if _send_pos_iteration % 6 == 0:
 			Server.send_pos(entity_id, global_position + (vel * delta))
 	else:
 		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)

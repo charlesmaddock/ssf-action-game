@@ -32,7 +32,7 @@ func _ready():
 func _on_damage_taken(_damage, _dir) -> void:
 	if randf() > 0.5:
 		yield(get_tree().create_timer(0.5), "timeout")
-		if time_since_last_ability > 3 && is_dead == false:
+		if Lobby.is_host && time_since_last_ability > 3 && is_dead == false:
 			get_parent().try_use_ability()
 			time_since_last_ability = 0
 
@@ -72,7 +72,7 @@ func _on_Timer_timeout():
 			set_random_room_point()
 			get_target_path(room_point.position)
 	
-	if sees_scammer == true && randf() > 0.985 && time_since_last_ability > 3 && is_dead == false:
+	if Lobby.is_host && sees_scammer && randf() > 0.985 && time_since_last_ability > 3 && is_dead == false:
 		get_parent().try_use_ability()
 		time_since_last_ability = 0
 

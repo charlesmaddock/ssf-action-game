@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/freedNode.png" type="Texture" id=2]
@@ -44,6 +44,8 @@
 [ext_resource path="res://assets/sprites/attackButtonPressed.png" type="Texture" id=42]
 [ext_resource path="res://assets/sprites/attackButton.png" type="Texture" id=43]
 [ext_resource path="res://ui/AttackTouchScreenButton.gd" type="Script" id=44]
+[ext_resource path="res://assets/sprites/virusParticle.png" type="Texture" id=45]
+[ext_resource path="res://ui/RestartButton.gd" type="Script" id=46]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 32, 304 )
@@ -720,12 +722,11 @@ __meta__ = {
 }
 
 [node name="LoseScreen" type="ColorRect" parent="CanvasLayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 3 )
-color = Color( 0.890196, 0.431373, 0.431373, 1 )
+color = Color( 0.858824, 0.454902, 0.454902, 1 )
 script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -742,9 +743,7 @@ margin_right = 145.0
 margin_bottom = 82.5
 custom_colors/font_color = Color( 0.180392, 0.207843, 0.0588235, 1 )
 text = "Alla spelare är utslagna... GAME OVER.
-
-Bedragaren vann. Skapa ett nytt rum 
-och försök igen."
+"
 align = 1
 valign = 1
 __meta__ = {
@@ -767,6 +766,41 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RestartButton" type="Button" parent="CanvasLayer/LoseScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = 13.0
+margin_right = 50.0
+margin_bottom = 27.0
+rect_min_size = Vector2( 100, 0 )
+theme = ExtResource( 3 )
+text = "Restart"
+script = ExtResource( 46 )
+
+[node name="RomanceScammer" type="Sprite" parent="CanvasLayer/LoseScreen"]
+position = Vector2( 243, 90 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 22 )
+
+[node name="RomanceScammerAttackArms" type="Sprite" parent="CanvasLayer/LoseScreen/RomanceScammer"]
+position = Vector2( 3.33319, 3.33331 )
+texture = ExtResource( 36 )
+
+[node name="VirusParticle" type="Sprite" parent="CanvasLayer/LoseScreen/RomanceScammer"]
+position = Vector2( -293.333, 20 )
+texture = ExtResource( 45 )
+
+[node name="VirusParticle2" type="Sprite" parent="CanvasLayer/LoseScreen/RomanceScammer"]
+position = Vector2( -106.667, -193.333 )
+texture = ExtResource( 45 )
+
+[node name="VirusParticle3" type="Sprite" parent="CanvasLayer/LoseScreen/RomanceScammer"]
+position = Vector2( 236.667, -96.6667 )
+texture = ExtResource( 45 )
 
 [node name="IntroScreen" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -1135,6 +1169,7 @@ position = Vector2( 224, 608 )
 [connection signal="pressed" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_pressed"]
 [connection signal="released" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_released"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/LeaveButton" to="CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/LoseScreen/RestartButton" to="CanvasLayer/LoseScreen/RestartButton" method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" to="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" method="_on_AttackTouchScreenButton_pressed"]
 [connection signal="released" from="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" to="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" method="_on_AttackTouchScreenButton_released"]
 [connection signal="pressed" from="EscPanel/LeaveButton" to="EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]
