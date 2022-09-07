@@ -28,4 +28,3 @@ jobs:
       - run: npm i --prefix backend
       - run: npm run build --prefix backend
       - run: pm2 restart ActionGameServer
-      - run: pm2 restart ActionGameWeb
