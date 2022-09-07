@@ -3,6 +3,7 @@ extends KinematicBody2D
 
 onready var Sprite = $SpriteContainer/Sprite
 onready var anim = $AnimationPlayer
+onready var AI = $AI
 
 
 var _id = "scammer_ai"
@@ -10,6 +11,10 @@ var _is_bot: bool = true
 var cooldown: float 
 var _prev_pos: Vector2
 var _attack_dir: Vector2
+
+
+func _ready():
+	AI.set_physics_process(_is_bot)
 
 
 func get_id() -> String:
@@ -20,24 +25,28 @@ func get_is_bot() -> bool:
 	return _is_bot
 
 
-func _ready() -> void:
-	yield(Events, "cutscene_over")
-	yield(get_tree().create_timer(3), "timeout")
-	get_node("AI").set_physics_process(_is_bot)
-
-
 func _physics_process(delta):
 	cooldown += delta
 	
 	if global_position.distance_squared_to(_prev_pos) > 0.5:
 		_attack_dir = _prev_pos.direction_to(global_position)
 	
-	if Input.is_action_pressed("attack") && _id == Lobby.my_id && cooldown > 1:
-		Server.shoot_projectile(global_position + Vector2.UP * 10, _attack_dir.normalized())
-		cooldown = 0
-		anim.play("attack")
+	if Input.is_action_pressed("attack") && _id == Lobby.my_id:
+		try_attack()
 	
 	_prev_pos = global_position
+
+
+func try_attack() -> void:
+	if cooldown > 1:
+		var closest_enemy = AI.get_closest_player()
+		if closest_enemy != null:
+			Server.shoot_projectile(global_position + Vector2.UP * 10, global_position.direction_to(closest_enemy.global_position).normalized())
+		else:
+			Server.shoot_projectile(global_position + Vector2.UP * 10, _attack_dir.normalized())
+		
+		anim.play("attack")
+		cooldown = 0
 
 
 func set_scammer_data(id: String, pos: Vector2, className: String, has_ai: bool, scammer_i: int) -> void:

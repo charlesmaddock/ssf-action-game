@@ -43,7 +43,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 func take_damage(damage: float, dir: Vector2) -> void:
 	if Lobby.is_host == true:
-		Server.set_health(health_for_entity_w_id, health - damage, dir.normalized() * (damage * 40))
+		Server.set_health(health_for_entity_w_id, health - damage, dir.normalized() * (damage * 25))
 
 
 func _on_DamageArea_area_entered(area):

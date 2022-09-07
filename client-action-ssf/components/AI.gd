@@ -47,6 +47,19 @@ func move_to_target():
 		Movement.set_velocity(direction)
 
 
+func get_closest_player() -> Node2D:
+	var closest_player = null 
+	var closest_dist = 99999
+	
+	for player in players_in_view:
+		var dist = global_position.distance_to(player.global_position)
+		if dist < closest_dist && player.using_invis_ability == false:
+			closest_dist = dist
+			closest_player = player
+	
+	return closest_player
+
+
 func get_target_path(target_pos):
 	path = nav.get_simple_path(global_position, target_pos, false)
 
@@ -69,6 +82,8 @@ func _on_Timer_timeout():
 	if closest_player != null:
 		AttackArms.set_visible(closest_dist < 100)
 		RuningArms.set_visible(closest_dist > 100)
+		if closest_dist < 80 and get_parent().get_is_bot() == true:
+			get_parent().try_attack()
 		
 		get_target_path(closest_player.position)
 		return

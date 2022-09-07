@@ -9,7 +9,7 @@ onready var InnerCircleSprite = $InnerCircleSprite
 
 var velocity = Vector2.ZERO
 var joy_stick_active: bool = false
-var inner_circle_offset: Vector2 = Vector2(10, 10)
+var inner_circle_offset: Vector2 = Vector2(2, 2)
 
 
 func _ready():
