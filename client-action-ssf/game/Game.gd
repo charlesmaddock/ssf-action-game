@@ -8,6 +8,7 @@ var scammer_scene = preload("res://entities/Scammer.tscn")
 onready var Camera: Camera2D = $Camera
 onready var Entities = $Entities
 onready var WinScreen = $CanvasLayer/WinScreen
+onready var AbilityEffects = $AbilityEffects
 
 
 var nodes_freed: Array = []
@@ -37,24 +38,24 @@ func generate_players(player_data: Array) -> void:
 	var spawn_scammer: bool = true
 	var amount_players: int 
 	var scammer_i: int
-	var player_spawn_pos: Dictionary = {"x": -164 + randf() * 5, "y": 351 + randf() * 5}
+	var player_spawn_pos: Vector2 = $PlayerSpawnPoints.get_child(randi() % $PlayerSpawnPoints.get_child_count()).global_position
+	var scammer_spawn_pos: Vector2 = $ScammerSpawnPoints.get_child(randi() % $ScammerSpawnPoints.get_child_count()).global_position
 	for data in player_data:
 		if data.class == "Romance Scammer":
 			spawn_scammer = false
 			var scammer = scammer_scene.instance()
-			scammer.set_scammer_data(data.id, data.pos, data.class, false, scammer_i)
+			scammer.set_scammer_data(data.id, scammer_spawn_pos, data.class, false, scammer_i)
 			Entities.add_child(scammer)
 			scammer_i += 1
 			if data.id == Lobby.my_id:
-				Camera.set_follow(scammer)
+				Events.emit_signal("follow_w_camera", scammer)
 		else:
 			amount_players += 1
 			var player = player_scene.instance()
-			player.set_players_data(data.id, data.name, data.pos, data.class, false)
-			player_spawn_pos = data.pos
+			player.set_players_data(data.id, data.name, player_spawn_pos, data.class, false)
 			Entities.add_child(player)
 			if data.id == Lobby.my_id:
-				Camera.set_follow(player)
+				Events.emit_signal("follow_w_camera", player)
 	
 	if amount_players < Constants.PLAYERS_PER_ROOM:
 		Lobby.bot_amount = Constants.PLAYERS_PER_ROOM - amount_players
@@ -65,5 +66,5 @@ func generate_players(player_data: Array) -> void:
 	
 	if spawn_scammer == true:
 		var scammer = scammer_scene.instance()
-		scammer.set_scammer_data("scammer_ai", {"x": 128, "y": -265}, "Romance Scammer", true, 0)
+		scammer.set_scammer_data("scammer_ai", scammer_spawn_pos, "Romance Scammer", true, 0)
 		Entities.add_child(scammer)

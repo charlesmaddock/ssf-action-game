@@ -11,7 +11,7 @@ var _colliding_hidden_rooms: Array
 func _physics_process(delta):
 	iteration += 1
 	
-	var sprite: Sprite = get_parent().get_node("Sprite")
+	var sprite: Sprite = get_parent().get_node("SpriteContainer/Sprite")
 	var entity_is_invisible = false
 	if get_parent().get("using_invis_ability") != null:
 		entity_is_invisible = get_parent().using_invis_ability

@@ -131,7 +131,7 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             handleSetInput(ws, data);
             break;
           case PacketTypes.USE_ABILITY:
-            handleUseAbility(ws, data.key);
+            handleUseAbility(ws, data.key, data.randi, data.id);
             break;
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
@@ -144,6 +144,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.SHOOT_PROJECTILE:
             handleShootProjectile(ws, data);
+            break;
+          case PacketTypes.START_DOORS:
+            handleStartDoors(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -313,27 +316,35 @@ const handleStartGame = (ws: WebSocket) => {
   if (startingClient !== null) {
     let playerSpawnPoints = [
       {
-        x: 266 + (Math.random() - 0.5 * 2),
-        y: 410 + (Math.random() - 0.5 * 2),
+        x: -320 + (Math.random() - 0.5 * 2),
+        y: 416 + (Math.random() - 0.5 * 2),
       },
       {
-        x: 974 + (Math.random() - 0.5 * 2),
-        y: -27 + (Math.random() - 0.5 * 2),
+        x: 289 + (Math.random() - 0.5 * 2),
+        y: 344 + (Math.random() - 0.5 * 2),
       },
       {
-        x: -437 + (Math.random() - 0.5 * 2),
-        y: 146 + (Math.random() - 0.5 * 2),
+        x: 977 + (Math.random() - 0.5 * 2),
+        y: 246 + (Math.random() - 0.5 * 2),
+      },
+    ];
+
+    let scammerSpawnPoints = [
+      {
+        x: -256,
+        y: -480,
+      },
+      {
+        x: 960,
+        y: -448,
       },
     ];
     let spawnPosPlayer =
       playerSpawnPoints[Math.floor(Math.random() * playerSpawnPoints.length)];
+    let scammerPosPlayer =
+      scammerSpawnPoints[Math.floor(Math.random() * scammerSpawnPoints.length)];
     rooms.forEach((room: Room) => {
       if (room.hostId === startingClient.id) {
-        let spawnPosScammer = {
-          x: 128 + (Math.random() - 0.5 * 4),
-          y: -265 + (Math.random() - 0.5 * 4),
-        };
-
         let payload: { type: PacketType; players: Array<MinClientData> } = {
           type: PacketTypes.GAME_STARTED,
           players: room.clients.map((c) => ({
@@ -341,7 +352,7 @@ const handleStartGame = (ws: WebSocket) => {
             name: c.name,
             class: c.class,
             pos:
-              c.class == "Romance Scammer" ? spawnPosScammer : spawnPosPlayer,
+              c.class == "Romance Scammer" ? scammerPosPlayer : spawnPosPlayer,
           })),
         };
         broadcastToRoom(room, payload);
@@ -375,14 +386,20 @@ const handleSetInput = (
   }
 };
 
-const handleUseAbility = (ws: WebSocket, key: string) => {
+const handleUseAbility = (
+  ws: WebSocket,
+  key: string,
+  randi: number,
+  id: string
+) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
 
   let payload = {
     type: PacketTypes.ABILITY_USED,
     key: key,
-    id: client.id,
+    id: id,
+    randi: randi,
   };
   broadcastToRoom(room, payload);
 };
@@ -429,6 +446,12 @@ const handleSetHealth = (
 };
 
 const handleShootProjectile = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleStartDoors = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);

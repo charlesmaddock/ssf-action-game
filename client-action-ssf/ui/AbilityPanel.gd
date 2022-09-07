@@ -1,17 +1,19 @@
 tool
-extends ColorRect
+extends Control
 
 
 export(String) var key
-export(String) var ability_name
+export(Texture) var button_text
 
 
 func _ready():
-	$Key.text = key
-	$AbilityName.text = ability_name
-	
 	Server.connect("packet_received", self, "_on_packet_received")
 	
+	$ButtonText.texture = button_text
+	$ButtonTextPressed.texture = button_text
+	
+	$ButtonPressed.set_visible(false)
+	$ButtonTextPressed.set_visible(false)
 	if Lobby.my_client_data.class == "Romance Scammer":
 		set_visible(false)
 
@@ -23,8 +25,12 @@ func _on_packet_received(packet: Dictionary) -> void:
 
 
 func _set_used() -> void:
-	color = Color(0.5,0.5,0.5,0.7)
+	$Button.set_visible(false)
+	$ButtonText.set_visible(false)
+	$ButtonPressed.set_visible(true)
+	$ButtonTextPressed.set_visible(true)
+	modulate = Color(0.5,0.5,0.5,0.6)
 
 
 func _on_TouchScreenButton_pressed():
-	Server.use_ability(key)
+	Server.use_ability(key, Lobby.my_id)

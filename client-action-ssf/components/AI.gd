@@ -10,6 +10,8 @@ enum behaviour {
 export(NodePath) var movement_component_path
 
 
+onready var AttackArms = get_parent().get_node("SpriteContainer/AttackArms")
+onready var RuningArms = get_parent().get_node("SpriteContainer/RunningArms")
 onready var Movement: Node2D = get_node(movement_component_path)
 onready var nav: Navigation2D = Util.get_game_node().get_node("Navigation2D")
 onready var roomNavPoints: Node2D = Util.get_game_node().get_node("RoomNavPoints")
@@ -29,12 +31,6 @@ var players_in_view: Array = []
 func _ready():
 	yield(get_tree().create_timer(10), "timeout")
 	timer.start()
-
-
-# Development test
-func _input(event):
-	if event.is_action("ui_up"):
-		timer.start()
 
 
 func _physics_process(delta):
@@ -61,10 +57,21 @@ func _on_Damage_body_entered(body):
 
 
 func _on_Timer_timeout():
+	var closest_player = null 
+	var closest_dist = 99999
+	
 	for player in players_in_view:
-		if player.visible == true:
-			get_target_path(player.position)
-			return
+		var dist = global_position.distance_to(player.global_position)
+		if dist < closest_dist && player.using_invis_ability == false:
+			closest_dist = dist
+			closest_player = player
+		
+	if closest_player != null:
+		AttackArms.set_visible(closest_dist < 100)
+		RuningArms.set_visible(closest_dist > 100)
+		
+		get_target_path(closest_player.position)
+		return
 	
 	var check_another_room: bool = false
 	if room_point == null:

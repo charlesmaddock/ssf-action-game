@@ -3,6 +3,7 @@ extends Panel
 
 onready var ChipsLeft = $ChipsLeft
 onready var PlayersLeft = $PlayersLeft
+onready var ShakeAnimationPlayer = $AnimationPlayer
 
 
 var dead_player_ids: Array
@@ -35,6 +36,7 @@ func set_objective_text():
 	var total_player_amount = Lobby.get_amount_good_guys() + Lobby.bot_amount
 	ChipsLeft.text = str(nodes_freed.size()) + "/" + str(total_nodes) 
 	PlayersLeft.text = str(total_player_amount - dead_player_ids.size()) + "/" + str(total_player_amount)
+	ShakeAnimationPlayer.play("shake")
 
 
 func _on_player_dead(id) -> void:

@@ -21,9 +21,10 @@ func _ready():
 	
 	var world_tile_map: TileMap = get_node(world_tile_map_path)
 	var cells = world_tile_map.get_used_cells()
-	var new_world_tile_map: TileMap = world_tile_map.duplicate()
+	var new_world_tile_map: TileMap = world_tile_map.duplicate(true)
 	new_world_tile_map.collision_layer = 0
 	new_world_tile_map.collision_mask = 0
+	new_world_tile_map.occluder_light_mask = 0
 	add_child(new_world_tile_map)
 	move_child(point, 1)
 	new_world_tile_map.cell_size = _cell_size

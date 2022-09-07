@@ -19,13 +19,31 @@ var target_freeable_node: Node2D = null
 var unchecked_room_points: Array = []
 var freeable_nodes_in_view: Array = []
 var scammers_in_view: Array = []
+var time_since_last_ability: float = 0
+var is_dead: bool =  false
 
 
 func _ready():
 	timer.start()
+	get_parent().connect("damage_taken", self, "_on_damage_taken")
+	Events.connect("player_dead", self, "_on_player_dead")
+
+
+func _on_damage_taken(_damage, _dir) -> void:
+	if randf() > 0.5:
+		yield(get_tree().create_timer(0.5), "timeout")
+		if time_since_last_ability > 3 && is_dead == false:
+			get_parent().try_use_ability()
+			time_since_last_ability = 0
+
+
+func _on_player_dead(id) -> void:
+	if id == get_parent().get_id():
+		is_dead = true
 
 
 func _physics_process(delta):
+	time_since_last_ability += delta
 	if Lobby.is_host == true:
 		if path.size() > 0:
 			move_to_target()
@@ -53,6 +71,10 @@ func _on_Timer_timeout():
 		if found_freeable_node == false:
 			set_random_room_point()
 			get_target_path(room_point.position)
+	
+	if sees_scammer == true && randf() > 0.985 && time_since_last_ability > 3 && is_dead == false:
+		get_parent().try_use_ability()
+		time_since_last_ability = 0
 
 
 func run_from_scammer() -> bool:

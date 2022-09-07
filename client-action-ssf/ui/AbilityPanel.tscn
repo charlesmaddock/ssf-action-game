@@ -1,49 +1,47 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/AbilityPanel.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/buttonPressed.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/button.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/buttonTextSystemUpdate.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 28, 15 )
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 26, 15 )
 
-[node name="AbilityPanel" type="ColorRect"]
-margin_right = 56.0
+[node name="AbilityPanel" type="Control"]
+margin_right = 52.0
 margin_bottom = 30.0
-rect_min_size = Vector2( 56, 30 )
+rect_min_size = Vector2( 52, 30 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
-color = Color( 0.854902, 0.882353, 0.384314, 0.886275 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-key = "1"
-ability_name = "Uppdaterin"
-
-[node name="Key" type="Label" parent="."]
-margin_top = 3.0
-margin_right = 28.0
-margin_bottom = 11.0
-rect_scale = Vector2( 2, 2 )
-text = "1"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AbilityName" type="Label" parent="."]
-margin_top = 18.0
-margin_right = 56.0
-margin_bottom = 26.0
-text = "Uppdaterin"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 14 )
+
+[node name="Button" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ButtonText" type="Sprite" parent="."]
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="ButtonPressed" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ButtonTextPressed" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, 2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 5 )
+centered = false
 
 [connection signal="pressed" from="TouchScreenButton" to="." method="_on_TouchScreenButton_pressed"]

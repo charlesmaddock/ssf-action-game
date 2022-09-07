@@ -12,11 +12,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Welcome" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -34,18 +32,18 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 80.0
-margin_right = 380.0
-margin_bottom = 272.0
+margin_left = 104.0
+margin_right = 404.0
+margin_bottom = 300.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 69.0
+margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 202.0
+margin_bottom = 216.0
 rect_min_size = Vector2( 300, 0 )
 custom_constants/separation = 10
 
@@ -96,9 +94,9 @@ custom_fonts/font = ExtResource( 6 )
 text = " Join "
 
 [node name="Control" type="Control" parent="Welcome/HBoxContainer"]
-margin_left = 384.0
-margin_right = 384.0
-margin_bottom = 272.0
+margin_left = 408.0
+margin_right = 408.0
+margin_bottom = 300.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -117,7 +115,6 @@ __meta__ = {
 }
 
 [node name="Lobby" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -135,15 +132,15 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 78.0
-margin_right = 386.0
-margin_bottom = 272.0
+margin_left = 102.0
+margin_right = 410.0
+margin_bottom = 300.0
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 9.0
+margin_top = 23.0
 margin_right = 308.0
-margin_bottom = 39.0
+margin_bottom = 53.0
 rect_min_size = Vector2( 0, 30 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -176,9 +173,9 @@ rect_min_size = Vector2( 0, 20 )
 text = "Copy code"
 
 [node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 43.0
+margin_top = 57.0
 margin_right = 308.0
-margin_bottom = 239.0
+margin_bottom = 253.0
 custom_constants/separation = 24
 
 [node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
@@ -258,9 +255,9 @@ margin_right = 204.0
 margin_bottom = 204.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 243.0
+margin_top = 257.0
 margin_right = 308.0
-margin_bottom = 263.0
+margin_bottom = 277.0
 rect_min_size = Vector2( 0, 20 )
 text = "Start Game"
 

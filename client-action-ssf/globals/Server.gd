@@ -109,10 +109,12 @@ func send_input(input: Vector2) -> void:
 	send_packet(payload)
 
 
-func use_ability(key: String) -> void:
+func use_ability(key: String, id: String) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.USE_ABILITY, 
-		"key": key
+		"key": key,
+		"randi": randi(),
+		"id": id
 	}
 	send_packet(payload)
 
@@ -153,5 +155,12 @@ func shoot_projectile(start_pos: Vector2, dir: Vector2)  -> void:
 		"posY": start_pos.y,
 		"dirX": dir.x,
 		"dirY": dir.y
+	}
+	send_packet(payload)
+
+
+func start_doors() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.START_DOORS, 
 	}
 	send_packet(payload)

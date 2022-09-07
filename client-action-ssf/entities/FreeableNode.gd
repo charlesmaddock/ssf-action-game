@@ -3,6 +3,7 @@ extends Node2D
 
 onready var TextureProgress = $TextureProgress
 onready var HackedNodeSprite = $Hacked
+onready var VirusParticles = $VirusParticles
 
 
 var _freed: bool = false
@@ -33,7 +34,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.NODE_FREED:
 			if packet.id == node_id:
 				_freed = true
-				HackedNodeSprite.set_visible(false)
+				$StarParticles.emitting = true
+				VirusParticles.emitting = false
+				VirusParticles.set_visible(false)
 				TextureProgress.value = 100
 
 
@@ -45,6 +48,8 @@ func _process(delta):
 			_progress -= delta * 15
 		
 		TextureProgress.value = _progress
+		HackedNodeSprite.modulate = Color.purple.linear_interpolate(Color.white, _progress / 100)
+		VirusParticles.modulate = Color(1, 1, 1, 1 - (_progress / 100)) 
 		
 		if _progress > 99.9 && Lobby.is_host:
 			Server.send_free_node(node_id)
