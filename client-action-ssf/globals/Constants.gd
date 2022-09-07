@@ -54,4 +54,4 @@ var ability_effects = {
 }
 
 
-var app_mode: int = AppMode.DEVELOPMENT 
+var app_mode: int = AppMode.DEVELOPMENT if OS.is_debug_build() else AppMode.RELEASE
