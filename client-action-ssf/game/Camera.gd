@@ -5,7 +5,7 @@ var follow: Node2D = null
 var my_player_is_dead: bool = false
 var spectate_index: int = 0
 var follow_prev_pos: Vector2
-var target_zoom: Vector2
+var target_zoom: Vector2 = Vector2.ONE
 
 
 func _ready():

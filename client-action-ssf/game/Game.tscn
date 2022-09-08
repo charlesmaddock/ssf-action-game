@@ -933,13 +933,12 @@ position = Vector2( 236.667, -96.6667 )
 texture = ExtResource( 45 )
 
 [node name="IntroScreen" type="ColorRect" parent="CanvasLayer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 46.0
-margin_top = 19.0
-margin_right = -33.0
-margin_bottom = -13.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -216.5
+margin_top = 14.0
+margin_right = 216.5
+margin_bottom = 282.0
 mouse_filter = 2
 theme = ExtResource( 3 )
 color = Color( 0.431373, 0.631373, 0.890196, 1 )
@@ -994,10 +993,10 @@ scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 21 )
 
 [node name="ArrowKey" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
-margin_left = -81.0
-margin_top = 139.851
-margin_right = -60.0
-margin_bottom = 160.851
+margin_left = -52.5
+margin_top = 141.0
+margin_right = -31.5
+margin_bottom = 162.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey"]
@@ -1009,10 +1008,10 @@ align = 1
 valign = 1
 
 [node name="ArrowKey2" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
-margin_left = -104.0
-margin_top = 162.851
-margin_right = -83.0
-margin_bottom = 183.851
+margin_left = -75.5
+margin_top = 164.0
+margin_right = -54.5
+margin_bottom = 185.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey2"]
@@ -1024,10 +1023,10 @@ align = 1
 valign = 1
 
 [node name="ArrowKey3" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
-margin_left = -81.0
-margin_top = 162.851
-margin_right = -60.0
-margin_bottom = 183.851
+margin_left = -52.5
+margin_top = 164.0
+margin_right = -31.5
+margin_bottom = 185.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey3"]
@@ -1039,10 +1038,10 @@ align = 1
 valign = 1
 
 [node name="ArrowKey4" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
-margin_left = -58.0
-margin_top = 162.851
-margin_right = -37.0
-margin_bottom = 183.851
+margin_left = -29.5
+margin_top = 164.0
+margin_right = -8.5
+margin_bottom = 185.0
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey4"]
@@ -1136,10 +1135,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -146.5
-margin_top = 8.85052
-margin_right = -102.5
-margin_bottom = 23.8505
+margin_left = -123.0
+margin_top = 14.0
+margin_right = -79.0
+margin_bottom = 29.0
 rect_rotation = -4.24969
 custom_colors/font_color = Color( 0.0705882, 0.133333, 0.498039, 1 )
 text = "Move"
