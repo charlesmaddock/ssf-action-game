@@ -1215,7 +1215,7 @@ margin_right = 164.0
 mouse_filter = 2
 
 [node name="AttackTouchScreenButton" type="TouchScreenButton" parent="CanvasLayer/AttackTouchScreenButtonContainer"]
-position = Vector2( 43, -13 )
+position = Vector2( 49, -19 )
 scale = Vector2( 0.4, 0.4 )
 normal = ExtResource( 43 )
 pressed = ExtResource( 42 )

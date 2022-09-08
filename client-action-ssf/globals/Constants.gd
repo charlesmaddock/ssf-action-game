@@ -1,7 +1,7 @@
 extends Node
 
 
-const PLAYERS_PER_ROOM: int = 4
+const PLAYERS_PER_ROOM: int = 5
 
 
 enum AppMode {

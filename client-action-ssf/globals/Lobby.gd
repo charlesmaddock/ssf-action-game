@@ -89,7 +89,8 @@ func handle_update_client_data(packet: Dictionary) -> void:
 
 func handle_game_started(packet: Dictionary) -> void:
 	players_data = packet.players
-	
+	dead_player_ids = []
+	specating_player_w_id = ""
 	get_tree().change_scene("res://game/Game.tscn")
 	# Now we wait for _on_game_loaded
 
