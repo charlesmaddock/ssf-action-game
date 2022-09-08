@@ -34,15 +34,17 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
 }
 
-[node name="TeleportArrow" type="Sprite"]
+[node name="container" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="TeleportArrow" type="Sprite" parent="."]
 modulate = Color( 0.603922, 0.607843, 0.109804, 1 )
 scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 1 )
-script = ExtResource( 2 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TeleportArrow"]
 autoplay = "appear"
 anims/RESET = SubResource( 1 )
 anims/appear = SubResource( 2 )
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="TeleportArrow/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

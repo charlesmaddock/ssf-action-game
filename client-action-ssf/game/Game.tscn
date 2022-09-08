@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/freedNode.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://ui/AbilityPanel.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/Darkness.gd" type="Script" id=10]
 [ext_resource path="res://ui/IntroScreen.gd" type="Script" id=11]
+[ext_resource path="res://ui/AbilityContainer.gd" type="Script" id=12]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
@@ -1181,12 +1182,14 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 24.0
 margin_top = -66.0
-margin_right = 200.0
+margin_right = 204.0
 margin_bottom = -36.0
-rect_scale = Vector2( 1.2, 1.2 )
+rect_pivot_offset = Vector2( 6.98438, 28.0195 )
 mouse_filter = 2
 theme = ExtResource( 3 )
 custom_constants/separation = 12
+alignment = 2
+script = ExtResource( 12 )
 
 [node name="AbilityPanel" parent="CanvasLayer/HBoxContainer" instance=ExtResource( 9 )]
 key = "1"
@@ -1207,10 +1210,12 @@ button_text = ExtResource( 41 )
 [node name="AttackTouchScreenButtonContainer" type="Control" parent="CanvasLayer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -30.0
+margin_top = -85.0
+margin_right = 164.0
+mouse_filter = 2
 
 [node name="AttackTouchScreenButton" type="TouchScreenButton" parent="CanvasLayer/AttackTouchScreenButtonContainer"]
-position = Vector2( 30, -47 )
+position = Vector2( 43, -13 )
 scale = Vector2( 0.4, 0.4 )
 normal = ExtResource( 43 )
 pressed = ExtResource( 42 )

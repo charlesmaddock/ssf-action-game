@@ -14,6 +14,7 @@ func _ready():
 	
 	$ButtonPressed.set_visible(false)
 	$ButtonTextPressed.set_visible(false)
+	
 	if Lobby.my_client_data.class == "Romance Scammer":
 		set_visible(false)
 

@@ -6,6 +6,8 @@ var _id: String = ""
 var abilities_used = [false, false, false]
 var _is_bot: bool
 var using_invis_ability: bool = false
+var using_speed_ability: bool = false
+var using_teleport_ability: bool = false
 
 
 onready var Sprite = $SpriteContainer/Sprite
@@ -95,48 +97,58 @@ func try_use_ability(key = "") -> void:
 		var available_key_index = abilities_used.find(false)
 		if available_key_index != -1:
 			Server.use_ability(str(available_key_index + 1), _id)
+			abilities_used[available_key_index] = true
 	elif abilities_used[int(key) - 1] == false:
 		Server.use_ability(key, _id)
+		abilities_used[int(key) - 1] = true
 
 
 func handle_ability_used(key, rand_i) -> void:
-	if key == "1" && abilities_used[0] == false:
-		if Lobby.is_host:
-			abilities_used[0] = true
-			var prev_speed = get_node("Movement").speed
-			get_node("Movement").speed = 140
-			$FastParticles.emitting = true
-			yield(get_tree().create_timer(10), "timeout")
-			$FastParticles.emitting = false
-			get_node("Movement").speed = prev_speed
+	if key == "1" && using_speed_ability == false:
+		using_speed_ability = true
+		$FastParticles.emitting = true
+		
+		var prev_speed = get_node("Movement").speed
+		get_node("Movement").speed = 140
+		yield(get_tree().create_timer(10), "timeout")
+		get_node("Movement").speed = prev_speed
+		
+		$FastParticles.emitting = false
+		using_speed_ability = false
+		
+	elif key == "2" && using_teleport_ability == false:
+			using_teleport_ability = true
 			
-	elif key == "2" && abilities_used[1] == false:
-		if Lobby.is_host:
 			set_visible(false)
 			yield(get_tree().create_timer(0.2), "timeout")
-			abilities_used[1] = true
 			var nav_points = Util.get_nav_points()
 			var teleport_pos = nav_points[int(rand_i) % nav_points.size()].position
 			
 			var directionArrowPacked = load("res://game/TeleportArrow.tscn")
-			var directionArrow: Sprite = directionArrowPacked.instance()
-			directionArrow.position = global_position
+			var directionArrow: Node2D = directionArrowPacked.instance()
+			directionArrow.global_position = global_position
 			directionArrow.rotation = global_position.direction_to(teleport_pos).angle() +  PI / 2
+			directionArrow.target_pos = teleport_pos
 			get_parent().add_child(directionArrow)
 			
 			position = teleport_pos + Vector2(rand_range(-16, 16), rand_range(-16, 16))
-
+			
 			yield(get_tree().create_timer(0.1), "timeout")
 			set_visible(true)
 			
-	elif key == "3":
-		abilities_used[2] = true
+			yield(get_tree().create_timer(1), "timeout")
+			using_teleport_ability = false
+		
+	elif key == "3" && using_invis_ability == false:
+		using_invis_ability = true
+		
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("disappearMyClient")
 		else:
 			$AnimationPlayer.play("disappear")
-		using_invis_ability = true
+		
 		yield(get_tree().create_timer(8), "timeout")
+		
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("reappearMyClient")
 		else:

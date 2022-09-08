@@ -241,7 +241,7 @@ const handleJoinRoom = (
   let room = null;
   if (packet.code === "random") {
     if (rooms.length > 0) {
-      room = rooms[0];
+      room = rooms[rooms.length - 1];
     } else {
       sendError(ws, "No rooms available, host one yourself!");
     }
@@ -258,9 +258,9 @@ const handleJoinRoom = (
         sendJoined(client.socket, room);
 
         // For speeding up development
-        if (packet.code === "random") {
-          handleStartGame(client.socket);
-        }
+        //if (packet.code === "random") {
+        //  handleStartGame(client.socket);
+        //}
       });
     }
   }

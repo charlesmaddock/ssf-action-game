@@ -76,8 +76,8 @@ tracks/2/keys = {
 }
 
 [sub_resource type="CapsuleShape2D" id=17]
-radius = 40.5414
-height = 62.4863
+radius = 34.4211
+height = 42.3385
 
 [node name="AbilityEffect" type="Node2D"]
 script = ExtResource( 1 )
@@ -118,7 +118,7 @@ position = Vector2( 0.215435, 32.4586 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( -1, -1 )
 rotation = 1.5708
-scale = Vector2( 1e-05, 1e-05 )
+scale = Vector2( 1.00349, 1.00349 )
 shape = SubResource( 17 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
