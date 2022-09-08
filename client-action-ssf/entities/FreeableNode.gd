@@ -48,7 +48,7 @@ func _process(delta):
 			_progress -= delta * 15
 		
 		TextureProgress.value = _progress
-		HackedNodeSprite.modulate = Color.purple.linear_interpolate(Color.white, _progress / 100)
+		HackedNodeSprite.modulate = Color.purple.linear_interpolate(Color.white, clamp(_progress / 100, 0, 1 ))
 		VirusParticles.modulate = Color(1, 1, 1, 1 - (_progress / 100)) 
 		
 		if _progress > 99.9 && Lobby.is_host:

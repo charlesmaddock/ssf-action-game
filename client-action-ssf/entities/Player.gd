@@ -97,7 +97,6 @@ func try_use_ability(key = "") -> void:
 			Server.use_ability(str(available_key_index + 1), _id)
 	elif abilities_used[int(key) - 1] == false:
 		Server.use_ability(key, _id)
-	
 
 
 func handle_ability_used(key, rand_i) -> void:

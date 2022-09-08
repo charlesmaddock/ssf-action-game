@@ -76,3 +76,7 @@ func _on_StartButton_pressed():
 
 func _on_CopyCodeButton_pressed():
 	OS.set_clipboard(Lobby.room_code)
+
+
+func _on_FindRoomButton_pressed():
+	Server.join("random")

@@ -31,7 +31,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.490337, 1.40158, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 3, 3 ), Vector2( 3, 3 ), Vector2( 1e-05, 1e-05 ) ]
+"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1e-05, 1e-05 ) ]
 }
 
 [node name="TeleportArrow" type="Sprite"]

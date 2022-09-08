@@ -15,6 +15,13 @@ var _attack_dir: Vector2
 
 func _ready():
 	AI.set_physics_process(_is_bot)
+	Server.connect("packet_received", self, "_on_packet_received")
+
+
+func _on_packet_received(packet: Dictionary) -> void:
+	if packet.type == Constants.PacketTypes.SHOOT_PROJECTILE:
+		if packet.id == _id:
+			anim.play("attack")
 
 
 func get_id() -> String:
@@ -41,11 +48,10 @@ func try_attack() -> void:
 	if cooldown > 1:
 		var closest_enemy = AI.get_closest_player()
 		if closest_enemy != null:
-			Server.shoot_projectile(global_position + Vector2.UP * 10, global_position.direction_to(closest_enemy.global_position).normalized())
+			Server.shoot_projectile(global_position + Vector2.UP * 10, global_position.direction_to(closest_enemy.global_position).normalized(), _id)
 		else:
-			Server.shoot_projectile(global_position + Vector2.UP * 10, _attack_dir.normalized())
+			Server.shoot_projectile(global_position + Vector2.UP * 10, _attack_dir.normalized(), _id)
 		
-		anim.play("attack")
 		cooldown = 0
 
 

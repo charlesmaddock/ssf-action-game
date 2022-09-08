@@ -14,22 +14,15 @@ theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Welcome" type="ColorRect" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0.294118, 0.729412, 0.894118, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
 margin_left = 104.0
@@ -41,11 +34,11 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 83.0
+margin_top = 43.0
 margin_right = 300.0
-margin_bottom = 216.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 300, 0 )
-custom_constants/separation = 10
+custom_constants/separation = 20
 
 [node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
 margin_right = 300.0
@@ -55,9 +48,9 @@ text = "SSF Action Game"
 align = 1
 
 [node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 23.0
+margin_top = 33.0
 margin_right = 300.0
-margin_bottom = 53.0
+margin_bottom = 63.0
 rect_min_size = Vector2( 0, 30 )
 custom_fonts/font = ExtResource( 6 )
 max_length = 30
@@ -65,17 +58,25 @@ placeholder_text = "Your name"
 script = ExtResource( 5 )
 
 [node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 63.0
+margin_top = 83.0
 margin_right = 300.0
-margin_bottom = 93.0
+margin_bottom = 113.0
 rect_min_size = Vector2( 0, 30 )
 custom_fonts/font = ExtResource( 6 )
 text = "Host a room"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 103.0
+[node name="FindRoomButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 133.0
 margin_right = 300.0
-margin_bottom = 133.0
+margin_bottom = 163.0
+rect_min_size = Vector2( 0, 30 )
+custom_fonts/font = ExtResource( 6 )
+text = "Find and join room"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 183.0
+margin_right = 300.0
+margin_bottom = 213.0
 mouse_filter = 2
 
 [node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
@@ -115,6 +116,7 @@ __meta__ = {
 }
 
 [node name="Lobby" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -135,12 +137,13 @@ __meta__ = {
 margin_left = 102.0
 margin_right = 410.0
 margin_bottom = 300.0
+custom_constants/separation = 10
 alignment = 1
 
 [node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 23.0
+margin_top = 17.0
 margin_right = 308.0
-margin_bottom = 53.0
+margin_bottom = 47.0
 rect_min_size = Vector2( 0, 30 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -152,7 +155,7 @@ anchor_bottom = 1.0
 margin_right = -105.0
 margin_bottom = -15.0
 rect_min_size = Vector2( 0, 10 )
-rect_scale = Vector2( 2, 2 )
+rect_scale = Vector2( 4, 4 )
 focus_mode = 2
 custom_colors/default_color = Color( 0.0862745, 0.156863, 0.541176, 1 )
 custom_fonts/normal_font = ExtResource( 4 )
@@ -160,9 +163,6 @@ bbcode_enabled = true
 bbcode_text = "asdasd"
 text = "asdasd"
 selection_enabled = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="CopyCodeButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
 visible = false
@@ -255,15 +255,16 @@ margin_right = 204.0
 margin_bottom = 204.0
 
 [node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 257.0
+margin_top = 263.0
 margin_right = 308.0
-margin_bottom = 277.0
+margin_bottom = 283.0
 rect_min_size = Vector2( 0, 20 )
 text = "Start Game"
 
 [connection signal="focus_exited" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_focus_exited"]
 [connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
+[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/FindRoomButton" to="." method="_on_FindRoomButton_pressed"]
 [connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
 [connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]

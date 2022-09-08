@@ -11,7 +11,6 @@
 [ext_resource path="res://ui/AbilityPanel.tscn" type="PackedScene" id=9]
 [ext_resource path="res://game/Darkness.gd" type="Script" id=10]
 [ext_resource path="res://ui/IntroScreen.gd" type="Script" id=11]
-[ext_resource path="res://game/RoomHiders.gd" type="Script" id=12]
 [ext_resource path="res://ui/DeathScreen.gd" type="Script" id=13]
 [ext_resource path="res://ui/LoseScreen.gd" type="Script" id=14]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
@@ -43,9 +42,10 @@
 [ext_resource path="res://assets/sprites/buttonTextVPN.png" type="Texture" id=41]
 [ext_resource path="res://assets/sprites/attackButtonPressed.png" type="Texture" id=42]
 [ext_resource path="res://assets/sprites/attackButton.png" type="Texture" id=43]
-[ext_resource path="res://ui/AttackTouchScreenButton.gd" type="Script" id=44]
+[ext_resource path="res://assets/sprites/starParticle.png" type="Texture" id=44]
 [ext_resource path="res://assets/sprites/virusParticle.png" type="Texture" id=45]
-[ext_resource path="res://ui/RestartButton.gd" type="Script" id=46]
+[ext_resource path="res://ui/RestartButton.tscn" type="PackedScene" id=46]
+[ext_resource path="res://ui/AttackTouchScreenButton.gd" type="Script" id=47]
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 32, 304 )
@@ -89,7 +89,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 56.7646
+radius = 70.0
 
 [sub_resource type="Animation" id=10]
 length = 0.001
@@ -144,10 +144,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
+"times": PoolRealArray( -0.0185093 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("../Camera:zoom")
@@ -404,6 +404,117 @@ script = ExtResource( 38 )
 wait_time = 8.0
 autostart = true
 
+[node name="RoomNames" type="Control" parent="."]
+mouse_filter = 2
+
+[node name="RoomName" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = -123.0
+margin_top = 42.0
+margin_right = -67.0
+margin_bottom = 56.0
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Battery"
+
+[node name="RoomName2" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = -416.0
+margin_top = 352.0
+margin_right = -352.0
+margin_bottom = 384.0
+rect_pivot_offset = Vector2( 32, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Email"
+align = 1
+
+[node name="RoomName3" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = -160.0
+margin_top = 608.0
+margin_right = -86.0
+margin_bottom = 640.0
+rect_pivot_offset = Vector2( 32, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Passwords"
+align = 1
+
+[node name="RoomName4" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = 192.0
+margin_top = 544.0
+margin_right = 266.0
+margin_bottom = 576.0
+rect_pivot_offset = Vector2( 32, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Processor"
+align = 1
+
+[node name="RoomName5" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = 640.0
+margin_top = 800.0
+margin_right = 762.0
+margin_bottom = 832.0
+rect_pivot_offset = Vector2( 64, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Credit cards"
+align = 1
+
+[node name="RoomName6" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = 608.0
+margin_top = 256.0
+margin_right = 730.0
+margin_bottom = 288.0
+rect_pivot_offset = Vector2( 64, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Files"
+align = 1
+
+[node name="RoomName7" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = 192.0
+margin_top = 192.0
+margin_right = 314.0
+margin_bottom = 224.0
+rect_pivot_offset = Vector2( 64, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "Control room"
+align = 1
+
+[node name="RoomName8" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = -252.0
+margin_top = 320.0
+margin_right = -130.0
+margin_bottom = 352.0
+rect_pivot_offset = Vector2( 64, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "portal
+1"
+align = 1
+
+[node name="RoomName9" type="Label" parent="RoomNames"]
+modulate = Color( 0.627451, 0.627451, 0.627451, 0.427451 )
+margin_left = 800.0
+margin_top = 593.0
+margin_right = 922.0
+margin_bottom = 625.0
+rect_pivot_offset = Vector2( 64, 0 )
+custom_colors/font_color = Color( 0.862745, 0.372549, 0.372549, 1 )
+custom_fonts/font = ExtResource( 35 )
+text = "portal
+2"
+align = 1
+
 [node name="Entities" type="YSort" parent="."]
 script = ExtResource( 15 )
 
@@ -426,22 +537,19 @@ position = Vector2( -96, 128 )
 position = Vector2( -256, 128 )
 
 [node name="File" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 768, 259 )
-
-[node name="File2" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 672, 259 )
+position = Vector2( 800, 224 )
 
 [node name="File3" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 576, 259 )
+position = Vector2( 544, 224 )
 
 [node name="File4" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 769, 333 )
+position = Vector2( 800, 352 )
 
 [node name="File5" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 673, 333 )
+position = Vector2( 672, 352 )
 
 [node name="File6" parent="Entities" instance=ExtResource( 26 )]
-position = Vector2( 577, 333 )
+position = Vector2( 544, 352 )
 
 [node name="Chip" parent="Entities" instance=ExtResource( 27 )]
 position = Vector2( 158, 508 )
@@ -516,6 +624,7 @@ position = Vector2( 736, 688 )
 position = Vector2( -416, 560 )
 
 [node name="LaptopForeground" type="Sprite" parent="."]
+visible = false
 position = Vector2( 217, 409 )
 texture = ExtResource( 7 )
 
@@ -532,6 +641,7 @@ script = ExtResource( 23 )
 [node name="Minimaps" type="CanvasLayer" parent="."]
 
 [node name="SmallMap" type="Panel" parent="Minimaps"]
+visible = false
 margin_left = 3.0
 margin_top = 24.0
 margin_right = 53.0
@@ -688,6 +798,36 @@ You won!"
 align = 1
 valign = 1
 
+[node name="StarParticle" type="Sprite" parent="CanvasLayer/WinScreen"]
+position = Vector2( 151, 98 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 44 )
+
+[node name="StarParticle2" type="Sprite" parent="CanvasLayer/WinScreen"]
+position = Vector2( 386, 111 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 44 )
+
+[node name="StarParticle3" type="Sprite" parent="CanvasLayer/WinScreen"]
+position = Vector2( 318, 51 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 44 )
+
+[node name="Player" type="Sprite" parent="CanvasLayer/WinScreen"]
+position = Vector2( 202, 88 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 33 )
+
+[node name="Player2" type="Sprite" parent="CanvasLayer/WinScreen"]
+position = Vector2( 385, 167 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 33 )
+flip_h = true
+
+[node name="RestartButton" parent="CanvasLayer/WinScreen" instance=ExtResource( 46 )]
+margin_top = 45.0
+margin_bottom = 59.0
+
 [node name="DeathScreen" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -722,6 +862,7 @@ __meta__ = {
 }
 
 [node name="LoseScreen" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -756,30 +897,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -50.0
-margin_top = 33.0
+margin_top = 41.0
 margin_right = 50.0
-margin_bottom = 47.0
+margin_bottom = 55.0
 rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
-text = "Lämna Rummet"
+text = "Leave Room"
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RestartButton" type="Button" parent="CanvasLayer/LoseScreen"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = 13.0
-margin_right = 50.0
-margin_bottom = 27.0
-rect_min_size = Vector2( 100, 0 )
-theme = ExtResource( 3 )
-text = "Restart"
-script = ExtResource( 46 )
+[node name="RestartButton" parent="CanvasLayer/LoseScreen" instance=ExtResource( 46 )]
 
 [node name="RomanceScammer" type="Sprite" parent="CanvasLayer/LoseScreen"]
 position = Vector2( 243, 90 )
@@ -824,18 +953,180 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = ExtResource( 35 )
 text = "HOW TO PLAY"
 
+[node name="Sprite" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+position = Vector2( 130.75, 79.2 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 33 )
+
+[node name="Sprite2" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+position = Vector2( 189.75, 80.2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 34 )
+
+[node name="Sprite3" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+position = Vector2( -97.25, 77.2 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 22 )
+flip_h = true
+
+[node name="RomanceScammerAttackArms" type="Sprite" parent="CanvasLayer/IntroScreen/Title/Sprite3"]
+texture = ExtResource( 36 )
+flip_h = true
+
+[node name="Sprite4" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+position = Vector2( -24.25, 87.2 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 33 )
+
+[node name="Sprite5" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
+position = Vector2( -53.25, 79.2 )
+rotation = 1.57437
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 21 )
+
+[node name="Sprite6" type="Sprite" parent="CanvasLayer/IntroScreen/Title"]
+modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
+position = Vector2( 159.75, 81.2 )
+rotation = 1.57437
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 21 )
+
+[node name="ArrowKey" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = -81.0
+margin_top = 139.851
+margin_right = -60.0
+margin_bottom = 160.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = "^"
+align = 1
+valign = 1
+
+[node name="ArrowKey2" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = -104.0
+margin_top = 162.851
+margin_right = -83.0
+margin_bottom = 183.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = "<"
+align = 1
+valign = 1
+
+[node name="ArrowKey3" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = -81.0
+margin_top = 162.851
+margin_right = -60.0
+margin_bottom = 183.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = "V"
+align = 1
+valign = 1
+
+[node name="ArrowKey4" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = -58.0
+margin_top = 162.851
+margin_right = -37.0
+margin_bottom = 183.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/ArrowKey4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = ">"
+align = 1
+valign = 1
+
+[node name="Action1" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = 128.0
+margin_top = 159.851
+margin_right = 149.0
+margin_bottom = 180.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/Action1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = "1"
+align = 1
+valign = 1
+
+[node name="Action2" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = 151.0
+margin_top = 159.851
+margin_right = 172.0
+margin_bottom = 180.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/Action2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 35 )
+text = "2"
+align = 1
+valign = 1
+
+[node name="Action3" type="Panel" parent="CanvasLayer/IntroScreen/Title"]
+margin_left = 174.0
+margin_top = 159.851
+margin_right = 195.0
+margin_bottom = 180.851
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Title/Action3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 4.0
+margin_bottom = 12.0
+custom_fonts/font = ExtResource( 35 )
+text = "3
+"
+align = 1
+valign = 1
+
 [node name="Label3" type="Label" parent="CanvasLayer/IntroScreen"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -103.25
-margin_top = -73.8005
-margin_right = -59.25
-margin_bottom = -58.8005
+margin_left = -78.5
+margin_top = -66.0
+margin_right = -34.5
+margin_bottom = -51.0
 rect_rotation = 14.7802
 custom_colors/font_color = Color( 0.0705882, 0.133333, 0.498039, 1 )
 text = "RUN!!!"
+align = 1
+valign = 1
+
+[node name="Label5" type="Label" parent="CanvasLayer/IntroScreen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -181.5
+margin_top = -76.0
+margin_right = -137.5
+margin_bottom = -61.0
+rect_rotation = -12.9368
+custom_colors/font_color = Color( 0.0705882, 0.133333, 0.498039, 1 )
+text = "Hunt!"
 align = 1
 valign = 1
 
@@ -844,10 +1135,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -145.5
-margin_top = 29.0
-margin_right = -101.5
-margin_bottom = 44.0
+margin_left = -146.5
+margin_top = 8.85052
+margin_right = -102.5
+margin_bottom = 23.8505
 rect_rotation = -4.24969
 custom_colors/font_color = Color( 0.0705882, 0.133333, 0.498039, 1 )
 text = "Move"
@@ -859,10 +1150,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 79.5
-margin_top = 31.0
-margin_right = 167.5
-margin_bottom = 50.0
+margin_left = 78.5
+margin_top = 10.8505
+margin_right = 166.5
+margin_bottom = 29.8505
 rect_rotation = 4.52225
 custom_colors/font_color = Color( 0.0705882, 0.133333, 0.498039, 1 )
 text = "Powers! 
@@ -875,151 +1166,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 82.5
-margin_top = -69.0
-margin_right = 143.5
-margin_bottom = -54.0
+margin_left = 88.5
+margin_top = -66.0
+margin_right = 149.5
+margin_bottom = -51.0
 rect_rotation = -9.62537
 custom_colors/font_color = Color( 0.0117647, 0.0823529, 0.501961, 1 )
 text = "Save them all!"
-align = 1
-valign = 1
-
-[node name="Sprite" type="Sprite" parent="CanvasLayer/IntroScreen"]
-position = Vector2( 306.75, 104.2 )
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 33 )
-
-[node name="Sprite2" type="Sprite" parent="CanvasLayer/IntroScreen"]
-position = Vector2( 365.75, 105.2 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 34 )
-
-[node name="Sprite3" type="Sprite" parent="CanvasLayer/IntroScreen"]
-position = Vector2( 78.75, 102.2 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 22 )
-flip_h = true
-
-[node name="RomanceScammerAttackArms" type="Sprite" parent="CanvasLayer/IntroScreen/Sprite3"]
-texture = ExtResource( 36 )
-flip_h = true
-
-[node name="Sprite4" type="Sprite" parent="CanvasLayer/IntroScreen"]
-position = Vector2( 151.75, 112.2 )
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 33 )
-
-[node name="Sprite5" type="Sprite" parent="CanvasLayer/IntroScreen"]
-modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
-position = Vector2( 122.75, 104.2 )
-rotation = 1.57437
-texture = ExtResource( 21 )
-
-[node name="Sprite6" type="Sprite" parent="CanvasLayer/IntroScreen"]
-modulate = Color( 0.352941, 0.392157, 0.807843, 1 )
-position = Vector2( 335.75, 106.2 )
-rotation = 1.57437
-texture = ExtResource( 21 )
-
-[node name="ArrowKey" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 96.0
-margin_top = 185.0
-margin_right = 117.0
-margin_bottom = 206.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/ArrowKey"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = "^"
-align = 1
-valign = 1
-
-[node name="ArrowKey2" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 73.0
-margin_top = 208.0
-margin_right = 94.0
-margin_bottom = 229.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/ArrowKey2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = "<"
-align = 1
-valign = 1
-
-[node name="ArrowKey3" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 96.0
-margin_top = 208.0
-margin_right = 117.0
-margin_bottom = 229.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/ArrowKey3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = "V"
-align = 1
-valign = 1
-
-[node name="ArrowKey4" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 119.0
-margin_top = 208.0
-margin_right = 140.0
-margin_bottom = 229.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/ArrowKey4"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = ">"
-align = 1
-valign = 1
-
-[node name="Action1" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 305.0
-margin_top = 205.0
-margin_right = 326.0
-margin_bottom = 226.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Action1"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = "1"
-align = 1
-valign = 1
-
-[node name="Action2" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 328.0
-margin_top = 205.0
-margin_right = 349.0
-margin_bottom = 226.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Action2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 35 )
-text = "2"
-align = 1
-valign = 1
-
-[node name="Action3" type="Panel" parent="CanvasLayer/IntroScreen"]
-margin_left = 351.0
-margin_top = 205.0
-margin_right = 372.0
-margin_bottom = 226.0
-
-[node name="Label" type="Label" parent="CanvasLayer/IntroScreen/Action3"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 4.0
-margin_bottom = 12.0
-custom_fonts/font = ExtResource( 35 )
-text = "3
-"
 align = 1
 valign = 1
 
@@ -1033,22 +1186,21 @@ margin_bottom = -36.0
 rect_scale = Vector2( 1.2, 1.2 )
 mouse_filter = 2
 theme = ExtResource( 3 )
-custom_constants/separation = -12
+custom_constants/separation = 12
 
 [node name="AbilityPanel" parent="CanvasLayer/HBoxContainer" instance=ExtResource( 9 )]
-margin_right = 66.0
 key = "1"
 button_text = ExtResource( 39 )
 
 [node name="AbilityPanel2" parent="CanvasLayer/HBoxContainer" instance=ExtResource( 9 )]
-margin_left = 54.0
-margin_right = 121.0
+margin_left = 64.0
+margin_right = 116.0
 key = "2"
 button_text = ExtResource( 40 )
 
 [node name="AbilityPanel3" parent="CanvasLayer/HBoxContainer" instance=ExtResource( 9 )]
-margin_left = 109.0
-margin_right = 176.0
+margin_left = 128.0
+margin_right = 180.0
 key = "3"
 button_text = ExtResource( 41 )
 
@@ -1063,7 +1215,7 @@ scale = Vector2( 0.4, 0.4 )
 normal = ExtResource( 43 )
 pressed = ExtResource( 42 )
 shape = SubResource( 14 )
-script = ExtResource( 44 )
+script = ExtResource( 47 )
 
 [node name="Label" type="Label" parent="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton"]
 margin_left = 32.5
@@ -1075,41 +1227,23 @@ custom_fonts/font = ExtResource( 35 )
 text = "Mellanslag"
 align = 1
 
-[node name="JoyStickWrapper" type="Control" parent="CanvasLayer"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -106.0
-margin_top = -107.0
-
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2( 192, -192 )
 current = true
 zoom = Vector2( 8, 8 )
 script = ExtResource( 4 )
 
-[node name="RoomHiders" type="Control" parent="."]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
-script = ExtResource( 12 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-visible_on_ready = true
-
 [node name="EscPanel" type="CanvasLayer" parent="."]
 layer = 10
 
 [node name="LeaveButton" type="Button" parent="EscPanel"]
+modulate = Color( 1, 1, 1, 0.65098 )
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -61.0
-margin_top = 3.0
-margin_right = -3.0
-margin_bottom = 17.0
+margin_left = -84.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 21.0
 theme = ExtResource( 3 )
 text = "Leave Room"
 script = ExtResource( 8 )
@@ -1169,7 +1303,6 @@ position = Vector2( 224, 608 )
 [connection signal="pressed" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_pressed"]
 [connection signal="released" from="Minimaps/SmallMap/TouchScreenButton" to="Minimaps/Control/LargeMap" method="_on_TouchScreenButton_released"]
 [connection signal="pressed" from="CanvasLayer/LoseScreen/LeaveButton" to="CanvasLayer/LoseScreen/LeaveButton" method="_on_LeaveButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/LoseScreen/RestartButton" to="CanvasLayer/LoseScreen/RestartButton" method="_on_RestartButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" to="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" method="_on_AttackTouchScreenButton_pressed"]
 [connection signal="released" from="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" to="CanvasLayer/AttackTouchScreenButtonContainer/AttackTouchScreenButton" method="_on_AttackTouchScreenButton_released"]
 [connection signal="pressed" from="EscPanel/LeaveButton" to="EscPanel/LeaveButton" method="_on_LeaveButton_pressed"]

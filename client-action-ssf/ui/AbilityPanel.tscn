@@ -1,13 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/AbilityPanel.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/buttonPressed.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/button.png" type="Texture" id=4]
-[ext_resource path="res://assets/sprites/buttonTextSystemUpdate.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 26, 15 )
+extents = Vector2( 32, 18 )
 
 [node name="AbilityPanel" type="Control"]
 margin_right = 52.0
@@ -22,26 +21,24 @@ script = ExtResource( 2 )
 shape = SubResource( 14 )
 
 [node name="Button" type="Sprite" parent="."]
-scale = Vector2( 0.25, 0.25 )
+scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="ButtonText" type="Sprite" parent="."]
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 5 )
+scale = Vector2( 0.3, 0.3 )
 centered = false
 
 [node name="ButtonPressed" type="Sprite" parent="."]
 visible = false
-scale = Vector2( 0.25, 0.25 )
+scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 3 )
 centered = false
 
 [node name="ButtonTextPressed" type="Sprite" parent="."]
 visible = false
 position = Vector2( 0, 2 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 5 )
+scale = Vector2( 0.3, 0.3 )
 centered = false
 
 [connection signal="pressed" from="TouchScreenButton" to="." method="_on_TouchScreenButton_pressed"]

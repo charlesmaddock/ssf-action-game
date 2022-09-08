@@ -3,8 +3,8 @@
 [ext_resource path="res://assets/sprites/chip.png" type="Texture" id=1]
 [ext_resource path="res://entities/FreeableNode.tscn" type="PackedScene" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16.9999, 15.0001 )
+[sub_resource type="CircleShape2D" id=1]
+radius = 17.0
 
 [node name="Chip" instance=ExtResource( 2 )]
 
@@ -23,5 +23,5 @@ margin_bottom = -10.0
 position = Vector2( 0, -10 )
 
 [node name="CollisionShape2D" parent="StaticBody2D" index="0"]
-position = Vector2( -0.999999, -5 )
+position = Vector2( -1, -7 )
 shape = SubResource( 1 )

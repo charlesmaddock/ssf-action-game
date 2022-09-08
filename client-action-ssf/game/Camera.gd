@@ -26,7 +26,7 @@ func _input(event):
 	if Input.is_key_pressed(KEY_C):
 		target_zoom = Vector2(5, 5)
 	else:
-		target_zoom = Vector2(1, 1)
+		target_zoom = Vector2(0.75, 0.75) if Util.is_mobile() else Vector2(1, 1)
 	
 	if my_player_is_dead == true:
 		if Input.is_action_just_pressed("ui_left") or event is InputEventScreenTouch:

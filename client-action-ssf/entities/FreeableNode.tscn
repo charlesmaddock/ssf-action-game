@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/sprites/battery.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 32 )
+extents = Vector2( 51, 40.5 )
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 2.99995
@@ -29,12 +29,14 @@ texture = ExtResource( 5 )
 collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FreeArea"]
+position = Vector2( 0, 4.5 )
 shape = SubResource( 1 )
 
 [node name="TextureProgress" type="TextureProgress" parent="."]
 margin_left = -16.0
 margin_top = -40.0
 margin_right = 24.0
+mouse_filter = 2
 texture_under = ExtResource( 1 )
 texture_progress = ExtResource( 1 )
 tint_under = Color( 0.345098, 0.321569, 0.619608, 1 )

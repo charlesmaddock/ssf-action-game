@@ -7,3 +7,6 @@
 ability_color = Color( 0.65098, 0.854902, 0.0862745, 0.45098 )
 ability_key = "2"
 ability_texture = ExtResource( 2 )
+
+[node name="AbilityParticles" parent="." index="1"]
+amount = 2

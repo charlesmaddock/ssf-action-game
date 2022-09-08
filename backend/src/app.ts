@@ -218,9 +218,7 @@ const handleUpdateClientData = (
 const handleHostRoom = (ws: WebSocket, client: Client) => {
   if (client !== null) {
     let time = new Date().getTime();
-    let code = time
-      .toString(16)
-      .slice(String(time).length - 5, String(time).length);
+    let code = (Math.random() + "").slice(2, 5);
 
     let newRoom: Room = {
       code: code,
