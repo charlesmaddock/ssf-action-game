@@ -200,7 +200,7 @@ position = Vector2( 0, -1 )
 position = Vector2( 2, -4 )
 
 [node name="Movement" parent="." instance=ExtResource( 5 )]
-speed = 100.0
+speed = 95.0
 
 [node name="PlayerAI" parent="." instance=ExtResource( 7 )]
 movement_component_path = NodePath("../Movement")
