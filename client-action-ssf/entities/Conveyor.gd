@@ -7,10 +7,6 @@ var _speed: float = 50
 onready var _direction = Vector2.UP.rotated(rotation) 
 
 
-func _ready():
-	set_physics_process(Lobby.is_host)
-
-
 func _physics_process(delta):
 	for body in bodies:
 		body.move_and_slide(_direction * _speed)

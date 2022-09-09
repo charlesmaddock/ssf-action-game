@@ -4,7 +4,7 @@
 [ext_resource path="res://entities/Conveyor.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 224 )
+extents = Vector2( 16, 384 )
 
 [node name="Conveyor" type="Area2D"]
 collision_layer = 0

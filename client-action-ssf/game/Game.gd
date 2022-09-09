@@ -31,10 +31,11 @@ func _on_packet_received(packet: Dictionary):
 			if nodes_freed.find(packet.id) == -1:
 				nodes_freed.append(packet.id)
 				if nodes_freed.size() == total_nodes:
-					WinScreen.set_visible(true)
+					Events.emit_signal("game_win", "nodes")
 
 
 func generate_players(player_data: Array) -> void:
+	randomize()
 	var spawn_scammer: bool = true
 	var amount_players: int 
 	var scammer_i: int
