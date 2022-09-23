@@ -12,16 +12,27 @@ var cooldown: float
 var _prev_pos: Vector2
 var _attack_dir: Vector2
 
+var _disguise_nodes: Array = []
+var _disguised: bool = false
+
 
 func _ready():
 	AI.set_physics_process(_is_bot)
 	Server.connect("packet_received", self, "_on_packet_received")
 
 
+func get_is_disguised() -> bool:
+	return _disguised
+
+
 func _on_packet_received(packet: Dictionary) -> void:
 	if packet.type == Constants.PacketTypes.SHOOT_PROJECTILE:
 		if packet.id == _id:
 			anim.play("attack")
+			undisguise()
+	if packet.type == Constants.PacketTypes.ABILITY_USED:
+		if packet.ability == Constants.AbilityEffects.DISGUISE:
+			disguise(int(packet.randi))
 
 
 func get_id() -> String:
@@ -42,6 +53,39 @@ func _physics_process(delta):
 		try_attack()
 	
 	_prev_pos = global_position
+
+
+func disguise(rand_int: int) -> void:
+	_disguised = true
+	
+	var players = Util.get_living_players()
+	var rand_player = players[rand_int % players.size()]
+	
+	var username_node = rand_player.get_node("UsernameLabel").duplicate(true)
+	add_child(username_node)
+	_disguise_nodes.append(username_node)
+	
+	for child in get_node("SpriteContainer").get_children():
+		child.set_visible(false)
+	
+	var sprite_container_node = rand_player.get_node("SpriteContainer")
+	for child in sprite_container_node.get_children():
+		if child.name == "Sprite":
+			var duplicated_node = child.duplicate(true)
+			duplicated_node.position.y = get_node("SpriteContainer").get_child(0).position.y + 6
+			get_node("SpriteContainer").add_child(duplicated_node)
+			_disguise_nodes.append(duplicated_node)
+
+
+func undisguise() -> void:
+	if _disguised == true:
+		_disguised = false
+		
+		for node in _disguise_nodes:
+			node.queue_free()
+		
+		for child in get_node("SpriteContainer").get_children():
+			child.set_visible(true)
 
 
 func try_attack() -> void:

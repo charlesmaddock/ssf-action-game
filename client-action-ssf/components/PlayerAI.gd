@@ -21,6 +21,8 @@ var freeable_nodes_in_view: Array = []
 var scammers_in_view: Array = []
 var time_since_last_ability: float = 0
 var is_dead: bool =  false
+var panic_time_length: float = 12
+var panic_timer: float = panic_time_length + 1
 
 
 func _ready():
@@ -31,9 +33,9 @@ func _ready():
 
 func _on_damage_taken(_damage, _dir) -> void:
 	if randf() > 0.5:
-		yield(get_tree().create_timer(0.5), "timeout")
+		yield(get_tree().create_timer(1.4), "timeout")
 		if Lobby.is_host && time_since_last_ability > 3 && is_dead == false:
-			get_parent().try_use_ability()
+			get_parent().emit_signal("try_use_ability", -1)
 			time_since_last_ability = 0
 
 
@@ -44,6 +46,7 @@ func _on_player_dead(id) -> void:
 
 func _physics_process(delta):
 	time_since_last_ability += delta
+	panic_timer += delta
 	if Lobby.is_host == true:
 		if path.size() > 0:
 			move_to_target()
@@ -73,15 +76,25 @@ func _on_Timer_timeout():
 			get_target_path(room_point.position)
 	
 	if Lobby.is_host && sees_scammer && randf() > 0.985 && time_since_last_ability > 3 && is_dead == false:
-		get_parent().try_use_ability()
+		get_parent().emit_signal("try_use_ability", -1)
 		time_since_last_ability = 0
 
 
 func run_from_scammer() -> bool:
-	if scammers_in_view.size() > 0:
+	var is_disguised = true
+	for scammer in scammers_in_view:
+		if scammer.has_method("get_is_disguised"):
+			if scammer.get_is_disguised() == false:
+				is_disguised = false
+	
+	if scammers_in_view.size() > 0 && is_disguised == false || panic_timer < panic_time_length:
+		if panic_timer > panic_time_length:
+			panic_timer = 0
+		
 		set_random_room_point()
 		get_target_path(room_point.position)
 		return true
+	
 	return false
 
 
@@ -108,14 +121,20 @@ func find_freeable_node() -> bool:
 		return false
 
 
-func set_random_room_point() -> void:
+func set_random_room_point(min_dist_away: float = -1) -> void:
 	var check_another_room: bool = false
 	if room_point == null:
 		check_another_room = true
 	else:
 		check_another_room = global_position.distance_to(room_point.position) < 40
 	
-	if  check_another_room == true:
+	if min_dist_away != -1:
+		for nav_point in roomNavPoints.get_children():
+			print("global_position.distance_to(nav_point.global_position): ", global_position.distance_to(nav_point.global_position))
+			if global_position.distance_to(nav_point.global_position) > min_dist_away:
+				room_point = nav_point
+	
+	elif check_another_room == true:
 		if unchecked_room_points.size() == 0:
 			unchecked_room_points.append_array(roomNavPoints.get_children())
 		

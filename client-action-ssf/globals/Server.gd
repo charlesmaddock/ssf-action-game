@@ -109,12 +109,14 @@ func send_input(input: Vector2) -> void:
 	send_packet(payload)
 
 
-func use_ability(key: String, id: String) -> void:
+func use_ability(ability: int, id: String, pos: Vector2) -> void:
 	var payload = {
 		"type": Constants.PacketTypes.USE_ABILITY, 
-		"key": key,
+		"ability": ability,
 		"randi": randi(),
-		"id": id
+		"id": id,
+		"x": pos.x,
+		"y": pos.y
 	}
 	send_packet(payload)
 
@@ -163,5 +165,20 @@ func shoot_projectile(start_pos: Vector2, dir: Vector2, id: String)  -> void:
 func start_doors() -> void:
 	var payload = {
 		"type": Constants.PacketTypes.START_DOORS, 
+	}
+	send_packet(payload)
+
+
+func disable_portals(id: int) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.DISABLE_PORTALS, 
+		"id": id
+	}
+	send_packet(payload)
+
+func mine_explode(id: String) -> void:
+	var payload = {
+		"type": Constants.PacketTypes.MINE_EXPLODE, 
+		"id": id
 	}
 	send_packet(payload)

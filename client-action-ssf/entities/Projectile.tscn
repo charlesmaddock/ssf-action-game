@@ -11,8 +11,7 @@ _damage = 25.0
 _speed = 350.0
 
 [node name="Sprite" type="Sprite" parent="."]
-visible = false
-position = Vector2( 0, -10 )
+position = Vector2( -1, 8 )
 scale = Vector2( 0.4, 0.5 )
 texture = ExtResource( 1 )
 

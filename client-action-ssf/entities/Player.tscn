@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/sprites/player.png" type="Texture" id=1]
 [ext_resource path="res://entities/Player.gd" type="Script" id=2]
@@ -12,9 +12,67 @@
 [ext_resource path="res://assets/sprites/systemUpdateParticle.png" type="Texture" id=10]
 [ext_resource path="res://assets/tiles/suckSpriteSheet.png" type="Texture" id=11]
 [ext_resource path="res://components/FreeableNodeDetector.gd" type="Script" id=12]
+[ext_resource path="res://assets/sprites/signals.png" type="Texture" id=13]
+[ext_resource path="res://ui/AbilitiesUI.tscn" type="PackedScene" id=14]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1e-05, 1e-05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "ping"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0.1 ), Vector2( 0.4, 0.4 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="CircleShape2D" id=10]
 radius = 15.0
@@ -183,7 +241,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.248344, 0.224696 ), 0.0, 0
 
 [node name="Player" type="KinematicBody2D"]
 material = ExtResource( 9 )
-position = Vector2( 29, 43 )
+position = Vector2( 0, -4 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -221,6 +279,17 @@ text = "name"
 align = 1
 valign = 1
 clip_text = true
+
+[node name="Ping" type="Sprite" parent="."]
+visible = false
+position = Vector2( 2, -10 )
+scale = Vector2( 1e-05, 1e-05 )
+texture = ExtResource( 13 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ping"]
+autoplay = "ping"
+anims/RESET = SubResource( 11 )
+anims/ping = SubResource( 12 )
 
 [node name="FreeableNodeDetector" type="Area2D" parent="."]
 position = Vector2( 1, 2 )
@@ -280,6 +349,10 @@ initial_velocity_random = 0.2
 angular_velocity = 10.0
 angular_velocity_random = 1.0
 scale_amount_curve = SubResource( 7 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AbilitiesUI" parent="CanvasLayer" instance=ExtResource( 14 )]
 
 [connection signal="area_entered" from="FreeableNodeDetector" to="FreeableNodeDetector" method="_on_FreeableNodeDetector_area_entered"]
 [connection signal="area_exited" from="FreeableNodeDetector" to="FreeableNodeDetector" method="_on_FreeableNodeDetector_area_exited"]

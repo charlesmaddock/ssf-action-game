@@ -15,12 +15,14 @@ onready var Sprite = $SpriteContainer/Sprite
 
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
+signal try_use_ability(ability)
 
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
 	connect("damage_taken", self, "_on_damage_taken")
 	Events.connect("player_dead", self, "_on_player_dead")
+	Events.connect("one_min_left", self, "_on_one_min_left")
 	
 	if _is_bot == false:
 		get_node("PlayerAI").set_physics_process(false)
@@ -28,6 +30,10 @@ func _ready():
 	set_process(false)
 	yield(Events, "cutscene_over")
 	set_process(true)
+
+
+func _on_one_min_left() -> void:
+	$Ping.set_visible(true)
 
 
 func _on_damage_taken(damage, dir) -> void:
@@ -55,21 +61,6 @@ func _on_packet_received(packet: Dictionary) -> void:
 		Constants.PacketTypes.ROOM_LEFT:
 			if _id == packet.id:
 				queue_free()
-		Constants.PacketTypes.ABILITY_USED:
-			if _id == packet.id:
-				var scene = null
-				if packet.key == "1":
-					scene = Constants.ability_effects[Constants.AbilityEffects.SYSTEM_UPDATE]
-				elif packet.key == "2":
-					scene = Constants.ability_effects[Constants.AbilityEffects.TWO_FACTOR_AUTH]
-				elif packet.key == "3":
-					scene = Constants.ability_effects[Constants.AbilityEffects.VPN]
-				
-				if scene != null:
-					var ability_effect = scene.instance()
-					ability_effect.rand_i = packet.randi
-					ability_effect.global_position = global_position
-					get_parent().add_child(ability_effect)
 
 
 func set_players_data(id: String, name: String, pos: Vector2, className: String, is_bot: bool) -> void:
@@ -82,29 +73,8 @@ func set_players_data(id: String, name: String, pos: Vector2, className: String,
 	get_node("SpriteContainer/Sprite").texture = Util.get_sprite_for_class(className)
 
 
-func _input(event):
-	if Lobby.my_id == _id:
-		if Input.is_action_just_pressed("ability_1"):
-			try_use_ability("1")
-		elif Input.is_action_just_pressed("ability_2"):
-			try_use_ability("2")
-		elif Input.is_action_just_pressed("ability_3"):
-			try_use_ability("3")
-
-
-func try_use_ability(key = "") -> void:
-	if key == "":
-		var available_key_index = abilities_used.find(false)
-		if available_key_index != -1:
-			Server.use_ability(str(available_key_index + 1), _id)
-			abilities_used[available_key_index] = true
-	elif abilities_used[int(key) - 1] == false:
-		Server.use_ability(key, _id)
-		abilities_used[int(key) - 1] = true
-
-
-func handle_ability_used(key, rand_i) -> void:
-	if key == "1" && using_speed_ability == false:
+func handle_ability_used(key: int, rand_i) -> void:
+	if key == Constants.AbilityEffects.SYSTEM_UPDATE && using_speed_ability == false:
 		using_speed_ability = true
 		$FastParticles.emitting = true
 		
@@ -116,7 +86,7 @@ func handle_ability_used(key, rand_i) -> void:
 		$FastParticles.emitting = false
 		using_speed_ability = false
 		
-	elif key == "2" && using_teleport_ability == false:
+	elif key == Constants.AbilityEffects.VPN && using_teleport_ability == false:
 			using_teleport_ability = true
 			
 			set_visible(false)
@@ -139,7 +109,7 @@ func handle_ability_used(key, rand_i) -> void:
 			yield(get_tree().create_timer(1), "timeout")
 			using_teleport_ability = false
 		
-	elif key == "3" && using_invis_ability == false:
+	elif key == Constants.AbilityEffects.INCOGNITO && using_invis_ability == false:
 		using_invis_ability = true
 		
 		if _id == Lobby.my_id:

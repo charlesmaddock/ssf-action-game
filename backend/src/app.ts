@@ -32,6 +32,8 @@ enum PacketTypes {
   SET_HEALTH,
   SHOOT_PROJECTILE,
   START_DOORS,
+  DISABLE_PORTALS,
+  MINE_EXPLODE,
 }
 
 type PacketType = PacketTypes;
@@ -131,7 +133,14 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             handleSetInput(ws, data);
             break;
           case PacketTypes.USE_ABILITY:
-            handleUseAbility(ws, data.key, data.randi, data.id);
+            handleUseAbility(
+              ws,
+              data.ability,
+              data.randi,
+              data.id,
+              data.x,
+              data.y
+            );
             break;
           case PacketTypes.SET_PLAYER_POS:
             handleSetPos(ws, data);
@@ -147,6 +156,12 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.START_DOORS:
             handleStartDoors(ws, data);
+            break;
+          case PacketTypes.DISABLE_PORTALS:
+            handleDisablePortals(ws, data);
+            break;
+          case PacketTypes.MINE_EXPLODE:
+            handleMineExplode(ws, data);
             break;
           default:
             console.error("Unhandled packet type.");
@@ -386,18 +401,22 @@ const handleSetInput = (
 
 const handleUseAbility = (
   ws: WebSocket,
-  key: string,
+  ability: string,
   randi: number,
-  id: string
+  id: string,
+  x: number,
+  y: number
 ) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
 
   let payload = {
     type: PacketTypes.ABILITY_USED,
-    key: key,
+    ability: ability,
     id: id,
     randi: randi,
+    x: x,
+    y: y,
   };
   broadcastToRoom(room, payload);
 };
@@ -450,6 +469,18 @@ const handleShootProjectile = (ws: WebSocket, packet: any) => {
 };
 
 const handleStartDoors = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleDisablePortals = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
+};
+
+const handleMineExplode = (ws: WebSocket, packet: any) => {
   let client = getClientFromWs(ws);
   let room: Room = getClientsRoom(client);
   broadcastToRoom(room, packet);

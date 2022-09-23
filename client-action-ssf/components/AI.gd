@@ -29,8 +29,14 @@ var players_in_view: Array = []
 
 
 func _ready():
+	Events.connect("one_min_left", self, "_on_one_min_left")
 	yield(get_tree().create_timer(10), "timeout")
 	timer.start()
+
+
+func _on_one_min_left() -> void:
+	$FOVArea/CollisionShape2D.shape.radius = 500
+	$FOVArea/CollisionShape2D.shape.height = 500
 
 
 func _physics_process(delta):
@@ -80,8 +86,9 @@ func _on_Timer_timeout():
 			closest_player = player
 		
 	if closest_player != null:
-		AttackArms.set_visible(closest_dist < 100)
-		RuningArms.set_visible(closest_dist > 100)
+		if get_parent().get_is_disguised() == false:
+			AttackArms.set_visible(closest_dist < 100)
+			RuningArms.set_visible(closest_dist > 100)
 		if closest_dist < 80 and get_parent().get_is_bot() == true:
 			get_parent().try_attack()
 		

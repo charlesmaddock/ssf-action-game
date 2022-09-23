@@ -30,13 +30,18 @@ enum PacketTypes {
 	ABILITY_USED,
 	SET_HEALTH,
 	SHOOT_PROJECTILE,
-	START_DOORS
+	START_DOORS,
+	DISABLE_PORTALS,
+	MINE_EXPLODE
 }
 
 enum AbilityEffects {
 	SYSTEM_UPDATE,
-	TWO_FACTOR_AUTH,
-	VPN
+	INCOGNITO,
+	VPN,
+	SLACK_ATTACK,
+	MINE,
+	DISGUISE
 }
 
 
@@ -49,7 +54,7 @@ var class_info = [
 
 var ability_effects = {
 	AbilityEffects.SYSTEM_UPDATE: load("res://game/SystemUpdateEffect.tscn"),
-	AbilityEffects.TWO_FACTOR_AUTH: load("res://game/TwoFactorAuthEffect.tscn"),
+	AbilityEffects.INCOGNITO: load("res://game/TwoFactorAuthEffect.tscn"),
 	AbilityEffects.VPN: load("res://game/VPNEffect.tscn")
 }
 

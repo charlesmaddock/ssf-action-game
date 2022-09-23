@@ -2,11 +2,11 @@ extends Node2D
 
 
 export(Color) var ability_color
-export(String) var ability_key
+export(preload("res://globals/Constants.gd").AbilityEffects) var ability_key
 export(Texture) var ability_texture
 
 
-var rand_i = 0
+var rand_i: int = 0
 
 
 func _ready():
