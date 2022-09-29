@@ -20,6 +20,7 @@ enum PacketTypes {
   JOIN_ROOM,
   ROOM_JOINED,
   LEAVE_ROOM,
+  BACK_TO_LOBBY,
   ROOM_LEFT,
   START_GAME,
   GAME_STARTED,
@@ -125,6 +126,9 @@ wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
             break;
           case PacketTypes.LEAVE_ROOM:
             handleLeaveRoom(ws);
+            break;
+          case PacketTypes.BACK_TO_LOBBY:
+            handleBackToLobby(ws, data);
             break;
           case PacketTypes.START_GAME:
             handleStartGame(ws);
@@ -309,6 +313,12 @@ const handleLeaveRoom = (ws: WebSocket) => {
       }
     }
   }
+};
+
+const handleBackToLobby = (ws: WebSocket, packet: any) => {
+  let client = getClientFromWs(ws);
+  let room: Room = getClientsRoom(client);
+  broadcastToRoom(room, packet);
 };
 
 const leaveRoom = (room: Room, client: Client) => {

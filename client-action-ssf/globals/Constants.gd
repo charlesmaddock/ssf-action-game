@@ -19,6 +19,7 @@ enum PacketTypes {
 	JOIN_ROOM,
 	ROOM_JOINED,
 	LEAVE_ROOM,
+	BACK_TO_LOBBY,
 	ROOM_LEFT,
 	START_GAME,
 	GAME_STARTED,
@@ -54,7 +55,7 @@ var class_info = [
 
 var ability_effects = {
 	AbilityEffects.SYSTEM_UPDATE: load("res://game/SystemUpdateEffect.tscn"),
-	AbilityEffects.INCOGNITO: load("res://game/TwoFactorAuthEffect.tscn"),
+	AbilityEffects.INCOGNITO: load("res://game/IncognitoEffect.tscn"),
 	AbilityEffects.VPN: load("res://game/VPNEffect.tscn")
 }
 

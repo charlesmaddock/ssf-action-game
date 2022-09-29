@@ -56,6 +56,8 @@ func _on_packet_recieved(packet: Dictionary) -> void:
 			handle_game_started(packet) 
 		Constants.PacketTypes.ROOM_LEFT:
 			handle_room_left(packet)
+		Constants.PacketTypes.BACK_TO_LOBBY:
+			handle_back_to_lobby()
 
 
 func handle_room_left(packet: Dictionary) -> void:
@@ -66,6 +68,10 @@ func handle_room_left(packet: Dictionary) -> void:
 		dead_player_ids.clear()
 		bot_amount = 0
 		get_tree().change_scene("res://ui/MainMenu.tscn")
+
+
+func handle_back_to_lobby() -> void:
+	get_tree().change_scene("res://ui/MainMenu.tscn")
 
 
 func update_my_client_data(new_players_data) -> void:

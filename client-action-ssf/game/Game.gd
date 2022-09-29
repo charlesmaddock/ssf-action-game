@@ -7,8 +7,6 @@ var scammer_scene = preload("res://entities/Scammer.tscn")
 
 onready var Camera: Camera2D = $Camera
 onready var Entities = $Entities
-onready var WinScreen = $CanvasLayer/WinScreen
-onready var AbilityEffects = $AbilityEffects
 
 
 var nodes_freed: Array = []

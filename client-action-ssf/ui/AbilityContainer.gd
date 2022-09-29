@@ -4,7 +4,7 @@ extends HBoxContainer
 var ability_panel_scene = preload("res://ui/AbilityPanel.tscn")
 
 func _ready():
-	get_parent().get_parent().get_parent().connect("try_use_ability", self, "_on_try_use_ability")
+	get_parent().get_parent().connect("try_use_ability", self, "_on_try_use_ability")
 	
 	rect_scale = Vector2(1.5, 1.5) if Util.is_mobile() else Vector2.ONE
 	
@@ -14,16 +14,14 @@ func _ready():
 	else:
 		abilities = [Constants.AbilityEffects.SYSTEM_UPDATE, Constants.AbilityEffects.INCOGNITO, Constants.AbilityEffects.VPN]
 	
-	
-	if get_entity_id() != Lobby.my_id:
-		get_parent().queue_free()
-	else:
+	if Lobby.my_id == get_entity_id():
 		var key = 0
 		for ability in abilities:
 			key += 1
 			var ability_button = ability_panel_scene.instance()
 			ability_button.init(ability, "ability_" + str(key))
 			add_child(ability_button)
+			ability_button.set_visible(get_entity_id() == Lobby.my_id)
 
 
 func get_entity_id() -> String:

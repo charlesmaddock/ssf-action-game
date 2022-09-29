@@ -38,7 +38,7 @@ tracks/0/keys = {
 script = ExtResource( 2 )
 
 [node name="TeleportArrow" type="Sprite" parent="."]
-modulate = Color( 0.603922, 0.607843, 0.109804, 1 )
+modulate = Color( 0.313726, 0.109804, 0.607843, 1 )
 scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 1 )
 

@@ -9,9 +9,10 @@ var final_min_played: bool
 var time_over: bool
 
 
-
-
 func _process(delta):
+	if Input.is_key_pressed(KEY_C) && Input.is_key_pressed(KEY_P):
+		timer.start(1.0)
+	
 	var minute = timer.time_left / 60
 	var second = (int(timer.time_left) % 60)
 	timeLabel.text = "%02d:%02d" % [minute, second]

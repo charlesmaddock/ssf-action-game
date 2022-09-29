@@ -15,7 +15,10 @@ var _lobby_client_data: Array = []
 
 
 func _ready():
-	show_page(Welcome)
+	if Lobby.room_code != "":
+		set_lobby(Lobby.room_code, Lobby.players_data)
+	else:
+		show_page(Welcome)
 	Server.connect("packet_received", self, "_on_packet_received")
 	Events.connect("error_message", self, "_on_error_message")
 	OS.set_screen_orientation(OS.SCREEN_ORIENTATION_LANDSCAPE)
@@ -33,13 +36,14 @@ func _input(event):
 func _on_packet_received(packet: Dictionary) -> void:
 	match(packet.type):
 		Constants.PacketTypes.ROOM_JOINED:
-			show_page(LobbyNode)
-			set_lobby(packet)
+			set_lobby(packet.code, packet.clientData)
 
 
-func set_lobby(packet: Dictionary) -> void:
-	CodeLabel.text = "Rooms code: " + str(packet.code)
-	_lobby_client_data = packet.clientData
+func set_lobby(code, clientData: Array) -> void:
+	show_page(LobbyNode)
+	
+	CodeLabel.text = "Rooms code: " + str(code)
+	_lobby_client_data = clientData
 	
 	StartButton.set_visible(Lobby.is_host)
 	

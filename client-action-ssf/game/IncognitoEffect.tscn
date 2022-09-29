@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/2faParticle.png" type="Texture" id=2]
 
 [node name="TwoFactorAuth" instance=ExtResource( 1 )]
-ability_color = Color( 0.65098, 0.854902, 0.0862745, 0.45098 )
+ability_color = Color( 0.0862745, 0.133333, 0.854902, 0.45098 )
 ability_key = 1
 ability_texture = ExtResource( 2 )
 

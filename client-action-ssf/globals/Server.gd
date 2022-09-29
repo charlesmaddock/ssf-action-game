@@ -92,6 +92,13 @@ func leave() -> void:
 	send_packet(payload)
 
 
+func back_to_lobby() -> void:
+	var payload = {
+		"type": Constants.PacketTypes.BACK_TO_LOBBY, 
+	}
+	send_packet(payload)
+
+
 func start() -> void:
 	print("Starting the game...")
 	var payload = {

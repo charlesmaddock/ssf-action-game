@@ -16,6 +16,9 @@ var _disguise_nodes: Array = []
 var _disguised: bool = false
 
 
+signal try_use_ability(ability)
+
+
 func _ready():
 	AI.set_physics_process(_is_bot)
 	Server.connect("packet_received", self, "_on_packet_received")
@@ -82,7 +85,8 @@ func undisguise() -> void:
 		_disguised = false
 		
 		for node in _disguise_nodes:
-			node.queue_free()
+			if is_instance_valid(node):
+				node.queue_free()
 		
 		for child in get_node("SpriteContainer").get_children():
 			child.set_visible(true)
