@@ -3,6 +3,7 @@ extends Control
 
 onready var Welcome = $Welcome
 onready var LobbyNode = $Lobby
+onready var HowToPlayNode = $HowToPlay
 
 onready var CodeInput = $Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/CodeInput
 onready var CodeLabel = $Lobby/HBoxContainer/VBoxContainer/CodeWrapper/CodeLabel
@@ -42,7 +43,7 @@ func _on_packet_received(packet: Dictionary) -> void:
 func set_lobby(code, clientData: Array) -> void:
 	show_page(LobbyNode)
 	
-	CodeLabel.text = "Rooms code: " + str(code)
+	CodeLabel.text = "Room code: " + str(code)
 	_lobby_client_data = clientData
 	
 	StartButton.set_visible(Lobby.is_host)
@@ -57,13 +58,10 @@ func set_lobby(code, clientData: Array) -> void:
 
 func show_page(page: Control) -> void:
 	for page in get_children():
-		page.set_visible(false)
+		if page.name != "Background":
+			page.set_visible(false)
 	
 	page.set_visible(true)
-
-
-func _on_Button2_pressed():
-	pass # Replace with function body.
 
 
 func _on_JoinButton_pressed():
@@ -84,3 +82,16 @@ func _on_CopyCodeButton_pressed():
 
 func _on_FindRoomButton_pressed():
 	Server.join("random")
+
+
+func _on_HowToPlay_pressed():
+	show_page(HowToPlayNode)
+
+
+func _on_BackButton_pressed():
+	show_page(Welcome)
+
+
+func _on_LeaveButton_pressed():
+	Server.leave()
+	show_page(Welcome)

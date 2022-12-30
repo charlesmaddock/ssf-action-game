@@ -22,7 +22,7 @@ func _ready():
 		set_process(false)
 	
 	yield(get_tree(), "idle_frame")
-	Events.emit_signal("error_message", "Connecting to " + url + "...")
+	Events.emit_signal("error_message", "Connecting to server...")
 
 
 func _closed(was_clean = false):
@@ -39,6 +39,7 @@ func _closed(was_clean = false):
 func _connected(proto = ""):
 	print("Connected with protocol: ", proto)
 	send_packet({"type": Constants.PacketTypes.CONNECTED})
+	Events.emit_signal("error_message", "Connected successfully.")
 
 
 func _on_data():

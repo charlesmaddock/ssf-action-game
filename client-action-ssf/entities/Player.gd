@@ -9,6 +9,8 @@ var using_invis_ability: bool = false
 var using_speed_ability: bool = false
 var using_teleport_ability: bool = false
 
+var makeInvisibleAreas: Array = []
+
 
 onready var Sprite = $SpriteContainer/Sprite
 
@@ -110,18 +112,36 @@ func handle_ability_used(key: int, rand_i) -> void:
 			using_teleport_ability = false
 		
 	elif key == Constants.AbilityEffects.INCOGNITO && using_invis_ability == false:
+		disappear()
 		using_invis_ability = true
-		
+		yield(get_tree().create_timer(8), "timeout")
+		appear()
+		using_invis_ability = false
+
+
+func disappear() -> void:
+	if using_invis_ability == false:
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("disappearMyClient")
 		else:
 			$AnimationPlayer.play("disappear")
-		
-		yield(get_tree().create_timer(8), "timeout")
-		
+
+
+func appear() -> void:
+	if using_invis_ability == true:
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("reappearMyClient")
 		else:
 			$AnimationPlayer.play("reappear")
-		
-		using_invis_ability = false
+
+
+func _on_MakeInvisibilityDetector_area_entered(area):
+	disappear()
+	if makeInvisibleAreas.find(area) == -1:
+		makeInvisibleAreas.append(area)
+
+
+func _on_MakeInvisibilityDetector_area_exited(area):
+	makeInvisibleAreas.erase(area)
+	if makeInvisibleAreas.size() == 0:
+		appear()

@@ -2,7 +2,7 @@ tool
 extends Control
 
 
-export(NodePath) var world_tile_map_path
+export(NodePath) var world_tile_map_container_path
 export(Vector2) var _cell_size: Vector2 = Vector2.ONE
 export(bool) var _is_large: bool
 
@@ -19,7 +19,7 @@ func _ready():
 	large_point.set_visible(_is_large) 
 	Server.connect("packet_received", self, "_on_packet_received")
 	
-	var world_tile_map: TileMap = get_node(world_tile_map_path)
+	var world_tile_map = get_node(world_tile_map_container_path).get_child(0)
 	var cells = world_tile_map.get_used_cells()
 	var new_world_tile_map: TileMap = world_tile_map.duplicate(true)
 	new_world_tile_map.collision_layer = 0

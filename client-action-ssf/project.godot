@@ -65,6 +65,7 @@ attack={
 2d_physics/layer_4="wall"
 2d_physics/layer_5="health"
 2d_physics/layer_6="freeableNode"
+2d_physics/layer_7="makeInvisible"
 
 [physics]
 

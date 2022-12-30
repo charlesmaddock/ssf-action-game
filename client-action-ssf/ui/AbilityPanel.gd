@@ -18,6 +18,8 @@ var panel_input_action: String
 var used_ability: bool
 var use_amount: int = UseAmounts.ONCE
 
+var is_my_clients_panel: bool
+
 var ability: int
 var ability_info: Dictionary = {
 	Constants.AbilityEffects.SYSTEM_UPDATE: {
@@ -59,21 +61,25 @@ var ability_info: Dictionary = {
 }
 
 
-func init(ability_type: int, action: String):
-	#$ButtonText.texture = ability_info[ability_type].texture
-	#$ButtonTextPressed.texture = ability_info[ability_type].texture
-	$AbilityName.text = ability_info[ability_type].title
-	input_action = ability_info[ability_type].input_action
-	use_amount = ability_info[ability_type].use_amount
-	ability = ability_type
-	panel_input_action = action
-	
-	if(use_amount == UseAmounts.ONCE):
-		$AbilityName/AmountTip.text = "(one use)"
-	elif(use_amount == UseAmounts.THREE_TIMES):
-		$AbilityName/AmountTip.text = "(three uses)"
-	elif(use_amount == UseAmounts.INFINITE):
-		$AbilityName/AmountTip.text = "(infinite)"
+func init(ability_type: int, action: String, entity_id: String):
+	is_my_clients_panel = Lobby.my_id == entity_id
+	if is_my_clients_panel:
+		#$ButtonText.texture = ability_info[ability_type].texture
+		#$ButtonTextPressed.texture = ability_info[ability_type].texture
+		$AbilityName.text = ability_info[ability_type].title
+		input_action = ability_info[ability_type].input_action
+		use_amount = ability_info[ability_type].use_amount
+		ability = ability_type
+		panel_input_action = action
+		
+		if(use_amount == UseAmounts.ONCE):
+			$AbilityName/AmountTip.text = "(one use)"
+		elif(use_amount == UseAmounts.THREE_TIMES):
+			$AbilityName/AmountTip.text = "(three uses)"
+		elif(use_amount == UseAmounts.INFINITE):
+			$AbilityName/AmountTip.text = "(infinite)"
+	else:
+		set_visible(false)
 
 
 func _ready():
@@ -103,12 +109,12 @@ func try_use_ability(id: String) -> void:
 	if used_ability == false:
 		Server.use_ability(ability, id, get_ability_user_pos())
 		
-		if input_action != "":
+		if input_action != "" && is_my_clients_panel:
 			Input.action_press(input_action)
 
 
 func stop_using_ability() -> void:
-	if input_action != "":
+	if input_action != "" && is_my_clients_panel:
 		Input.action_release(input_action)
 
 

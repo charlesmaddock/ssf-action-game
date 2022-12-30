@@ -14,14 +14,13 @@ func _ready():
 	else:
 		abilities = [Constants.AbilityEffects.SYSTEM_UPDATE, Constants.AbilityEffects.INCOGNITO, Constants.AbilityEffects.VPN]
 	
-	if Lobby.my_id == get_entity_id():
-		var key = 0
-		for ability in abilities:
-			key += 1
-			var ability_button = ability_panel_scene.instance()
-			ability_button.init(ability, "ability_" + str(key))
-			add_child(ability_button)
-			ability_button.set_visible(get_entity_id() == Lobby.my_id)
+	var key = 0
+	for ability in abilities:
+		key += 1
+		var ability_button = ability_panel_scene.instance()
+		ability_button.init(ability, "ability_" + str(key), get_entity_id())
+		add_child(ability_button)
+		ability_button.set_visible(get_entity_id() == Lobby.my_id)
 
 
 func get_entity_id() -> String:
@@ -40,6 +39,7 @@ func _process(delta):
 func _on_try_use_ability(ability: int) -> void:
 	if ability == -1:
 		var unused_ability_panels = []
+		
 		for child in get_children():
 			if child.get_ability_used() == false:
 				unused_ability_panels.append(child)

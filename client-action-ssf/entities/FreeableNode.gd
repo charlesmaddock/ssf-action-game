@@ -43,9 +43,9 @@ func _on_packet_received(packet: Dictionary) -> void:
 func _process(delta):
 	if _freed == false:
 		if _players_nearby.size() > 0:
-			_progress += delta * _players_nearby.size() * 10
+			_progress += delta * _players_nearby.size() * 17
 		elif _progress > 0:
-			_progress -= delta * 15
+			_progress -= delta * 10
 		
 		TextureProgress.value = _progress
 		HackedNodeSprite.modulate = Color.purple.linear_interpolate(Color.white, clamp(_progress / 100, 0, 1 ))

@@ -17,7 +17,7 @@ func _process(delta):
 	var second = (int(timer.time_left) % 60)
 	timeLabel.text = "%02d:%02d" % [minute, second]
 	
-	if timer.time_left < 60 && final_min_played == false:
+	if timer.time_left < 1.5 * 60 && final_min_played == false:
 		final_min_played = true
 		$AnimationPlayer.play("shake")
 		timeLabel.modulate = Color.red

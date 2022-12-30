@@ -25,6 +25,8 @@ var panic_time_length: float = 12
 var panic_timer: float = panic_time_length + 1
 
 
+var _used_abilities: Array = []
+
 func _ready():
 	timer.start()
 	get_parent().connect("damage_taken", self, "_on_damage_taken")
@@ -35,8 +37,7 @@ func _on_damage_taken(_damage, _dir) -> void:
 	if randf() > 0.5:
 		yield(get_tree().create_timer(1.4), "timeout")
 		if Lobby.is_host && time_since_last_ability > 3 && is_dead == false:
-			get_parent().emit_signal("try_use_ability", -1)
-			time_since_last_ability = 0
+			try_use_ability()
 
 
 func _on_player_dead(id) -> void:
@@ -50,6 +51,20 @@ func _physics_process(delta):
 	if Lobby.is_host == true:
 		if path.size() > 0:
 			move_to_target()
+
+
+func try_use_ability() -> void:
+	var abilities = [Constants.AbilityEffects.SYSTEM_UPDATE, Constants.AbilityEffects.INCOGNITO, Constants.AbilityEffects.VPN]
+	var available_abilities = []
+	for ability in abilities:
+		if _used_abilities.find(ability) == -1:
+			available_abilities.append(ability)
+	
+	if available_abilities.size() > 0:
+		var ability_to_use = available_abilities[randi() % available_abilities.size()]
+		_used_abilities.append(ability_to_use)
+		Server.use_ability(ability_to_use, get_parent().get_id(), get_parent().global_position)
+		time_since_last_ability = 0
 
 
 func move_to_target():
@@ -76,8 +91,8 @@ func _on_Timer_timeout():
 			get_target_path(room_point.position)
 	
 	if Lobby.is_host && sees_scammer && randf() > 0.985 && time_since_last_ability > 3 && is_dead == false:
-		get_parent().emit_signal("try_use_ability", -1)
-		time_since_last_ability = 0
+		try_use_ability()
+
 
 
 func run_from_scammer() -> bool:
