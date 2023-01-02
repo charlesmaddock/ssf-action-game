@@ -19,7 +19,7 @@ func _process(delta):
 	
 	Events.emit_signal("time_left", timer.time_left, timer.wait_time)
 	
-	if timer.time_left < 1.5 * 60 && final_min_played == false:
+	if timer.time_left < 1.7 * 60 && final_min_played == false:
 		final_min_played = true
 		$AnimationPlayer.play("shake")
 		timeLabel.modulate = Color.red
