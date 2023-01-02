@@ -11,7 +11,6 @@ var using_teleport_ability: bool = false
 
 var makeInvisibleAreas: Array = []
 
-
 onready var Sprite = $SpriteContainer/Sprite
 
 
@@ -56,6 +55,10 @@ func get_id() -> String:
 
 func get_is_bot() -> bool:
 	return _is_bot
+
+
+func is_hidding_in_invis_areas() -> bool:
+	return makeInvisibleAreas.size() > 0
 
 
 func _on_packet_received(packet: Dictionary) -> void:
@@ -113,14 +116,13 @@ func handle_ability_used(key: int, rand_i) -> void:
 		
 	elif key == Constants.AbilityEffects.INCOGNITO && using_invis_ability == false:
 		disappear()
-		using_invis_ability = true
 		yield(get_tree().create_timer(8), "timeout")
 		appear()
-		using_invis_ability = false
 
 
 func disappear() -> void:
-	if using_invis_ability == false:
+	if is_hidding_in_invis_areas() == false:
+		using_invis_ability = true
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("disappearMyClient")
 		else:
@@ -128,7 +130,8 @@ func disappear() -> void:
 
 
 func appear() -> void:
-	if using_invis_ability == true:
+	if is_hidding_in_invis_areas() == false:
+		using_invis_ability = false
 		if _id == Lobby.my_id:
 			$AnimationPlayer.play("reappearMyClient")
 		else:
@@ -143,5 +146,4 @@ func _on_MakeInvisibilityDetector_area_entered(area):
 
 func _on_MakeInvisibilityDetector_area_exited(area):
 	makeInvisibleAreas.erase(area)
-	if makeInvisibleAreas.size() == 0:
-		appear()
+	appear()

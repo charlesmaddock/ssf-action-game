@@ -19,6 +19,7 @@ onready var gameNode = Util.get_game_node()
 onready var timer = $Timer
 
 
+var _less_than_one_min_left = false
 var path = []
 var threshold = 16
 
@@ -37,6 +38,7 @@ func _ready():
 func _on_one_min_left() -> void:
 	$FOVArea/CollisionShape2D.shape.radius = 500
 	$FOVArea/CollisionShape2D.shape.height = 500
+	_less_than_one_min_left = true
 
 
 func _physics_process(delta):
@@ -59,7 +61,7 @@ func get_closest_player() -> Node2D:
 	
 	for player in players_in_view:
 		var dist = global_position.distance_to(player.global_position)
-		if dist < closest_dist && player.using_invis_ability == false:
+		if dist < closest_dist && (player.using_invis_ability == false || _less_than_one_min_left):
 			closest_dist = dist
 			closest_player = player
 	
@@ -81,7 +83,7 @@ func _on_Timer_timeout():
 	
 	for player in players_in_view:
 		var dist = global_position.distance_to(player.global_position)
-		if dist < closest_dist && player.using_invis_ability == false:
+		if dist < closest_dist && (player.using_invis_ability == false || _less_than_one_min_left):
 			closest_dist = dist
 			closest_player = player
 		

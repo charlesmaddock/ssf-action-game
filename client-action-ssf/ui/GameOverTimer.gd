@@ -1,7 +1,7 @@
 extends Panel
 
 
-onready var timer = $Timer
+onready var timer: Timer = $Timer
 onready var timeLabel = $Time
 
 
@@ -16,6 +16,8 @@ func _process(delta):
 	var minute = timer.time_left / 60
 	var second = (int(timer.time_left) % 60)
 	timeLabel.text = "%02d:%02d" % [minute, second]
+	
+	Events.emit_signal("time_left", timer.time_left, timer.wait_time)
 	
 	if timer.time_left < 1.5 * 60 && final_min_played == false:
 		final_min_played = true

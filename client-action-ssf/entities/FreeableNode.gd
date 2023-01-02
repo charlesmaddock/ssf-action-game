@@ -10,12 +10,15 @@ var _freed: bool = false
 var _players_nearby: Array = []
 var _progress: float = 0
 
+var _save_speed: float = 17
+var _percent_of_time_left: float = 1
 
 onready var node_id = self.name
 
 
 func _ready():
 	Server.connect("packet_received", self, "_on_packet_received")
+	Events.connect("time_left", self, "_on_time_left")
 
 
 func was_first_freer(id: String) -> bool:
@@ -40,10 +43,15 @@ func _on_packet_received(packet: Dictionary) -> void:
 				TextureProgress.value = 100
 
 
+func _on_time_left(seconds_left: float, total_time: float) -> void:
+	_percent_of_time_left = 1 - (seconds_left / total_time)
+
+
 func _process(delta):
 	if _freed == false:
 		if _players_nearby.size() > 0:
-			_progress += delta * _players_nearby.size() * 17
+			print("_percent_of_time_left: ", _percent_of_time_left)
+			_progress += delta * _players_nearby.size() * (_save_speed + (_save_speed * _percent_of_time_left))
 		elif _progress > 0:
 			_progress -= delta * 10
 		
