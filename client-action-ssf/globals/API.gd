@@ -90,8 +90,8 @@ func send_packet(event: String, data: Dictionary = {}, useAccessToken: bool = fa
 	_client.get_peer(1).put_packet(json.to_utf8())
 
 
-func joinWorld() -> void:
-	send_packet(WsEvents.joinWorld, {}, true)
+func joinWorld(requested_spawn_pos: Vector2) -> void:
+	send_packet(WsEvents.joinWorld, {"x": requested_spawn_pos.x, "y": requested_spawn_pos.y}, true)
 
 
 func leave_world() -> void:

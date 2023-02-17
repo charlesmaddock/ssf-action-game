@@ -14,7 +14,10 @@ func _ready():
 func _on_packet_received(event: String, data: Dictionary):
 	match(event):
 		WsEvents.serverMessage:
-			create_console_message(data.text)
+			if data.message is Array:
+				data.message = PoolStringArray(data.message).join(", ")
+			
+			create_console_message(data.message, data.type)
 
 
 func _on_console_message(msg: String, type: int):

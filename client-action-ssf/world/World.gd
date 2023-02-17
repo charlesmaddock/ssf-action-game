@@ -16,7 +16,6 @@ func _ready():
 func _on_packet_received(event: String, data: Dictionary):
 	if event == "compressedChunkData":
 		for chunkData in data.compressedChunkData:
-			print("chunkData: ", chunkData)
 			var chunk = chunk_scene.instance()
 			add_child(chunk)
 			chunk.init(chunkData, resource_scene, WorldYSort)

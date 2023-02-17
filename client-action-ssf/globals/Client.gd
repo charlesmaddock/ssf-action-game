@@ -9,6 +9,9 @@ var _access_token: String = ""
 var _refresh_token: String = ""
 
 
+var requested_spawn_pos: Vector2
+
+
 onready var AccessTokenExpiredCheck: Timer = $AccessTokenExpiredChecker
 onready var RefreshHTTPRequest: CustomHTTPRequest = $RefreshHTTPRequest
 
@@ -22,6 +25,8 @@ func _ready():
 func _on_packet_received(event: String, data: Dictionary):
 	if event == "worldLeft":
 		Events.emit_signal("back_to_main_menu")
+	if event == "worldJoined": 
+		get_tree().change_scene("res://game/Game.tscn")
 
 
 func _on_RefreshHTTPRequest_request_completed(result, response_code, headers, body):

@@ -9,5 +9,5 @@ onready var Entities = $Entities
 
 
 func _ready():
-	API.joinWorld()
+	pass
 
