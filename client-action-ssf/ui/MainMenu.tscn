@@ -2,20 +2,19 @@
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/MainMenu.gd" type="Script" id=2]
-[ext_resource path="res://ui/PlayerInfoPanel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/font/smallFont.tres" type="DynamicFont" id=4]
-[ext_resource path="res://ui/NameInput.gd" type="Script" id=5]
-[ext_resource path="res://assets/font/mediumFont.tres" type="DynamicFont" id=6]
-[ext_resource path="res://assets/sprites/player.png" type="Texture" id=7]
-[ext_resource path="res://assets/sprites/starParticle.png" type="Texture" id=8]
-[ext_resource path="res://assets/sprites/virusParticle.png" type="Texture" id=9]
-[ext_resource path="res://ui/HowToPlayScreen.tscn" type="PackedScene" id=10]
-[ext_resource path="res://ui/JoinDiscord.gd" type="Script" id=11]
+[ext_resource path="res://assets/images/civilization.png" type="Texture" id=3]
+[ext_resource path="res://ui/mainMenu/SelectPlayerPage.gd" type="Script" id=4]
+[ext_resource path="res://assets/font/pangolin/pangolin-lg.tres" type="DynamicFont" id=5]
+[ext_resource path="res://ui/forms/CreateAnAccountForm.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ui/world/WorldMap.tscn" type="PackedScene" id=7]
+[ext_resource path="res://ui/forms/LogInForm.tscn" type="PackedScene" id=8]
+[ext_resource path="res://assets/tiles/tilemap_packed_2.png" type="Texture" id=9]
+[ext_resource path="res://ui/mainMenu/VersionLabel.gd" type="Script" id=10]
+[ext_resource path="res://ui/mainMenu/WorldMapPage.tscn" type="PackedScene" id=11]
 
-[sub_resource type="Curve" id=1]
-min_value = -360.0
-max_value = 360.0
-_data = [ Vector2( 0, -282.162 ), 0.0, 0.0, 0, 0, Vector2( 1, 330.811 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 9 )
+region = Rect2( 0, 128, 16, 16 )
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -27,68 +26,40 @@ script = ExtResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
+[node name="Civilization" type="Sprite" parent="Background"]
+visible = false
+position = Vector2( 504, 299 )
+texture = ExtResource( 3 )
+
 [node name="ColorRect" type="ColorRect" parent="Background"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.54902, 0.768627, 1, 1 )
+color = Color( 1, 0.960784, 0.870588, 1 )
 
-[node name="Players" type="CPUParticles2D" parent="Background"]
-position = Vector2( 85, -30 )
-amount = 4
-lifetime = 14.0
-texture = ExtResource( 7 )
-emission_shape = 2
-emission_rect_extents = Vector2( 400, 1 )
-direction = Vector2( 1, 1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 60.0
-initial_velocity_random = 0.5
-scale_amount = 0.25
+[node name="Version" type="Label" parent="Background"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 44.0
+margin_bottom = 24.0
+custom_colors/font_color = Color( 0.266667, 0.0823529, 0.027451, 1 )
+text = "Indev (v. 0.0.2)"
+script = ExtResource( 10 )
 
-[node name="Players2" type="CPUParticles2D" parent="Background"]
-position = Vector2( 85, -30 )
-lifetime = 14.0
-texture = ExtResource( 8 )
-emission_shape = 2
-emission_rect_extents = Vector2( 400, 1 )
-direction = Vector2( 1, 1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 60.0
-initial_velocity_random = 0.5
-angle_random = 0.6
-angle_curve = SubResource( 1 )
-scale_amount = 0.4
+[node name="Loading" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="Players3" type="CPUParticles2D" parent="Background"]
-position = Vector2( 85, -30 )
-lifetime = 14.0
-texture = ExtResource( 9 )
-emission_shape = 2
-emission_rect_extents = Vector2( 400, 1 )
-direction = Vector2( 1, 1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 60.0
-initial_velocity_random = 0.5
-angle_random = 0.6
-angle_curve = SubResource( 1 )
-scale_amount = 0.4
+[node name="Label" type="Label" parent="Loading"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 0.0470588, 0.368627, 0.27451, 1 )
+text = "Loading..."
+align = 1
+valign = 1
 
 [node name="Welcome" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Welcome"]
-margin_left = 120.0
-margin_top = 14.0
-margin_right = 420.0
-margin_bottom = 27.0
-custom_fonts/font = ExtResource( 6 )
-text = "security SQUAD prototype"
-align = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Welcome"]
 anchor_right = 1.0
@@ -96,328 +67,261 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 52.0
-margin_right = 352.0
-margin_bottom = 300.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
-margin_top = 35.0
-margin_right = 300.0
-margin_bottom = 265.0
-rect_min_size = Vector2( 300, 0 )
-custom_constants/separation = 20
-
-[node name="NameInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_right = 300.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 0, 30 )
-custom_fonts/font = ExtResource( 6 )
-max_length = 30
-placeholder_text = "Your name"
-script = ExtResource( 5 )
-
-[node name="HostButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 50.0
-margin_right = 300.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 0, 30 )
-custom_fonts/font = ExtResource( 6 )
-text = "Host a room"
-
-[node name="FindRoomButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 100.0
-margin_right = 300.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 0, 30 )
-custom_fonts/font = ExtResource( 6 )
-text = "Find and join available room"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 150.0
-margin_right = 300.0
-margin_bottom = 180.0
-mouse_filter = 2
-
-[node name="CodeInput" type="LineEdit" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 200.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 200, 30 )
-custom_fonts/font = ExtResource( 6 )
-max_length = 30
-placeholder_text = "Join with room code"
-
-[node name="JoinButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 204.0
-margin_right = 245.0
-margin_bottom = 30.0
-custom_fonts/font = ExtResource( 6 )
-text = " Join "
-
-[node name="HowToPlay" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/VBoxContainer"]
-margin_top = 200.0
-margin_right = 300.0
-margin_bottom = 230.0
-rect_min_size = Vector2( 0, 30 )
-custom_fonts/font = ExtResource( 6 )
-text = "How To play"
-
-[node name="Control" type="Control" parent="Welcome/HBoxContainer"]
-margin_left = 356.0
-margin_right = 356.0
-margin_bottom = 300.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="Welcome/HBoxContainer"]
-margin_left = 360.0
-margin_right = 460.0
-margin_bottom = 300.0
+margin_left = 312.0
+margin_right = 712.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
 alignment = 1
 
-[node name="Panel" type="Panel" parent="Welcome/HBoxContainer/VBoxContainer2"]
-self_modulate = Color( 1, 1, 1, 0.701961 )
-margin_top = 125.0
-margin_right = 100.0
-margin_bottom = 175.0
-rect_min_size = Vector2( 100, 50 )
+[node name="Panel" type="PanelContainer" parent="Welcome/HBoxContainer/VBoxContainer"]
+margin_top = 201.0
+margin_right = 400.0
+margin_bottom = 398.0
 
-[node name="MarginContainer" type="MarginContainer" parent="Welcome/HBoxContainer/VBoxContainer2/Panel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/margin_right = 6
-custom_constants/margin_top = 6
-custom_constants/margin_left = 6
-custom_constants/margin_bottom = 6
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer"]
-margin_left = 6.0
-margin_top = 6.0
-margin_right = 94.0
-margin_bottom = 44.0
-custom_constants/separation = 8
-alignment = 1
-
-[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer"]
-margin_top = 4.0
-margin_right = 88.0
-margin_bottom = 12.0
-text = "Join our Discord!"
-autowrap = true
-
-[node name="Button" type="Button" parent="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer"]
-margin_top = 20.0
-margin_right = 88.0
-margin_bottom = 33.0
-script = ExtResource( 11 )
-
-[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer/Button"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "Open Discord"
-align = 1
-valign = 1
-
-[node name="ErrorLabel" type="Label" parent="Welcome"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 6.0
-margin_top = -20.0
-margin_right = 185.0
-margin_bottom = 3.0
-custom_colors/font_color = Color( 0.890196, 0.0392157, 0.0392157, 1 )
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Lobby" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Lobby"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Lobby/HBoxContainer"]
-margin_left = 102.0
-margin_right = 410.0
-margin_bottom = 300.0
-custom_constants/separation = 10
-alignment = 1
-
-[node name="BackButtonContainer" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 308.0
-margin_bottom = 18.0
-
-[node name="LeaveButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer/BackButtonContainer"]
-margin_top = -8.0
-margin_right = 72.0
-margin_bottom = 5.0
-text = "< Leave"
-
-[node name="CodeWrapper" type="Control" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 28.0
-margin_right = 308.0
-margin_bottom = 58.0
-rect_min_size = Vector2( 0, 30 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Panel" type="Panel" parent="Lobby/HBoxContainer/VBoxContainer/CodeWrapper"]
-margin_top = 1.0
-margin_right = 308.0
-margin_bottom = 29.0
-
-[node name="CodeLabel" type="RichTextLabel" parent="Lobby/HBoxContainer/VBoxContainer/CodeWrapper"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 11.0
+[node name="MarginContainer" type="MarginContainer" parent="Welcome/HBoxContainer/VBoxContainer/Panel"]
+margin_left = 7.0
 margin_top = 7.0
-margin_right = -198.0
-margin_bottom = -13.0
-rect_min_size = Vector2( 0, 10 )
-rect_scale = Vector2( 3, 3 )
-focus_mode = 2
-custom_colors/default_color = Color( 1, 1, 1, 1 )
-custom_fonts/normal_font = ExtResource( 4 )
-bbcode_enabled = true
-selection_enabled = true
+margin_right = 393.0
+margin_bottom = 190.0
 
-[node name="CopyCodeButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-visible = false
-margin_top = 67.0
-margin_right = 140.0
-margin_bottom = 87.0
-rect_min_size = Vector2( 0, 20 )
-text = "Copy code"
+[node name="VBoxContainer" type="VBoxContainer" parent="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 376.0
+margin_bottom = 173.0
 
-[node name="TeamsContainer" type="HBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 68.0
-margin_right = 308.0
-margin_bottom = 252.0
-custom_constants/separation = 24
-
-[node name="GoodGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
-margin_right = 308.0
-margin_bottom = 184.0
-
-[node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
-visible = false
-margin_right = 308.0
-margin_bottom = 8.0
-text = "Players"
+[node name="Label" type="Label" parent="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+margin_right = 366.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 0.341176, 0.152941, 0.0862745, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "Welcome to Rivernotch!"
 align = 1
 
-[node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys"]
-margin_right = 308.0
-margin_bottom = 184.0
-columns = 3
+[node name="OpenLogInButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 366.0
+margin_bottom = 75.0
+text = "Log In"
 
-[node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+[node name="OpenCreateAccountButton" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 83.0
+margin_right = 366.0
+margin_bottom = 119.0
+text = "Create an Account"
 
-[node name="PlayerInfoPanel2" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 104.0
-margin_right = 204.0
+[node name="OpenWorldMapPage" type="Button" parent="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 127.0
+margin_right = 366.0
+margin_bottom = 163.0
+text = "World Map"
 
-[node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 208.0
-margin_right = 308.0
-
-[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_top = 94.0
-margin_bottom = 184.0
-
-[node name="PlayerInfoPanel5" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 104.0
-margin_top = 94.0
-margin_right = 204.0
-margin_bottom = 184.0
-
-[node name="PlayerInfoPanel6" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/GoodGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 208.0
-margin_top = 94.0
-margin_right = 308.0
-margin_bottom = 184.0
-
-[node name="BadGuys" type="VBoxContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer"]
+[node name="CreateAnAccount" type="Control" parent="."]
 visible = false
-margin_left = 228.0
-margin_right = 432.0
-margin_bottom = 216.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 
-[node name="Label" type="Label" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys"]
-margin_right = 204.0
-margin_bottom = 8.0
-text = "Bad guys"
-align = 1
+[node name="HBoxContainer" type="HBoxContainer" parent="CreateAnAccount"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
 
-[node name="PlayerInfoContainer" type="GridContainer" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys"]
-margin_top = 12.0
-margin_right = 204.0
-margin_bottom = 216.0
-columns = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="CreateAnAccount/HBoxContainer"]
+margin_left = 312.0
+margin_right = 712.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
+alignment = 1
 
-[node name="PlayerInfoPanel" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
+[node name="BackButtonWrapper" type="Control" parent="CreateAnAccount/HBoxContainer/VBoxContainer"]
+margin_top = 203.0
+margin_right = 400.0
+margin_bottom = 203.0
 
-[node name="PlayerInfoPanel2" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 104.0
-margin_right = 204.0
-
-[node name="PlayerInfoPanel3" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_top = 104.0
-margin_bottom = 204.0
-
-[node name="PlayerInfoPanel4" parent="Lobby/HBoxContainer/VBoxContainer/TeamsContainer/BadGuys/PlayerInfoContainer" instance=ExtResource( 3 )]
-margin_left = 104.0
-margin_top = 104.0
-margin_right = 204.0
-margin_bottom = 204.0
-
-[node name="StartButton" type="Button" parent="Lobby/HBoxContainer/VBoxContainer"]
-margin_top = 262.0
-margin_right = 308.0
-margin_bottom = 282.0
-rect_min_size = Vector2( 0, 20 )
-text = "Start Game"
-
-[node name="HowToPlay" type="Control" parent="."]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="IntroScreen" parent="HowToPlay" instance=ExtResource( 10 )]
-anchor_left = 0.0
-anchor_right = 0.0
-margin_left = 39.0
-margin_top = 19.0
-margin_right = 472.0
-margin_bottom = 287.0
-ingame = false
-
-[node name="BackButton" type="Button" parent="HowToPlay"]
-margin_left = 49.0
-margin_top = 29.0
-margin_right = 110.0
-margin_bottom = 42.0
+[node name="CreateAnAccountBackButton" type="Button" parent="CreateAnAccount/HBoxContainer/VBoxContainer/BackButtonWrapper"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 1.0
+margin_top = -30.0
+margin_right = 71.0
+margin_bottom = 6.0
 text = "< Back"
 
-[connection signal="focus_exited" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_focus_exited"]
-[connection signal="text_changed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" to="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/NameInput" method="_on_NameInput_text_changed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HostButton" to="." method="_on_HostButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/FindRoomButton" to="." method="_on_FindRoomButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_JoinButton_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer/VBoxContainer/HowToPlay" to="." method="_on_HowToPlay_pressed"]
-[connection signal="pressed" from="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer/Button" to="Welcome/HBoxContainer/VBoxContainer2/Panel/MarginContainer/VBoxContainer/Button" method="_on_Button_pressed"]
-[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/BackButtonContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
-[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/CopyCodeButton" to="." method="_on_CopyCodeButton_pressed"]
-[connection signal="pressed" from="Lobby/HBoxContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
-[connection signal="pressed" from="HowToPlay/BackButton" to="." method="_on_BackButton_pressed"]
+[node name="CreateAnAccountForm" parent="CreateAnAccount/HBoxContainer/VBoxContainer" instance=ExtResource( 6 )]
+margin_top = 211.0
+margin_bottom = 397.0
+
+[node name="Login" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Login"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Login/HBoxContainer"]
+margin_left = 312.0
+margin_right = 712.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
+alignment = 1
+
+[node name="BackButtonWrapper" type="Control" parent="Login/HBoxContainer/VBoxContainer"]
+margin_top = 203.0
+margin_right = 400.0
+margin_bottom = 203.0
+
+[node name="LogInBackButton" type="Button" parent="Login/HBoxContainer/VBoxContainer/BackButtonWrapper"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 1.0
+margin_top = -31.0
+margin_right = 71.0
+margin_bottom = 5.0
+text = "< Back"
+
+[node name="LogInForm" parent="Login/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+margin_top = 211.0
+margin_bottom = 397.0
+
+[node name="SelectPlayerPage" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectPlayerPage"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectPlayerPage/HBoxContainer"]
+margin_left = 312.0
+margin_right = 712.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
+alignment = 1
+
+[node name="BackButtonWrapper" type="Control" parent="SelectPlayerPage/HBoxContainer/VBoxContainer"]
+margin_top = 123.0
+margin_right = 400.0
+margin_bottom = 123.0
+
+[node name="LogOutButton" type="Button" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/BackButtonWrapper"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 1.0
+margin_top = -30.0
+margin_right = 71.0
+margin_bottom = 6.0
+text = "Log out"
+
+[node name="PlayersDisplay" type="PanelContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer"]
+margin_top = 131.0
+margin_right = 400.0
+margin_bottom = 476.0
+theme = ExtResource( 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 393.0
+margin_bottom = 338.0
+
+[node name="VBox" type="VBoxContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 376.0
+margin_bottom = 321.0
+
+[node name="Name" type="Label" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox"]
+margin_right = 366.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 5 )
+text = "Name"
+
+[node name="CreateNewPlayer" type="Button" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox"]
+margin_top = 39.0
+margin_right = 366.0
+margin_bottom = 75.0
+text = "+ Create new player"
+
+[node name="PlayerContainer" type="PanelContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox"]
+visible = false
+margin_top = 83.0
+margin_right = 366.0
+margin_bottom = 197.0
+
+[node name="MarginContainer" type="MarginContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 359.0
+margin_bottom = 107.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 342.0
+margin_bottom = 90.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer"]
+margin_right = 248.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
+custom_constants/separation = 0
+
+[node name="Desc" type="Label" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+visible = false
+margin_top = 31.0
+margin_right = 248.0
+margin_bottom = 51.0
+
+[node name="Control" type="Control" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 248.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 0, 12 )
+
+[node name="EnterWorldButton" type="Button" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 12.0
+margin_right = 248.0
+margin_bottom = 48.0
+text = "Enter World"
+
+[node name="Control" type="Control" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer"]
+margin_left = 252.0
+margin_right = 332.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+size_flags_horizontal = 3
+
+[node name="Sprite" type="Sprite" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer/Control"]
+position = Vector2( 0, 3 )
+scale = Vector2( 4, 4 )
+texture = SubResource( 1 )
+centered = false
+
+[node name="WorldMapTitle" type="Label" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox"]
+margin_top = 83.0
+margin_right = 366.0
+margin_bottom = 103.0
+text = "World Map"
+
+[node name="WorldMap" parent="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox" instance=ExtResource( 7 )]
+margin_top = 111.0
+margin_right = 366.0
+margin_bottom = 311.0
+
+[node name="WorldMapPage" parent="." instance=ExtResource( 11 )]
+
+[connection signal="button_down" from="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/OpenLogInButton" to="." method="_on_OpenLogInButton_button_down"]
+[connection signal="button_down" from="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/OpenCreateAccountButton" to="." method="_on_OpenCreateAccountButton_button_down"]
+[connection signal="button_down" from="Welcome/HBoxContainer/VBoxContainer/Panel/MarginContainer/VBoxContainer/OpenWorldMapPage" to="." method="_on_OpenWorldMapPage_button_down"]
+[connection signal="pressed" from="CreateAnAccount/HBoxContainer/VBoxContainer/BackButtonWrapper/CreateAnAccountBackButton" to="." method="_on_CreateAnAccountBackButton_pressed"]
+[connection signal="pressed" from="Login/HBoxContainer/VBoxContainer/BackButtonWrapper/LogInBackButton" to="." method="_on_LogInBackButton_pressed"]
+[connection signal="pressed" from="SelectPlayerPage/HBoxContainer/VBoxContainer/BackButtonWrapper/LogOutButton" to="." method="_on_LogOutButton_pressed"]
+[connection signal="button_down" from="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/CreateNewPlayer" to="SelectPlayerPage" method="_on_CreateNewPlayer_button_down"]
+[connection signal="button_down" from="SelectPlayerPage/HBoxContainer/VBoxContainer/PlayersDisplay/MarginContainer/VBox/PlayerContainer/MarginContainer/HBoxContainer/VBoxContainer/EnterWorldButton" to="SelectPlayerPage" method="_on_EnterWorldButton_button_down"]
+[connection signal="back_button_pressed" from="WorldMapPage" to="." method="_on_WorldMapPage_back_button_pressed"]

@@ -1,50 +1,35 @@
 extends Node2D
 
 
-onready var Bar = $Bar
-onready var health: float = Bar.max_value
+onready var Bar: TextureProgress = $Bar
 
 
-var health_for_entity_w_id: String = ""
+var health: float
+var entity_id: String = ""
 var _is_dead: bool
 
 
 func _ready():
-	health_for_entity_w_id = get_parent().get_id()
 	get_parent().connect("take_damage", self, "_on_damage_taken")
-	Server.connect("packet_received", self, "_on_packet_received")
+	API.connect("packet_received", self, "_on_packet_received")
 
 
-func _on_damage_taken(damage, dir: Vector2) -> void:
-	take_damage(damage, dir)
+func init(spawn_entity_dto: Dictionary):
+	if spawn_entity_dto.has("healthComponent"):
+		entity_id = spawn_entity_dto.id
+		Bar.max_value = spawn_entity_dto.healthComponent.maxHealth
+		Bar.value = spawn_entity_dto.healthComponent.health
 
 
-func _on_packet_received(packet: Dictionary) -> void:
-	if packet.type == Constants.PacketTypes.SET_HEALTH:
-		if packet.id == health_for_entity_w_id:
-			health = packet.health
+func _on_packet_received(event: String, data: Dictionary) -> void:
+	if event == WsEvents.setEntityHealth:
+		if data.id == entity_id:
+			health = data.health
 			Bar.value = health
-			var knockback_dir = Vector2(packet.dirX, packet.dirY)
-			get_parent().emit_signal("damage_taken", packet.health, knockback_dir)
+			get_parent().emit_signal("damage_taken", health)
 			if health <= 0 && _is_dead == false:
 				_is_dead = true
 				get_parent().rotation_degrees = 90
 				get_parent().collision_layer = 0
 				
-				var movement_component = get_parent().get_node("Movement")
-				if movement_component != null:
-					movement_component.set_process(false)
-					movement_component.set_physics_process(false)
-				yield(get_tree().create_timer(1.3), "timeout")
-				get_parent().set_visible(false)
-				
 				Events.emit_signal("player_dead", get_parent().get_id())
-
-
-func take_damage(damage: float, dir: Vector2) -> void:
-	if Lobby.is_host == true:
-		Server.set_health(health_for_entity_w_id, health - damage, dir.normalized() * (damage * 25))
-
-
-func _on_DamageArea_area_entered(area):
-		take_damage(area.get_damage(), area.global_position.direction_to(global_position))

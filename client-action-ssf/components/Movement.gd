@@ -2,56 +2,69 @@ extends Node2D
 
 
 export(float) var speed: float = 80.0
+export(NodePath) var movementAnimatorPath
 
 
+onready var MovementAnimator: AnimationPlayer = get_node(movementAnimatorPath)
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
-onready var entity_id = get_parent().get_id()
-onready var spriteContainer = get_parent().get_node("SpriteContainer")
 
 
-var sprite_scale_mult: float = 1
-var target_position: Vector2 = Vector2.ZERO
-var _send_pos_iteration = 0
-var _velocity = Vector2.ZERO
-var _force: Vector2 = Vector2.ZERO
-var _prev_input: Vector2 = Vector2.ZERO
-var _move_dir: Vector2
+var entity_id: String
+var target_position: Vector2
+var _prev_input: Vector2
+var _prev_pos: Vector2
+var is_mine: bool
 
 
 func _ready():
-	Server.connect("packet_received", self, "_on_packet_received")
-	if get_parent().has_signal("damage_taken"):
-		get_parent().connect("damage_taken", self, "_on_take_damage")
+	API.connect("packet_received", self, "_on_packet_received")
+
+
+func init(spawn_entity_dto: Dictionary):
+	entity_id = spawn_entity_dto.id
+	is_mine = Client.is_mine(entity_id)
+	set_process_input(is_mine) 
 	
-	yield(get_tree().create_timer(0.1), "timeout")
-	set_physics_process(false)
-	yield(Events, "cutscene_over")
-	set_physics_process(true)
+	if spawn_entity_dto.has("movementComponent"):
+		var spawn_pos = Vector2(spawn_entity_dto.movementComponent.x, spawn_entity_dto.movementComponent.y)
+		set_pos_directly(spawn_pos)
 
 
-func _on_take_damage(health, dir) -> void:
-	_force += dir 
+func _on_packet_received(event: String, data: Dictionary) -> void:
+	match(event):
+		WsEvents.setEntityPos:
+			if entity_id == data.id:
+				target_position = Vector2(data.x, data.y)
 
 
-func set_speed(speed: float) -> void:
-	speed = speed 
+func _process(delta):
+	get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)
+	
+	var is_moving = _prev_pos.distance_squared_to(get_parent().global_position) > 0.02
+	if is_mine:
+		is_moving = get_input() != Vector2.ZERO
+	
+	if is_moving:
+		if MovementAnimator.current_animation != "jump":
+			MovementAnimator.play("jump")
+	else:
+		if MovementAnimator.current_animation != "idle":
+			MovementAnimator.play("idle")
+	
+	
+	_prev_pos = get_parent().global_position
 
 
-func set_velocity(dir: Vector2) -> void:
-	_velocity = dir
+func set_pos_directly(pos: Vector2):
+	get_parent().global_position = pos
+	target_position = pos
 
 
-func _on_packet_received(packet: Dictionary) -> void:
-	match(packet.type):
-		Constants.PacketTypes.SET_INPUT:
-			if entity_id == packet.id:
-				_velocity = Vector2(packet.x, packet.y).normalized()
-		Constants.PacketTypes.SET_PLAYER_POS:
-			if entity_id == packet.id:
-				# Don't move the host's player if we are the host
-				if Lobby.is_host == true && entity_id == Lobby.my_id:
-					return
-				target_position = Vector2(packet.x, packet.y)
+func _input(event):
+	var input = get_input()
+	if(_prev_input != input):
+		_prev_input = Vector2(input.x, input.y)
+		API.send_input(input)
 
 
 func get_input():
@@ -67,33 +80,3 @@ func get_input():
 		velocity.y -= 1
 	return velocity.normalized() + joy_stick_velocity
 
-
-func _physics_process(delta):
-	_send_pos_iteration += 1
-	
-	if get_parent().get_is_bot() == false:
-		var input = get_input()
-		_velocity = Vector2(input.x, input.y).normalized()
-		#if input != _prev_input:
-		#	Server.send_input(input)
-		#_prev_input = input
-	
-	if (Lobby.is_host && get_parent().get_is_bot() == true) || entity_id == Lobby.my_id:
-		_move_dir = _velocity
-		var vel = get_parent().move_and_slide(_velocity * speed + _force)
-		var entity_id = get_parent().get_id()
-		if _send_pos_iteration % 6 == 0:
-			Server.send_pos(entity_id, global_position + (vel * delta))
-	else:
-		get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)
-		_move_dir = get_parent().global_position.direction_to(target_position)
-		
-		if get_parent().global_position.distance_squared_to(target_position) < 20:
-			_move_dir = Vector2.ZERO
-	
-	if _move_dir != Vector2.ZERO:
-		sprite_scale_mult = -1 if _move_dir.x < 0 else 1
-	
-	spriteContainer.scale = Vector2(sprite_scale_mult, 1)
-	
-	_force /= 1.1

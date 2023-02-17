@@ -1,34 +1,33 @@
-extends YSort
+extends Node2D
 
 
-var mine_scene = preload("res://entities/Mine.tscn")
+export(NodePath) var worldYSortPath
+onready var WorldYSort = get_node(worldYSortPath)
 
 
 func _ready():
-	Server.connect("packet_received", self, "_on_packet_received")
+	API.connect("packet_received", self, "_on_packet_received")
 
 
-func _on_packet_received(packet: Dictionary) -> void:
-	if packet.type == Constants.PacketTypes.SHOOT_PROJECTILE:
-		var spawn_pos = Vector2(packet.posX, packet.posY)
-		var dir = Vector2(packet.dirX, packet.dirY)
-		var projectile_scene = preload("res://entities/Projectile.tscn")
-		var projectile = projectile_scene.instance()
-		add_child(projectile)
-		projectile.fire(spawn_pos, dir)
-	if packet.type == Constants.PacketTypes.ABILITY_USED:
-		var ability: int = int(packet.ability)
-		
-		if ability == Constants.AbilityEffects.MINE:
-			var mine = mine_scene.instance()
-			mine.global_position = Vector2(float(packet.x), float(packet.y)) 
-			add_child(mine)
-		
-		if Constants.ability_effects.has(ability):
-			var scene = Constants.ability_effects[ability]
-			if scene != null:
-				var ability_effect = scene.instance()
-				ability_effect.rand_i = int(packet.randi)
-				ability_effect.global_position = Vector2(float(packet.x), float(packet.y))
-				add_child(ability_effect)
+func _on_packet_received(event: String, data: Dictionary) -> void:
+	match event:
+		WsEvents.spawnEntity:
+			var player_scene = preload("res://entities/Player.tscn")
+			var player = player_scene.instance()
+			add_entity(player)
+			player.set_players_data(data)
+			
+			if data.id == Client.get_my_account().id:
+				Events.emit_signal("follow_w_camera", player)
+			
+		WsEvents.shootProjectile:
+			var spawn_pos = Vector2(data.x, data.y)
+			var dir = Vector2(data.dirX, data.dirY)
+			var projectile_scene = preload("res://entities/Projectile.tscn")
+			var projectile = projectile_scene.instance()
+			add_entity(projectile)
+			projectile.fire(spawn_pos, dir)
 
+
+func add_entity(entity: Node) -> void:
+	WorldYSort.add_child(entity)

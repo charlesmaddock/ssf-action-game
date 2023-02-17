@@ -1,7 +1,16 @@
 extends Node
 
 
-signal error_message(msg)
+signal console_message(msg, type)
+signal show_error_panel(msg)
+
+
+signal authenticated(account)
+signal no_refresh_token()
+signal logged_out()
+signal back_to_main_menu()
+
+
 signal player_dead(id)
 signal game_over() 
 signal game_win(reason)

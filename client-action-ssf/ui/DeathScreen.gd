@@ -10,7 +10,7 @@ func _ready():
 
 
 func _on_player_dead(id) -> void:
-	if id == Lobby.my_id:
+	if id == Account.my_id:
 		set_visible(true)
 		yield(get_tree().create_timer(5), "timeout")
 		set_visible(false)

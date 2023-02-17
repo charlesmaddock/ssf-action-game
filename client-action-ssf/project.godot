@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Account",
+"language": "GDScript",
+"path": "res://classes/auth/Account.gd"
+}, {
+"base": "HTTPRequest",
+"class": "CustomHTTPRequest",
+"language": "GDScript",
+"path": "res://networking/CustomHTTPRequest.gd"
+} ]
+_global_script_class_icons={
+"Account": "",
+"CustomHTTPRequest": ""
+}
+
 [application]
 
 config/name="rivernotch-game"

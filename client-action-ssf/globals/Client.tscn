@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://globals/Client.gd" type="Script" id=1]
+[ext_resource path="res://networking/CustomHTTPRequest.tscn" type="PackedScene" id=2]
+
+[node name="Client" type="Node"]
+script = ExtResource( 1 )
+
+[node name="RefreshHTTPRequest" parent="." instance=ExtResource( 2 )]
+
+[node name="AccessTokenExpiredChecker" type="Timer" parent="."]
+wait_time = 120.0
+autostart = true
+
+[connection signal="request_completed" from="RefreshHTTPRequest" to="." method="_on_RefreshHTTPRequest_request_completed"]
+[connection signal="timeout" from="AccessTokenExpiredChecker" to="." method="_on_AccessTokenExpiredChecker_timeout"]

@@ -1,19 +1,27 @@
 extends CanvasLayer
 
 
-var error_message_scene: PackedScene = preload("res://ui/ErrorMessagePanel.tscn")
+var console_message_scene: PackedScene = preload("res://ui/ConsoleMessagePanel.tscn")
 onready var ConsoleContainer = $ConsoleContainer
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Server.connect("packet_received", self, "_on_packet_received")
+	API.connect("packet_received", self, "_on_packet_received")
+	Events.connect("console_message", self, "_on_console_message")
 
 
-func _on_packet_received(packet: Dictionary):
-	match(packet.type):
-		Constants.PacketTypes.SERVER_MESSAGE:
-			var e = error_message_scene.instance()
-			e.set_text(packet.text)
-			ConsoleContainer.add_child(e)
-	
+func _on_packet_received(event: String, data: Dictionary):
+	match(event):
+		WsEvents.serverMessage:
+			create_console_message(data.text)
+
+
+func _on_console_message(msg: String, type: int):
+	create_console_message(msg, type)
+
+
+func create_console_message(message: String, type: int = Constants.ConsoleMessageTypes.ERROR) -> void:
+		var msg_s = console_message_scene.instance()
+		msg_s.set_text(message, type)
+		ConsoleContainer.add_child(msg_s)
