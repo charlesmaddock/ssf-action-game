@@ -1,7 +1,50 @@
-[gd_resource type="Theme" load_steps=10 format=2]
+[gd_resource type="Theme" load_steps=15 format=2]
 
 [ext_resource path="res://assets/font/averia/averia-regular.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/ui/uipack_rpg_sheet.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxTexture" id=26]
+texture = ExtResource( 2 )
+region_rect = Rect2( 293, 343, 45, 49 )
+margin_left = 8.0
+margin_right = 8.0
+margin_top = 7.0
+margin_bottom = 12.0
+modulate_color = Color( 0.584314, 0.584314, 0.584314, 1 )
+
+[sub_resource type="StyleBoxTexture" id=27]
+texture = ExtResource( 2 )
+region_rect = Rect2( 293, 343, 45, 49 )
+margin_left = 8.0
+margin_right = 8.0
+margin_top = 7.0
+margin_bottom = 12.0
+modulate_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+
+[sub_resource type="StyleBoxTexture" id=28]
+texture = ExtResource( 2 )
+region_rect = Rect2( 293, 343, 45, 49 )
+margin_left = 8.0
+margin_right = 8.0
+margin_top = 7.0
+margin_bottom = 12.0
+modulate_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+
+[sub_resource type="StyleBoxTexture" id=24]
+texture = ExtResource( 2 )
+region_rect = Rect2( 293, 343, 45, 49 )
+margin_left = 8.0
+margin_right = 8.0
+margin_top = 7.0
+margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id=25]
+texture = ExtResource( 2 )
+region_rect = Rect2( 293, 392, 45, 45 )
+margin_left = 8.0
+margin_right = 8.0
+margin_top = 7.0
+margin_bottom = 7.0
 
 [sub_resource type="StyleBoxTexture" id=23]
 content_margin_left = 7.0
@@ -39,6 +82,11 @@ Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = ExtResource( 1 )
+Button/styles/disabled = SubResource( 26 )
+Button/styles/focus = SubResource( 27 )
+Button/styles/hover = SubResource( 28 )
+Button/styles/normal = SubResource( 24 )
+Button/styles/pressed = SubResource( 25 )
 CheckButton/fonts/font = null
 Label/colors/font_color = Color( 1, 1, 1, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
