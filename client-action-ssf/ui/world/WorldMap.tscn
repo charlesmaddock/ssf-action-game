@@ -15,43 +15,51 @@ script = ExtResource( 3 )
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 407.0
-margin_bottom = 282.0
+margin_right = 435.0
+margin_bottom = 325.0
 rect_min_size = Vector2( 400, 0 )
 
 [node name="Label" type="Label" parent="VBox"]
-margin_right = 400.0
+margin_right = 428.0
 margin_bottom = 20.0
 custom_colors/font_color = Color( 0.329412, 0.239216, 0.0666667, 1 )
 text = "World Map"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBox"]
+[node name="HBoxContainer" type="GridContainer" parent="VBox"]
 margin_top = 28.0
-margin_right = 400.0
-margin_bottom = 67.0
+margin_right = 428.0
+margin_bottom = 110.0
+columns = 3
 
 [node name="ShowHeatCheckBox" type="CheckBox" parent="VBox/HBoxContainer"]
-margin_right = 108.0
+margin_right = 136.0
 margin_bottom = 39.0
 text = "Show Heat"
 
 [node name="ShowFertilityCheckBox" type="CheckBox" parent="VBox/HBoxContainer"]
-margin_left = 112.0
-margin_right = 276.0
+margin_left = 140.0
+margin_right = 304.0
 margin_bottom = 39.0
 text = "Show Soil Fertility"
 
 [node name="ShowHeightCheckBox" type="CheckBox" parent="VBox/HBoxContainer"]
-margin_left = 280.0
-margin_right = 400.0
+margin_left = 308.0
+margin_right = 428.0
 margin_bottom = 39.0
 pressed = true
 text = "Show Height"
 
+[node name="ShowMoistureCheckBox" type="CheckBox" parent="VBox/HBoxContainer"]
+margin_top = 43.0
+margin_right = 136.0
+margin_bottom = 82.0
+pressed = true
+text = "Show Moisture"
+
 [node name="WorldMapSprite" type="TextureRect" parent="VBox"]
-margin_top = 75.0
-margin_right = 400.0
-margin_bottom = 275.0
+margin_top = 118.0
+margin_right = 428.0
+margin_bottom = 318.0
 rect_min_size = Vector2( 400, 200 )
 expand = true
 stretch_mode = 7
@@ -78,3 +86,4 @@ custom_colors/font_color = Color( 1, 0.964706, 0.894118, 1 )
 [connection signal="toggled" from="VBox/HBoxContainer/ShowHeatCheckBox" to="." method="_on_ShowHeatCheckBox_toggled"]
 [connection signal="toggled" from="VBox/HBoxContainer/ShowFertilityCheckBox" to="." method="_on_ShowFertilityCheckBox_toggled"]
 [connection signal="toggled" from="VBox/HBoxContainer/ShowHeightCheckBox" to="." method="_on_ShowHeightCheckBox_toggled"]
+[connection signal="toggled" from="VBox/HBoxContainer/ShowMoistureCheckBox" to="." method="_on_ShowHeightCheckBox2_toggled"]

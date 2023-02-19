@@ -10,6 +10,7 @@ onready var EastLabel: Label = $VBox/WorldMapSprite/PosLabels/East
 onready var ShowHeatCheckBox = $VBox/HBoxContainer/ShowHeatCheckBox
 onready var ShowFertilityCheckBox = $VBox/HBoxContainer/ShowFertilityCheckBox
 onready var ShowHeightCheckBox = $VBox/HBoxContainer/ShowHeightCheckBox
+onready var ShowMoistureCheckBox = $VBox/HBoxContainer/ShowMoistureCheckBox
 
 
 var _world_map: Dictionary = {}
@@ -46,6 +47,7 @@ func draw_map_on_sprite(worldMap: Dictionary) -> void:
 		var heat_map: Array = noise_map_data.chunkNoiseMaps.heat
 		var fertility_map: Array = noise_map_data.chunkNoiseMaps.fertility
 		var height_map: Array = noise_map_data.chunkNoiseMaps.height
+		var moisture_map: Array = noise_map_data.chunkNoiseMaps.moisture
 		
 		var noise_map_size = heat_map.size()
 		for x in noise_map_size:
@@ -63,6 +65,9 @@ func draw_map_on_sprite(worldMap: Dictionary) -> void:
 				if height_value == 0:
 					fertility_color = Color(0,0,0,0)
 				
+				var moisture_value = moisture_map[x][y]
+				var moisture_color: Color = Color(0, 0, moisture_value, 0.2) 
+				
 				var combined_color: Color 
 				if ShowHeatCheckBox.pressed:
 					combined_color += heat_color
@@ -70,6 +75,8 @@ func draw_map_on_sprite(worldMap: Dictionary) -> void:
 					combined_color += fertility_color
 				if ShowHeightCheckBox.pressed:
 					combined_color += height_color
+				if ShowMoistureCheckBox.pressed:
+					combined_color += moisture_color
 				
 				image.set_pixel(x + noise_map_pos.x, y + noise_map_pos.y, combined_color)
 	
@@ -91,4 +98,8 @@ func _on_ShowFertilityCheckBox_toggled(button_pressed):
 
 
 func _on_ShowHeightCheckBox_toggled(button_pressed):
+	draw_map_on_sprite(_world_map)
+
+
+func _on_ShowHeightCheckBox2_toggled(button_pressed):
 	draw_map_on_sprite(_world_map)
