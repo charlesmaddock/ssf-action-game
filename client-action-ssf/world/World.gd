@@ -15,7 +15,15 @@ func _ready():
 
 func _on_packet_received(event: String, data: Dictionary):
 	if event == "compressedChunkData":
+		for missingChunkId in data.missingChunks:
+			for chunk_scene in get_children():
+				if chunk_scene.chunk_id == missingChunkId:
+					chunk_scene.deactive()
 		for chunkData in data.compressedChunkData:
+			for chunk_scene in get_children():
+				if chunk_scene.chunk_id == chunkData.id:
+					chunk_scene.init(chunkData, resource_scene, WorldYSort)
+					continue
 			var chunk = chunk_scene.instance()
 			add_child(chunk)
 			chunk.init(chunkData, resource_scene, WorldYSort)

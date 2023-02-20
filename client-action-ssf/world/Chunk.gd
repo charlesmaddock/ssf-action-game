@@ -9,6 +9,8 @@ enum TileType {
   WATER,
 }
 
+var chunk_id: int 
+
 func get_tile_map_index_from_type(tile_type: int) -> Array:
 	match(tile_type):
 		TileType.GRASS:
@@ -23,9 +25,12 @@ func get_tile_map_index_from_type(tile_type: int) -> Array:
 			return [3]
 	return [7]
 
+
 func init(chunk_data: Dictionary, resource_scene: PackedScene, WorldYSort: YSort): 
+	modulate = Color.white
 	global_position = Vector2(chunk_data.globalPosX, chunk_data.globalPosY)
 	
+	chunk_id = chunk_data.id
 	var iterated_tile = Vector2(0,0)
 	
 	for compressed_tile_data in chunk_data.tiles:
@@ -43,3 +48,8 @@ func init(chunk_data: Dictionary, resource_scene: PackedScene, WorldYSort: YSort
 		var resource = resource_scene.instance()
 		WorldYSort.add_child(resource)
 		resource.init(resource_data)
+
+
+func deactive():
+	#modulate = Color.lightblue
+	pass

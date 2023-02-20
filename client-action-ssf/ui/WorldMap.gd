@@ -56,12 +56,12 @@ func draw_map_on_sprite(worldMap: Dictionary) -> void:
 				var heat_color: Color = Color(0.7 * heat_map[x][y], 0.3* heat_map[x][y], 1 * (0.5 - heat_map[x][y]), 0.01)
 				
 				var height_value = height_map[x][y]
-				var height_color: Color = Color(0,0,0,0)
+				var height_color: Color = Color(height_value/2,height_value/2,height_value/2,0)
 				if height_value == 0:
 					height_color = WATER_COLOR
 				
 				var fertility_value = fertility_map[x][y]
-				var fertility_color: Color = Color(0.7 - fertility_value, 0.8, 0, 0.1) 
+				var fertility_color: Color = Color((0.7 - fertility_value) / 2, 0.4, 0, 0.1) 
 				if height_value == 0:
 					fertility_color = Color(0,0,0,0)
 				

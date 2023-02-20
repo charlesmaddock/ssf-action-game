@@ -40,3 +40,4 @@ func set_players_data(spawn_entity_dto: Dictionary) -> void:
 	
 	get_node("Movement").init(spawn_entity_dto)
 	get_node("Health").init(spawn_entity_dto)
+

@@ -15,4 +15,5 @@ func _on_show_error_panel(msg: String):
 
 
 func _on_Button_pressed():
+	get_child(0).set_visible(false)
 	Events.emit_signal("back_to_main_menu")

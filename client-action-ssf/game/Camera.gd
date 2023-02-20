@@ -13,6 +13,22 @@ var target_zoom: Vector2 = Vector2.ONE
 
 func _ready():
 	Events.connect("follow_w_camera", self, "_on_follow_w_camera")
+	Events.connect("zoom_out_button_pressed", self, "_on_zoom_out_button_pressed")
+	Events.connect("zoom_in_button_pressed", self, "_on_zoom_in_button_pressed")
+
+
+func _on_zoom_out_button_pressed() -> void:
+	target_zoom += Vector2.ONE * 0.9
+	
+	if target_zoom.x > MAX_ZOOM:
+		target_zoom = Vector2.ONE * MAX_ZOOM
+
+
+func _on_zoom_in_button_pressed() -> void:
+	target_zoom -= Vector2.ONE  * 0.9
+	
+	if target_zoom.x < MIN_ZOOM:
+		target_zoom = Vector2.ONE * MIN_ZOOM
 
 
 func _on_follow_w_camera(node: Node2D) -> void:
@@ -22,12 +38,12 @@ func _on_follow_w_camera(node: Node2D) -> void:
 
 func _input(event):
 	if event is InputEventPanGesture:
-		zoom += (Vector2.ONE * event.delta.y / 3)
+		target_zoom += (Vector2.ONE * event.delta.y / 3)
 	
-	if zoom.x > MAX_ZOOM:
-		zoom = Vector2.ONE * MAX_ZOOM
-	elif zoom.x < MIN_ZOOM:
-		zoom = Vector2.ONE * MIN_ZOOM
+	if target_zoom.x > MAX_ZOOM:
+		target_zoom = Vector2.ONE * MAX_ZOOM
+	elif target_zoom.x < MIN_ZOOM:
+		target_zoom = Vector2.ONE * MIN_ZOOM
 
 
 func _process(delta):
@@ -38,6 +54,8 @@ func _process(delta):
 		
 		position = position.linear_interpolate(follow.global_position + (dir * 40) + Vector2.UP * 8, delta * 4)
 		follow_prev_pos = follow.global_position
+		
+		zoom = zoom.linear_interpolate(target_zoom, delta * 10)
 		
 		if follow.global_position.distance_squared_to(global_position) > 1000:
 			position = follow.global_position

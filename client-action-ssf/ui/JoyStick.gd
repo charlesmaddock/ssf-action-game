@@ -15,10 +15,10 @@ var _touch_index: int = -1
 
 
 func _ready():
+	position = Vector2.ONE * 90000
 	var is_mobile = Util.is_mobile()
 	yield(get_tree(), "idle_frame")
 	var use_joy_stick = is_mobile && get_node(movement_path).entity_id == Client.get_my_account().id
-	position = Vector2.ONE * 90000
 	set_physics_process(use_joy_stick)
 	set_process_unhandled_input(use_joy_stick)
 	yield(Events, "cutscene_over")
@@ -30,7 +30,6 @@ func _unhandled_input(event):
 	if event is InputEventScreenTouch && _touch_index == -1:
 		TipPanel.set_visible(false)
 		_touch_index = event.get_index()
-		
 
 
 func _input(event):

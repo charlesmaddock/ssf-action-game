@@ -24,7 +24,7 @@ func _ready():
 
 func _error():
 	print("Error connecting")
-	Events.emit_signal("console_message", "An error occured when trying to connect to the world. Try joining again later.", Constants.ConsoleMessageTypes.ERROR)
+	Events.emit_signal("show_error_panel", "Couldn't connect to the server.")
 
 
 func _request_close(code: int, reason: String):
@@ -100,3 +100,7 @@ func leave_world() -> void:
 
 func send_input(input_vec: Vector2) -> void:
 	send_packet(WsEvents.setMoveInput, {"x": input_vec.x, "y": input_vec.y}, true)
+
+
+func send_chat(text: String) -> void:
+	send_packet(WsEvents.sendChat, {"text": text}, true)

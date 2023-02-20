@@ -20,3 +20,8 @@ signal cutscene_over()
 signal follow_w_camera(follow)
 signal one_min_left()
 signal time_left(seconds_left, total_timer)
+
+
+signal chat_button_pressed()
+signal zoom_out_button_pressed()
+signal zoom_in_button_pressed()

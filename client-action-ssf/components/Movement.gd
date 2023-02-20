@@ -2,10 +2,10 @@ extends Node2D
 
 
 export(float) var speed: float = 80.0
-export(NodePath) var movementAnimatorPath
+export(NodePath) var spriteContainerPath
 
 
-onready var MovementAnimator: AnimationPlayer = get_node(movementAnimatorPath)
+onready var spriteContainer: SpriteContainer = get_node(spriteContainerPath)
 onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 
 
@@ -37,6 +37,10 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 				target_position = Vector2(data.x, data.y)
 
 
+func in_gameplay_mode() -> bool:
+	return Client.ui_interaction_mode == Client.UIInteractionModes.GAMEPLAY
+
+
 func _process(delta):
 	get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)
 	
@@ -45,12 +49,9 @@ func _process(delta):
 		is_moving = get_input() != Vector2.ZERO
 	
 	if is_moving:
-		if MovementAnimator.current_animation != "jump":
-			MovementAnimator.play("jump")
+		spriteContainer.play_move_anim()
 	else:
-		if MovementAnimator.current_animation != "idle":
-			MovementAnimator.play("idle")
-	
+		spriteContainer.play_idle()
 	
 	_prev_pos = get_parent().global_position
 
@@ -62,7 +63,11 @@ func set_pos_directly(pos: Vector2):
 
 func _input(event):
 	var input = get_input()
-	if(_prev_input != input):
+	
+	if Input.is_action_just_pressed("open_chat"):
+		API.send_input(Vector2(0, 0))
+	
+	if _prev_input != input && in_gameplay_mode():
 		_prev_input = Vector2(input.x, input.y)
 		API.send_input(input)
 

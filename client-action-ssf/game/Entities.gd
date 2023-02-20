@@ -20,6 +20,9 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 			if data.id == Client.get_my_account().id:
 				Events.emit_signal("follow_w_camera", player)
 			
+		WsEvents.despawnEntity:
+			remove_entity_w_id(data.id)
+		
 		WsEvents.shootProjectile:
 			var spawn_pos = Vector2(data.x, data.y)
 			var dir = Vector2(data.dirX, data.dirY)
@@ -31,3 +34,10 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 
 func add_entity(entity: Node) -> void:
 	WorldYSort.add_child(entity)
+
+
+func remove_entity_w_id(id: String) -> void:
+	for entity in WorldYSort.get_children():
+		if entity.has_method("get_id"):
+			if entity.get_id() == id:
+				entity.queue_free()

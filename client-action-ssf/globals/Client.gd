@@ -1,6 +1,12 @@
 extends Node
 
 
+enum UIInteractionModes {
+	UI,
+	GAMEPLAY
+}
+
+
 const SAVE_PATH = "user://client_data.json"
 
 
@@ -10,6 +16,7 @@ var _refresh_token: String = ""
 
 
 var requested_spawn_pos: Vector2
+var ui_interaction_mode: int
 
 
 onready var AccessTokenExpiredCheck: Timer = $AccessTokenExpiredChecker
@@ -59,6 +66,10 @@ func get_access_token() -> String:
 
 func get_my_account() -> Account:
 	return _my_account
+
+
+func set_ui_interaction_mode(interaction_mode):
+	ui_interaction_mode = interaction_mode
 
 
 func is_mine(id: String) -> bool:

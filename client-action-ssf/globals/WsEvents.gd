@@ -6,6 +6,7 @@ var setMoveInput: String = "setMoveInput"
 var joinWorld: String = "joinWorld"
 var leaveWorld: String = "leaveWorld"
 var shootProjectile: String = "shootProjectile"
+var sendChat: String = "sendChat"
 
 # From API
 var connected: String = "connected"
@@ -17,3 +18,4 @@ var setEntityPos: String = "setEntityPos"
 var setEntityHealth: String = "setEntityHealth"
 var spawnProjectile: String = "spawnProjectile"
 var compressedChunkData: String = "compressedChunkData"
+var chatMessage: String = "chatMessage"
