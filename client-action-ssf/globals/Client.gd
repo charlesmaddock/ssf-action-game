@@ -15,6 +15,7 @@ var _access_token: String = ""
 var _refresh_token: String = ""
 
 
+var dev_tools_on: bool = false
 var requested_spawn_pos: Vector2
 var ui_interaction_mode: int
 
@@ -66,6 +67,10 @@ func get_access_token() -> String:
 
 func get_my_account() -> Account:
 	return _my_account
+
+
+func get_my_player():
+	return get_tree().get_root().get_node("Game/Entities").get_my_entity()
 
 
 func set_ui_interaction_mode(interaction_mode):

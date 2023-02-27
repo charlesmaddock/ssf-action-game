@@ -8,13 +8,23 @@ var water_colliders = []
 var in_water = false
 
 
+func _ready():
+	API.connect("packet_received", self, "_on_packet_received")
+
+
+func _on_packet_received(event: String, data: Dictionary) -> void:
+	if event == "harvestedItem":
+		if get_parent().get_id() == Client.get_my_account().id:
+			MovementAnimator.play("itemSlash")
+
+
 func check_if_in_water():
 	in_water = water_colliders.size() > 0
 	Water.visible = in_water
 
 
 func play_idle():
-	if MovementAnimator.current_animation != "idle":
+	if MovementAnimator.current_animation != "idle" && MovementAnimator.current_animation != "itemSlash":
 		MovementAnimator.play("idle")
 
 

@@ -18,7 +18,7 @@ func _on_authenticated(account: Account) -> void:
 
 func _on_EnterWorldButton_button_down():
 	var requested_spawn_pos = Vector2(int(SpawnEastLineEdit.text), int(SpawnNorthLineEdit.text))
-	API.joinWorld(requested_spawn_pos)
+	API.requestSpawnPlayer(requested_spawn_pos)
 
 
 func _on_CreateNewPlayer_button_down():

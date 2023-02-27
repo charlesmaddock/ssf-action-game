@@ -90,8 +90,12 @@ func send_packet(event: String, data: Dictionary = {}, useAccessToken: bool = fa
 	_client.get_peer(1).put_packet(json.to_utf8())
 
 
-func joinWorld(requested_spawn_pos: Vector2) -> void:
-	send_packet(WsEvents.joinWorld, {"x": requested_spawn_pos.x, "y": requested_spawn_pos.y}, true)
+func requestSpawnPlayer(requested_spawn_pos: Vector2) -> void:
+	send_packet(WsEvents.requestSpawnPlayer, {"x": requested_spawn_pos.x, "y": requested_spawn_pos.y}, true)
+
+
+func request_load_world() -> void:
+	send_packet(WsEvents.requestLoadWorld, {}, true)
 
 
 func leave_world() -> void:
@@ -104,3 +108,12 @@ func send_input(input_vec: Vector2) -> void:
 
 func send_chat(text: String) -> void:
 	send_packet(WsEvents.sendChat, {"text": text}, true)
+
+
+func request_harvest(id: String) -> void:
+	send_packet(WsEvents.harvest, {"resourceId": id}, true)
+
+
+func request_attack(id: String = "") -> void:
+	send_packet(WsEvents.attack)
+	pass

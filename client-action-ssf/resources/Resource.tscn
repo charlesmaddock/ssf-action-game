@@ -1,39 +1,45 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://resources/Resource.gd" type="Script" id=1]
-[ext_resource path="res://assets/tiles/tilemap_packed.png" type="Texture" id=2]
+[ext_resource path="res://components/ActionIndicationArea.gd" type="Script" id=2]
+[ext_resource path="res://assets/tiles/simpleTilemap.png" type="Texture" id=3]
+[ext_resource path="res://item/HarvestedItem.gd" type="Script" id=4]
+[ext_resource path="res://assets/sprites/log.png" type="Texture" id=5]
 
-[sub_resource type="StreamTexture" id=3]
-load_path = "res://.import/tilemap_packed.png-cd6ea3680ceffb2fc485d5a1f03a5113.stex"
+[sub_resource type="Curve" id=6]
+min_value = -1.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.164474, -0.945946 ), 0.0, 0.0, 0, 0, Vector2( 0.279605, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.467105, -0.468468 ), 0.0, 0.0, 0, 0, Vector2( 0.588816, 0.288288 ), 0.0, 0.0, 0, 0, Vector2( 0.743421, -0.162162 ), 0.0, 0.0, 0, 0, Vector2( 0.878289, 0.243243 ), 0.057057, 0.0, 0, 0, Vector2( 1, -0.117117 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="AtlasTexture" id=2]
-atlas = SubResource( 3 )
-region = Rect2( 80, 32, 16, 16 )
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 32, 16, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 2 )
-region = Rect2( 64, 0, 16, 32 )
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 64, 64 )
 
-[node name="Resource" type="Node2D"]
+[node name="Resource" type="YSort"]
 script = ExtResource( 1 )
+shake_curve = SubResource( 6 )
 
-[node name="Bush" type="Sprite" parent="."]
+[node name="ColliderPreview" type="Sprite" parent="."]
 visible = false
-position = Vector2( -8, -16 )
-texture = SubResource( 2 )
-centered = false
-region_rect = Rect2( 64, 0, 16, 32 )
+position = Vector2( 24, 24 )
+scale = Vector2( 3, 3 )
+texture = SubResource( 4 )
 
-[node name="Tree" type="Sprite" parent="."]
-visible = false
-position = Vector2( -8, -31 )
-texture = SubResource( 1 )
-centered = false
-region_rect = Rect2( 64, 0, 16, 32 )
+[node name="ActionIndicationArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 2 )
 
-[node name="Mushroom" type="Sprite" parent="."]
-visible = false
-position = Vector2( -8, -13 )
-texture = SubResource( 2 )
-centered = false
-region_rect = Rect2( 64, 0, 16, 32 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionIndicationArea"]
+position = Vector2( 48, 48 )
+shape = SubResource( 5 )
+
+[node name="HarvestedItem" type="Sprite" parent="."]
+z_index = 1
+texture = ExtResource( 5 )
+script = ExtResource( 4 )
+
+[connection signal="mouse_entered" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_entered"]
+[connection signal="mouse_exited" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_exited"]

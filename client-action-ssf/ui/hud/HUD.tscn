@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/ui/buttons/zoomInButton.png" type="Texture" id=1]
 [ext_resource path="res://assets/ui/buttons/chatButton.png" type="Texture" id=2]
 [ext_resource path="res://assets/ui/buttons/zoomOutButton.png" type="Texture" id=3]
 [ext_resource path="res://ui/hud/HUD.gd" type="Script" id=4]
+[ext_resource path="res://ui/inventory/Inventory.gd" type="Script" id=5]
+[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=6]
+[ext_resource path="res://ui/inventory/ItemSlot.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/font/pangolin/pangolin-lg.tres" type="DynamicFont" id=8]
+[ext_resource path="res://ui/crafting/CraftingContainer.gd" type="Script" id=9]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 4 )
@@ -32,6 +37,271 @@ margin_left = 72.0
 margin_right = 104.0
 margin_bottom = 40.0
 texture_normal = ExtResource( 3 )
+
+[node name="Inventory" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 6 )
+script = ExtResource( 5 )
+
+[node name="InventoryBackdrop" type="ColorRect" parent="Inventory"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 0.196078 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Inventory"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/HBoxContainer"]
+margin_left = 311.0
+margin_right = 713.0
+margin_bottom = 600.0
+mouse_filter = 2
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Inventory/HBoxContainer/VBoxContainer"]
+margin_top = 170.0
+margin_right = 402.0
+margin_bottom = 429.0
+rect_min_size = Vector2( 400, 0 )
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 395.0
+margin_bottom = 252.0
+mouse_filter = 2
+
+[node name="UpperInventory" type="HBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+margin_right = 388.0
+margin_bottom = 45.0
+mouse_filter = 2
+alignment = 2
+
+[node name="CraftingContainer" type="HBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory"]
+margin_left = 193.0
+margin_right = 388.0
+margin_bottom = 45.0
+mouse_filter = 2
+custom_constants/separation = 8
+script = ExtResource( 9 )
+
+[node name="Ingredient1ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
+margin_right = 45.0
+is_crafting_slot = true
+
+[node name="Plus" type="Label" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
+margin_left = 53.0
+margin_top = 7.0
+margin_right = 67.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 0.564706, 0.380392, 0.231373, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "+"
+
+[node name="Ingredient2ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
+margin_left = 75.0
+margin_right = 120.0
+is_crafting_slot = true
+
+[node name="Equals" type="Label" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
+margin_left = 128.0
+margin_top = 7.0
+margin_right = 142.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 0.564706, 0.380392, 0.231373, 1 )
+custom_fonts/font = ExtResource( 8 )
+text = "="
+
+[node name="ResultItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
+margin_left = 150.0
+margin_right = 195.0
+is_crafting_result = true
+
+[node name="ItemsGrid" type="GridContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+margin_top = 53.0
+margin_right = 388.0
+margin_bottom = 245.0
+mouse_filter = 2
+columns = 8
+
+[node name="ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_right = 45.0
+
+[node name="ItemSlot2" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 49.0
+margin_right = 94.0
+
+[node name="ItemSlot3" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 98.0
+margin_right = 143.0
+
+[node name="ItemSlot4" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 147.0
+margin_right = 192.0
+
+[node name="ItemSlot5" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 196.0
+margin_right = 241.0
+
+[node name="ItemSlot6" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 245.0
+margin_right = 290.0
+
+[node name="ItemSlot7" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 294.0
+margin_right = 339.0
+
+[node name="ItemSlot8" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 343.0
+margin_right = 388.0
+
+[node name="ItemSlot9" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_top = 49.0
+margin_right = 45.0
+margin_bottom = 94.0
+
+[node name="ItemSlot10" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 49.0
+margin_top = 49.0
+margin_right = 94.0
+margin_bottom = 94.0
+
+[node name="ItemSlot11" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 98.0
+margin_top = 49.0
+margin_right = 143.0
+margin_bottom = 94.0
+
+[node name="ItemSlot12" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 147.0
+margin_top = 49.0
+margin_right = 192.0
+margin_bottom = 94.0
+
+[node name="ItemSlot13" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 196.0
+margin_top = 49.0
+margin_right = 241.0
+margin_bottom = 94.0
+
+[node name="ItemSlot14" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 245.0
+margin_top = 49.0
+margin_right = 290.0
+margin_bottom = 94.0
+
+[node name="ItemSlot15" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 294.0
+margin_top = 49.0
+margin_right = 339.0
+margin_bottom = 94.0
+
+[node name="ItemSlot16" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 343.0
+margin_top = 49.0
+margin_right = 388.0
+margin_bottom = 94.0
+
+[node name="ItemSlot17" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_top = 98.0
+margin_right = 45.0
+margin_bottom = 143.0
+
+[node name="ItemSlot18" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 49.0
+margin_top = 98.0
+margin_right = 94.0
+margin_bottom = 143.0
+
+[node name="ItemSlot19" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 98.0
+margin_top = 98.0
+margin_right = 143.0
+margin_bottom = 143.0
+
+[node name="ItemSlot20" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 147.0
+margin_top = 98.0
+margin_right = 192.0
+margin_bottom = 143.0
+
+[node name="ItemSlot21" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 196.0
+margin_top = 98.0
+margin_right = 241.0
+margin_bottom = 143.0
+
+[node name="ItemSlot22" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 245.0
+margin_top = 98.0
+margin_right = 290.0
+margin_bottom = 143.0
+
+[node name="ItemSlot23" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 294.0
+margin_top = 98.0
+margin_right = 339.0
+margin_bottom = 143.0
+
+[node name="ItemSlot24" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 343.0
+margin_top = 98.0
+margin_right = 388.0
+margin_bottom = 143.0
+
+[node name="ItemSlot25" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_top = 147.0
+margin_right = 45.0
+margin_bottom = 192.0
+
+[node name="ItemSlot26" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 49.0
+margin_top = 147.0
+margin_right = 94.0
+margin_bottom = 192.0
+
+[node name="ItemSlot27" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 98.0
+margin_top = 147.0
+margin_right = 143.0
+margin_bottom = 192.0
+
+[node name="ItemSlot28" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 147.0
+margin_top = 147.0
+margin_right = 192.0
+margin_bottom = 192.0
+
+[node name="ItemSlot29" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 196.0
+margin_top = 147.0
+margin_right = 241.0
+margin_bottom = 192.0
+
+[node name="ItemSlot30" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 245.0
+margin_top = 147.0
+margin_right = 290.0
+margin_bottom = 192.0
+
+[node name="ItemSlot31" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 294.0
+margin_top = 147.0
+margin_right = 339.0
+margin_bottom = 192.0
+
+[node name="ItemSlot32" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/ItemsGrid" instance=ExtResource( 7 )]
+margin_left = 343.0
+margin_top = 147.0
+margin_right = 388.0
+margin_bottom = 192.0
 
 [connection signal="pressed" from="HBoxContainer/ChatButton" to="." method="_on_ChatButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/ZoomInButton" to="." method="_on_ZoomInButton_pressed"]

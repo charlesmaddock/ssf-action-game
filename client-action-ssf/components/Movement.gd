@@ -20,14 +20,13 @@ func _ready():
 	API.connect("packet_received", self, "_on_packet_received")
 
 
-func init(spawn_entity_dto: Dictionary):
+func init(spawn_entity_dto: Dictionary, pos: Vector2):
 	entity_id = spawn_entity_dto.id
 	is_mine = Client.is_mine(entity_id)
 	set_process_input(is_mine) 
 	
-	if spawn_entity_dto.has("movementComponent"):
-		var spawn_pos = Vector2(spawn_entity_dto.movementComponent.x, spawn_entity_dto.movementComponent.y)
-		set_pos_directly(spawn_pos)
+	var spawn_pos = pos
+	set_pos_directly(spawn_pos)
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
@@ -45,8 +44,9 @@ func _process(delta):
 	get_parent().global_position = get_parent().global_position.linear_interpolate(target_position, delta * 9)
 	
 	var is_moving = _prev_pos.distance_squared_to(get_parent().global_position) > 0.02
-	if is_mine:
-		is_moving = get_input() != Vector2.ZERO
+	# Instant movement feedback for clients
+	if is_mine && _prev_pos.distance_squared_to(get_parent().global_position) > 0.02 && get_input() != Vector2.ZERO:
+		is_moving = true
 	
 	if is_moving:
 		spriteContainer.play_move_anim()

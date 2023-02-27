@@ -9,5 +9,4 @@ onready var Entities = $Entities
 
 
 func _ready():
-	pass
-
+	API.request_load_world()
