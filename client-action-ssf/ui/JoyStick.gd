@@ -21,7 +21,6 @@ func _ready():
 	var use_joy_stick = is_mobile && get_node(movement_path).entity_id == Client.get_my_account().id
 	set_physics_process(use_joy_stick)
 	set_process_unhandled_input(use_joy_stick)
-	yield(Events, "cutscene_over")
 	TipPanel.set_visible(use_joy_stick)
 
 

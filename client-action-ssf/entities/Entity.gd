@@ -11,7 +11,6 @@ signal damage_taken(health, dir)
 
 func _ready():
 	connect("damage_taken", self, "_on_damage_taken")
-	Events.connect("player_dead", self, "_on_player_dead")
 
 
 func _on_damage_taken(damage, dir) -> void:
@@ -38,4 +37,5 @@ func set_entity_data(spawn_entity_dto: Dictionary, pos: Vector2) -> void:
 	
 	get_node("Movement").init(spawn_entity_dto, pos)
 	get_node("Health").init(spawn_entity_dto)
+	get_node("SpriteContainer").init(spawn_entity_dto)
 

@@ -1,9 +1,8 @@
 extends Camera2D
 
 
-const MAX_ZOOM = 10
-const MIN_ZOOM = 0.1
-
+const zoom_levels = [0.3, 0.9, 3, 20]
+var zoom_level_index = 1
 
 var follow: Node2D = null
 var spectate_index: int = 0
@@ -18,41 +17,26 @@ func _ready():
 
 
 func _on_zoom_out_button_pressed() -> void:
-	target_zoom += Vector2.ONE * 0.9
-	
-	if target_zoom.x > MAX_ZOOM:
-		target_zoom = Vector2.ONE * MAX_ZOOM
+	zoom_level_index = clamp(zoom_level_index + 1, 0, zoom_levels.size() - 1)
+	target_zoom = Vector2(zoom_levels[zoom_level_index], zoom_levels[zoom_level_index])
 
 
 func _on_zoom_in_button_pressed() -> void:
-	target_zoom -= Vector2.ONE  * 0.9
-	
-	if target_zoom.x < MIN_ZOOM:
-		target_zoom = Vector2.ONE * MIN_ZOOM
+	zoom_level_index = clamp(zoom_level_index - 1, 0, zoom_levels.size() - 1)
+	target_zoom = Vector2(zoom_levels[zoom_level_index], zoom_levels[zoom_level_index])
 
 
 func _on_follow_w_camera(node: Node2D) -> void:
 	follow = node
-	Events.emit_signal("switched_spectate", node)
-
-
-func _input(event):
-	if event is InputEventPanGesture:
-		target_zoom += (Vector2.ONE * event.delta.y / 3)
-	
-	if target_zoom.x > MAX_ZOOM:
-		target_zoom = Vector2.ONE * MAX_ZOOM
-	elif target_zoom.x < MIN_ZOOM:
-		target_zoom = Vector2.ONE * MIN_ZOOM
 
 
 func _process(delta):
 	if follow != null:
 		var dir = follow_prev_pos.direction_to(follow.global_position)
-		if follow_prev_pos.distance_squared_to(follow.global_position) < 20:
+		if follow_prev_pos.distance_squared_to(follow.global_position) < 1000:
 			dir = Vector2.ZERO
 		
-		position = position.linear_interpolate(follow.global_position + (dir * 40) + Vector2.UP * 8, delta * 4)
+		position = position.linear_interpolate(follow.global_position + (dir * 40) + Vector2(1, 1) * 8, delta * 4)
 		follow_prev_pos = follow.global_position
 		
 		zoom = zoom.linear_interpolate(target_zoom, delta * 10)

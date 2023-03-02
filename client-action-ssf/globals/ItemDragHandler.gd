@@ -38,7 +38,7 @@ func try_place_dragged_item():
 		var hover_pos = get_viewport().get_mouse_position()
 		for item_slot in hovering_over_item_slots:
 			if is_instance_valid(item_slot):
-				if item_slot.get_item() == null && item_slot != prev_item_slot && item_slot.is_crafting_result == false:
+				if item_slot.get_item() == null && item_slot != prev_item_slot:
 					var item_slot_pos = item_slot.rect_global_position
 					var dist = item_slot_pos.distance_to(hover_pos)
 					if dist < closest_dist:

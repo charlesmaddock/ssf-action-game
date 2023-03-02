@@ -1,7 +1,5 @@
 extends Node2D
-
-
-var player_scene = preload("res://entities/Player.tscn")
+class_name Game
 
 
 onready var Camera: Camera2D = $Camera
@@ -9,4 +7,5 @@ onready var Entities = $Entities
 
 
 func _ready():
+	Events.emit_signal("game_loaded", self)
 	API.request_load_world()

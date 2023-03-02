@@ -1,13 +1,13 @@
 extends YSort
 
 
-
-
-var high_detail_entity_scene = preload("res://entities/Player.tscn")
+var high_detail_entity_scene = preload("res://entities/Entity.tscn")
 var low_detail_entity_scene = preload("res://entities/LowDetailEntity.tscn")
 var entity_data = {}
 var my_entity = null
 var high_detail_render_distance = pow(Constants.TILE_DIM.x * 30, 2)
+var LOD_check_iteration = 0
+var LOD_segment_amount = 20
 
 
 func _ready():
@@ -52,22 +52,37 @@ func get_entity(id: String):
 
 
 func _process(delta):
+	LOD_check_iteration += 1
+	var segement = LOD_check_iteration % LOD_segment_amount
+	
 	if get_child_count() > 100:
 		high_detail_render_distance = pow(Constants.TILE_DIM.x * 30, 2)
+		LOD_segment_amount = 10
+		
+	elif get_child_count() > 200:
+		high_detail_render_distance = pow(Constants.TILE_DIM.x * 10, 2)
+		LOD_segment_amount = 20
 	else:
-		high_detail_render_distance = pow(Constants.TILE_DIM.x * 100, 2)
+		high_detail_render_distance = pow(Constants.TILE_DIM.x * 1000, 2)
+		LOD_segment_amount = 2
 	
-	for entity in get_children():
-		if entity.get_id() != my_entity.get_id():
-			update_level_of_detail(entity)
+	var bottom_range = segement * (get_child_count() / LOD_segment_amount)
+	var top_range = (segement + 1) * (get_child_count() / LOD_segment_amount)
+	if segement == LOD_segment_amount:
+		top_range = get_child_count()
+	
+	for entity_index in range(bottom_range, top_range):
+		if is_instance_valid(get_child(entity_index)):  
+			if get_child(entity_index).get_id() != my_entity.get_id():
+				update_level_of_detail(get_child(entity_index))
 
 
 func update_level_of_detail(entity):
-	
 	if entity.global_position.distance_squared_to(my_entity.global_position) < high_detail_render_distance:
 		if entity.is_high_detail_entity == false && entity_data.has(entity.get_id()):
 			var data = entity_data[entity.get_id()]
 			var pos = remove_entity_w_id(entity.get_id())
+			
 			create_entity(data, true, true, pos)
 	else:
 		if entity.is_high_detail_entity == true && entity_data.has(entity.get_id()):

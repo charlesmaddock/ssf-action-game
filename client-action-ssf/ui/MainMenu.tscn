@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/MainMenu.gd" type="Script" id=2]
@@ -12,8 +12,12 @@
 [ext_resource path="res://ui/mainMenu/VersionLabel.gd" type="Script" id=10]
 [ext_resource path="res://ui/mainMenu/WorldMapPage.tscn" type="PackedScene" id=11]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 9 )
+region = Rect2( 16, 113, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = SubResource( 2 )
 region = Rect2( 0, 128, 16, 16 )
 
 [node name="MainMenu" type="Control"]
@@ -42,7 +46,7 @@ margin_top = 4.0
 margin_right = 44.0
 margin_bottom = 24.0
 custom_colors/font_color = Color( 0.266667, 0.0823529, 0.027451, 1 )
-text = "Indev (v. 0.0.4)"
+text = "Indev (v. 0.0.5)"
 script = ExtResource( 10 )
 
 [node name="Loading" type="Control" parent="."]

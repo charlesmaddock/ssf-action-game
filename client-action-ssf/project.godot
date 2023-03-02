@@ -20,9 +20,19 @@ _global_script_classes=[ {
 "path": "res://networking/CustomHTTPRequest.gd"
 }, {
 "base": "Node2D",
+"class": "Game",
+"language": "GDScript",
+"path": "res://game/Game.gd"
+}, {
+"base": "Area2D",
 "class": "Item",
 "language": "GDScript",
 "path": "res://item/Item.gd"
+}, {
+"base": "TextureButton",
+"class": "ItemSlot",
+"language": "GDScript",
+"path": "res://ui/inventory/ItemSlot.gd"
 }, {
 "base": "Node2D",
 "class": "SpriteContainer",
@@ -32,7 +42,9 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Account": "",
 "CustomHTTPRequest": "",
+"Game": "",
 "Item": "",
+"ItemSlot": "",
 "SpriteContainer": ""
 }
 

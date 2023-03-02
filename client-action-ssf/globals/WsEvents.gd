@@ -10,6 +10,8 @@ var shootProjectile: String = "shootProjectile"
 var sendChat: String = "sendChat"
 var harvest: String = "harvest"
 var attack: String = "attack"
+var requestCraftPreview: String = "requestCraftPreview"
+var craftItem: String = "craftItem"
 
 # From API
 var connected: String = "connected"
@@ -26,3 +28,4 @@ var harvestedItem: String = "harvestedItem"
 var addItemInv: String = "addItemInv"
 var removeItemInv: String = "removeItemInv"
 var inventoryContents: String = "inventoryContents"
+var showCraftPreview: String = "showCraftPreview"

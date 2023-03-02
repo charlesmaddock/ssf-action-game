@@ -17,13 +17,13 @@ script = ExtResource( 4 )
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 393.0
-margin_bottom = 179.0
+margin_bottom = 182.0
 
 [node name="CreateAnAccountForm" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 376.0
-margin_bottom = 162.0
+margin_bottom = 165.0
 
 [node name="Label" type="Label" parent="MarginContainer/CreateAnAccountForm"]
 margin_right = 366.0
@@ -63,7 +63,8 @@ margin_bottom = 108.0
 rect_min_size = Vector2( 0, 4 )
 
 [node name="SubmitButton" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 1 )]
-margin_bottom = 152.0
+margin_bottom = 155.0
+default_text = "Submit"
 
 [node name="SubmitHTTPRequest" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 3 )]
 

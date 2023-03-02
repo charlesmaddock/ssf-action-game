@@ -17,7 +17,7 @@ func set_fly_finished():
 
 
 func fly_to(start_pos: Vector2, target_pos: Vector2, type: int):
-	texture = Constants.item_sprites[type]
+	texture = Constants.item_info[type].image
 	fly_to_target_pos = Vector2(target_pos.x + 8, target_pos.y) 
 	fly_to_start_pos = start_pos
 	fly_time = 0

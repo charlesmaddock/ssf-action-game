@@ -13,6 +13,8 @@ func _ready():
 func set_entity_data(spawn_entity_dto: Dictionary, spawn_pos: Vector2):
 	_id = spawn_entity_dto.id
 	
+	texture = Constants.entity_info[int(spawn_entity_dto.type)].image
+	
 	if spawn_entity_dto.has("movementComponent"):
 		global_position = spawn_pos
 		target_position = spawn_pos

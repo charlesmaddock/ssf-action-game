@@ -19,6 +19,8 @@ func init(spawn_entity_dto: Dictionary):
 		entity_id = spawn_entity_dto.id
 		Bar.max_value = spawn_entity_dto.healthComponent.maxHealth
 		Bar.value = spawn_entity_dto.healthComponent.health
+		
+		set_visible(health == Bar.max_value)
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
@@ -31,5 +33,7 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 				_is_dead = true
 				get_parent().rotation_degrees = 90
 				get_parent().collision_layer = 0
+				
+				set_visible(health == Bar.max_value)
 				
 				Events.emit_signal("player_dead", get_parent().get_id())

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=17 format=2]
+[gd_resource type="Theme" load_steps=16 format=2]
 
 [ext_resource path="res://assets/font/averia/averia-regular.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/ui/uipack_rpg_sheet.png" type="Texture" id=2]
@@ -11,14 +11,6 @@ margin_right = 8.0
 margin_top = 7.0
 margin_bottom = 12.0
 modulate_color = Color( 0.584314, 0.584314, 0.584314, 1 )
-
-[sub_resource type="StyleBoxTexture" id=31]
-texture = ExtResource( 2 )
-region_rect = Rect2( 293, 343, 45, 49 )
-margin_left = 8.0
-margin_right = 8.0
-margin_top = 7.0
-margin_bottom = 12.0
 
 [sub_resource type="StyleBoxTexture" id=28]
 texture = ExtResource( 2 )
@@ -37,9 +29,9 @@ margin_right = 8.0
 margin_top = 7.0
 margin_bottom = 12.0
 
-[sub_resource type="StyleBoxTexture" id=32]
+[sub_resource type="StyleBoxTexture" id=31]
 texture = ExtResource( 2 )
-region_rect = Rect2( 293, 343, 45, 49 )
+region_rect = Rect2( 293, 392, 45, 45 )
 margin_left = 8.0
 margin_right = 8.0
 margin_top = 7.0
@@ -82,18 +74,17 @@ bg_color = Color( 1, 1, 1, 1 )
 
 [resource]
 default_font = ExtResource( 1 )
-Button/colors/font_color = Color( 0.290196, 0.180392, 0.0901961, 1 )
-Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
-Button/colors/font_color_focus = Color( 0.290196, 0.180392, 0.0901961, 1 )
-Button/colors/font_color_hover = Color( 1, 0.901961, 0.823529, 1 )
-Button/colors/font_color_pressed = Color( 0.290196, 0.180392, 0.0901961, 1 )
+Button/colors/font_color = Color( 1, 0.901961, 0.823529, 1 )
+Button/colors/font_color_disabled = Color( 0.698039, 0.533333, 0.396078, 1 )
+Button/colors/font_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 1, 0.901961, 0.823529, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = ExtResource( 1 )
 Button/styles/disabled = SubResource( 26 )
-Button/styles/focus = SubResource( 31 )
 Button/styles/hover = SubResource( 28 )
 Button/styles/normal = SubResource( 24 )
-Button/styles/pressed = SubResource( 32 )
+Button/styles/pressed = SubResource( 31 )
 CheckBox/colors/font_color = Color( 1, 0.929412, 0.803922, 1 )
 CheckBox/colors/font_color_focus = Color( 1, 0.929412, 0.803922, 1 )
 CheckBox/colors/font_color_hover = Color( 1, 0.929412, 0.803922, 1 )

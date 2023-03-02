@@ -8,6 +8,10 @@ var water_colliders = []
 var in_water = false
 
 
+func init(spawn_entity_dto: Dictionary):
+	get_node("Sprite").texture = Constants.entity_info[int(spawn_entity_dto.type)].image
+
+
 func _ready():
 	API.connect("packet_received", self, "_on_packet_received")
 

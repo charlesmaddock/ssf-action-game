@@ -11,6 +11,7 @@ onready var WorldMapPage = $WorldMapPage
 
 func _ready():
 	API.attempt_connect()
+	Events.emit_signal("game_loaded", null)
 	
 	var refresh_token_expired = Client.check_refresh_token_expiration()
 	if refresh_token_expired:

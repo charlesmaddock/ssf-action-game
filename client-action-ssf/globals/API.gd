@@ -1,14 +1,14 @@
 extends Node
 
 
+signal packet_received(event, data)
+
+
 onready var ws_api_url = "ws://localhost:8081" if Constants.app_mode == Constants.AppMode.DEVELOPMENT else "wss://rivernotch.com/ws"
 onready var http_api_url = "http://localhost:3333/api" if Constants.app_mode == Constants.AppMode.DEVELOPMENT else "https://rivernotch.com/api"
 
 
 var _client = WebSocketClient.new()
-
-
-signal packet_received(event, data)
 
 
 func _ready():
@@ -17,6 +17,7 @@ func _ready():
 	_client.connect("server_close_request", self, "_request_close")
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_on_data")
+	
 	
 	yield(get_tree(), "idle_frame")
 	Events.emit_signal("console_message", "Connecting to server...", Constants.ConsoleMessageTypes.LOG)
@@ -59,6 +60,7 @@ func _on_data():
 	var packet = _client.get_peer(1).get_packet().get_string_from_utf8()
 	var jsonRes: JSONParseResult = JSON.parse(packet)
 	var res = jsonRes.result
+	
 	emit_signal("packet_received", res.event, res.data)
 
 
@@ -116,4 +118,11 @@ func request_harvest(id: String) -> void:
 
 func request_attack(id: String = "") -> void:
 	send_packet(WsEvents.attack)
-	pass
+
+
+func craft_item(ingredients_request: Array) -> void:
+	send_packet(WsEvents.craftItem, {"ingredientsRequest": ingredients_request}, true)
+
+func request_craft_preview(ingredients_request: Array) -> void:
+	send_packet(WsEvents.requestCraftPreview, {"ingredientsRequest": ingredients_request}, true)
+	

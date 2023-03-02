@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://item/Item.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/log.png" type="Texture" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
+[ext_resource path="res://item/ItemDesc.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 22, 21 )
@@ -32,6 +33,9 @@ align = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 22, 21 )
 shape = SubResource( 1 )
+
+[node name="ItemDesc" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [connection signal="mouse_entered" from="." to="." method="_on_Item_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_Item_mouse_exited"]

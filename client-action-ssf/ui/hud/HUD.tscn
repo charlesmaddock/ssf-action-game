@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/ui/buttons/zoomInButton.png" type="Texture" id=1]
 [ext_resource path="res://assets/ui/buttons/chatButton.png" type="Texture" id=2]
@@ -7,8 +7,29 @@
 [ext_resource path="res://ui/inventory/Inventory.gd" type="Script" id=5]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=6]
 [ext_resource path="res://ui/inventory/ItemSlot.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/font/pangolin/pangolin-lg.tres" type="DynamicFont" id=8]
+[ext_resource path="res://ui/crafting/CraftButton.gd" type="Script" id=8]
 [ext_resource path="res://ui/crafting/CraftingContainer.gd" type="Script" id=9]
+[ext_resource path="res://item/Item.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+
+[sub_resource type="Animation" id=2]
+resource_name = "loading"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "...", "·..", ".·.", "..·" ]
+}
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 4 )
@@ -65,9 +86,9 @@ mouse_filter = 2
 alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="Inventory/HBoxContainer/VBoxContainer"]
-margin_top = 170.0
+margin_top = 166.0
 margin_right = 402.0
-margin_bottom = 429.0
+margin_bottom = 433.0
 rect_min_size = Vector2( 400, 0 )
 mouse_filter = 2
 
@@ -75,7 +96,7 @@ mouse_filter = 2
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 395.0
-margin_bottom = 252.0
+margin_bottom = 260.0
 mouse_filter = 2
 
 [node name="UpperInventory" type="HBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
@@ -85,49 +106,53 @@ mouse_filter = 2
 alignment = 2
 
 [node name="CraftingContainer" type="HBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory"]
-margin_left = 193.0
+margin_left = 196.0
 margin_right = 388.0
 margin_bottom = 45.0
 mouse_filter = 2
-custom_constants/separation = 8
 script = ExtResource( 9 )
 
 [node name="Ingredient1ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
 margin_right = 45.0
 is_crafting_slot = true
 
-[node name="Plus" type="Label" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
-margin_left = 53.0
-margin_top = 7.0
-margin_right = 67.0
-margin_bottom = 38.0
-custom_colors/font_color = Color( 0.564706, 0.380392, 0.231373, 1 )
-custom_fonts/font = ExtResource( 8 )
-text = "+"
-
 [node name="Ingredient2ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
-margin_left = 75.0
-margin_right = 120.0
+margin_left = 49.0
+margin_right = 94.0
 is_crafting_slot = true
 
-[node name="Equals" type="Label" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
-margin_left = 128.0
-margin_top = 7.0
-margin_right = 142.0
-margin_bottom = 38.0
-custom_colors/font_color = Color( 0.564706, 0.380392, 0.231373, 1 )
-custom_fonts/font = ExtResource( 8 )
-text = "="
+[node name="CraftButton" type="Button" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
+margin_left = 98.0
+margin_right = 192.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 94, 0 )
+text = "..."
+script = ExtResource( 8 )
 
-[node name="ResultItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
-margin_left = 150.0
-margin_right = 195.0
-is_crafting_result = true
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton"]
+anims/RESET = SubResource( 1 )
+anims/loading = SubResource( 2 )
 
-[node name="ItemsGrid" type="GridContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PreviewItem" type="Control" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton"]
+margin_left = 47.0
+margin_top = 1.0
+margin_right = 79.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 32, 38 )
+mouse_filter = 1
+
+[node name="Item" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton/PreviewItem" instance=ExtResource( 10 )]
+position = Vector2( -2, -2 )
+
+[node name="Margin" type="Control" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 margin_top = 53.0
 margin_right = 388.0
-margin_bottom = 245.0
+margin_bottom = 53.0
+
+[node name="ItemsGrid" type="GridContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
+margin_top = 61.0
+margin_right = 388.0
+margin_bottom = 253.0
 mouse_filter = 2
 columns = 8
 
@@ -306,3 +331,5 @@ margin_bottom = 192.0
 [connection signal="pressed" from="HBoxContainer/ChatButton" to="." method="_on_ChatButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/ZoomInButton" to="." method="_on_ZoomInButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/ZoomOutButton" to="." method="_on_ZoomOutButton_pressed"]
+[connection signal="pressed" from="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton" to="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" method="_on_CraftButton_pressed"]
+[connection signal="pressed" from="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton" to="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton" method="_on_CraftButton_pressed"]
