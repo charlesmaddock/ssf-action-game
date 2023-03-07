@@ -3,7 +3,8 @@ extends Node
 
 enum UIInteractionModes {
 	UI,
-	GAMEPLAY
+	GAMEPLAY,
+	CHAT,
 }
 
 

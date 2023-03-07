@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/Resource.gd" type="Script" id=1]
-[ext_resource path="res://components/ActionIndicationArea.gd" type="Script" id=2]
+[ext_resource path="res://components/ActionIndicationArea.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/tiles/simpleTilemap.png" type="Texture" id=3]
 [ext_resource path="res://item/HarvestedItem.gd" type="Script" id=4]
 [ext_resource path="res://assets/sprites/log.png" type="Texture" id=5]
@@ -14,9 +14,6 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.164474, -0.945946 ), 0.0, 
 atlas = ExtResource( 3 )
 region = Rect2( 32, 16, 16, 16 )
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 64, 64 )
-
 [node name="Resource" type="YSort"]
 script = ExtResource( 1 )
 shake_curve = SubResource( 6 )
@@ -27,19 +24,9 @@ position = Vector2( 24, 24 )
 scale = Vector2( 3, 3 )
 texture = SubResource( 4 )
 
-[node name="ActionIndicationArea" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
-script = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionIndicationArea"]
-position = Vector2( 48, 48 )
-shape = SubResource( 5 )
+[node name="ActionIndicationArea" parent="." instance=ExtResource( 2 )]
 
 [node name="HarvestedItem" type="Sprite" parent="."]
 z_index = 1
 texture = ExtResource( 5 )
 script = ExtResource( 4 )
-
-[connection signal="mouse_entered" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_entered"]
-[connection signal="mouse_exited" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_exited"]

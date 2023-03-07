@@ -6,7 +6,6 @@ export(NodePath) var spriteContainerPath
 
 
 onready var spriteContainer: SpriteContainer = get_node(spriteContainerPath)
-onready var JoyStick = $CanvasLayer/CanvasModulate/Control/JoyStick
 
 
 var entity_id: String
@@ -14,6 +13,7 @@ var target_position: Vector2
 var _prev_input: Vector2
 var _prev_pos: Vector2
 var is_mine: bool
+var JoyStick = null
 
 
 func _ready():
@@ -24,6 +24,9 @@ func init(spawn_entity_dto: Dictionary, pos: Vector2):
 	entity_id = spawn_entity_dto.id
 	is_mine = Client.is_mine(entity_id)
 	set_process_input(is_mine) 
+	
+	if is_mine:
+		JoyStick = Util.get_joy_stick()
 	
 	var spawn_pos = pos
 	set_pos_directly(spawn_pos)
@@ -74,7 +77,6 @@ func _input(event):
 
 func get_input():
 	var velocity = Vector2.ZERO
-	var joy_stick_velocity = JoyStick.get_velocity()
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -83,5 +85,6 @@ func get_input():
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
-	return velocity.normalized() + joy_stick_velocity
+	
+	return velocity.normalized() + JoyStick.get_velocity()
 

@@ -116,12 +116,13 @@ func request_harvest(id: String) -> void:
 	send_packet(WsEvents.harvest, {"resourceId": id}, true)
 
 
-func request_attack(id: String = "") -> void:
-	send_packet(WsEvents.attack)
+func request_attack(pos: Vector2, id: String = "") -> void:
+	send_packet(WsEvents.attack, {"id": id, "x": pos.x, "y": pos.y}, true)
 
 
-func craft_item(ingredients_request: Array) -> void:
-	send_packet(WsEvents.craftItem, {"ingredientsRequest": ingredients_request}, true)
+func craft_item(ingredients_request: Array, requested_amount: int) -> void:
+	send_packet(WsEvents.craftItem, {"ingredientsRequest": ingredients_request, "amount": requested_amount}, true)
+
 
 func request_craft_preview(ingredients_request: Array) -> void:
 	send_packet(WsEvents.requestCraftPreview, {"ingredientsRequest": ingredients_request}, true)

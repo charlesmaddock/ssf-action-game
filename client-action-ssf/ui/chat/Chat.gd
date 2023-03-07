@@ -1,12 +1,13 @@
 extends Control
 
 
-onready var chatInput: LineEdit = $LineEdit
-onready var sendChatMsg: Button = $LineEdit/SendChatMsg
-onready var chatContainer: VBoxContainer = $ScrollContainer/ChatContainer
-onready var scrollbar = $ScrollContainer.get_v_scrollbar()
-onready var scrollContainer = $ScrollContainer
-onready var InGameMessages = $InGameMessages
+onready var chatInput: LineEdit = $Control/LineEdit
+onready var sendChatMsg: Button = $Control/LineEdit/SendChatMsg
+onready var chatContainer: VBoxContainer = $Control/ScrollContainer/ChatContainer
+onready var scrollbar = $Control/ScrollContainer.get_v_scrollbar()
+onready var scrollContainer = $Control/ScrollContainer
+onready var InGameMessages = $Control/InGameMessages
+onready var Backdrop = $Backdrop
 
 
 var _focused: bool = true
@@ -49,6 +50,11 @@ func _input(event) -> void:
 	if Input.is_action_just_pressed("open_chat") && _open == false: 
 		open_chat()
 	
+	if chatInput.text.length() == 0:
+		sendChatMsg.text = "Close"
+	else:
+		sendChatMsg.text = "Send"
+	
 	if chatInput.text.length() >= 300:
 		sendChatMsg.disabled = true
 	else:
@@ -59,8 +65,9 @@ func open_chat():
 	_open = true
 	yield(get_tree(), "idle_frame")
 	
-	Client.set_ui_interaction_mode(Client.UIInteractionModes.UI)
+	Client.set_ui_interaction_mode(Client.UIInteractionModes.CHAT)
 	scrollContainer.visible = true
+	Backdrop.visible = true
 	InGameMessages.visible = false
 	_focused = true
 	chatInput.grab_focus()
@@ -75,6 +82,7 @@ func close_chat():
 	
 	Client.set_ui_interaction_mode(Client.UIInteractionModes.GAMEPLAY)
 	InGameMessages.visible = true
+	Backdrop.visible = false
 	_focused = false
 	chatInput.visible = false
 	scrollContainer.visible = false

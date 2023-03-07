@@ -1,23 +1,12 @@
 extends Node2D
 
 
-var is_high_detail_entity = true
-var _id: String = ""
-
-
 signal take_damage(damage, dir)
 signal damage_taken(health, dir)
 
 
-func _ready():
-	connect("damage_taken", self, "_on_damage_taken")
-
-
-func _on_damage_taken(damage, dir) -> void:
-	if modulate == Color.white:
-		modulate = Color(1000, 0, 0, 1)
-		yield(get_tree().create_timer(0.1), "timeout")
-		modulate = Color.white
+var is_high_detail_entity = true
+var _id: String = ""
 
 
 func _on_player_dead(id) -> void:

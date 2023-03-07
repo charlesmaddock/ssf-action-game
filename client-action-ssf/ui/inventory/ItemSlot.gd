@@ -44,10 +44,10 @@ func place_item(item: Item):
 	emit_signal("placed_item", item)
 	holding_item = item
 	add_child(item)
-	item.position = Vector2(0,0)
+	item.rect_position = Vector2(0,0)
 
 
-func remove_item(item: Node2D):
+func remove_item(item):
 	if item == holding_item:
 		emit_signal("removed_item", item)
 		holding_item = null
@@ -71,9 +71,3 @@ func unlock():
 	locked = false
 
 
-func _on_Area2D_mouse_entered():
-	ItemDragHandler.hovering_over_item_slot(self)
-
-
-func _on_Area2D_mouse_exited():
-	ItemDragHandler.stop_hovering_over_item_slot(self)

@@ -14,6 +14,14 @@ func init(spawn_entity_dto: Dictionary):
 
 func _ready():
 	API.connect("packet_received", self, "_on_packet_received")
+	get_parent().connect("damage_taken", self, "_on_damage_taken")
+
+
+func _on_damage_taken(damage, dir) -> void:
+	if modulate == Color.white:
+		modulate = Color(1000, 1000, 1000, 1)
+		yield(get_tree().create_timer(0.3), "timeout")
+		modulate = Color.white
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:

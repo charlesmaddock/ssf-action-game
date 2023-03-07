@@ -27,9 +27,8 @@ const anim_time = 0.5
 
 func _ready():
 	API.connect("packet_received", self, "_on_packet_received")
-	var action_indication_area: CollisionShape2D = get_node("ActionIndicationArea/CollisionShape2D")
-	action_indication_area.get_shape().extents = get_center_pos()
-	action_indication_area.position = get_center_pos()
+	var action_indication_area = get_node("ActionIndicationArea")
+	action_indication_area.init_indication_area(get_resource_extents() + Vector2.DOWN * 16, get_resource_extents() +  Vector2.UP * 16) 
 	set_process(false)
 
 
@@ -39,7 +38,7 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 			var my_player = Client.get_my_player()
 			if my_player != null:
 				yield(get_tree().create_timer(0.4), "timeout")
-				harvestedItem.fly_to(global_position + get_center_pos(), my_player.global_position, data.type)
+				harvestedItem.fly_to(global_position + get_resource_extents(), my_player.global_position, data.type)
 				set_process(true)
 				anim_progress = 0
 
@@ -62,7 +61,7 @@ func get_id() -> String:
 	return _id
 
 
-func get_center_pos() -> Vector2:
+func get_resource_extents() -> Vector2:
 	return Vector2(Constants.RESOURCE_DIM.x / 2, Constants.RESOURCE_DIM.y / 2)
 
 
@@ -74,3 +73,4 @@ func _process(delta):
 	if procental_progress >= 1:
 		global_position = original_pos 
 		set_process(false)
+

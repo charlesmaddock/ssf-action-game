@@ -7,10 +7,11 @@
 [ext_resource path="res://assets/tiles/simpleTilemap.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/tilemap_packed_2.png" type="Texture" id=6]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=7]
-[ext_resource path="res://components/ActionIndicationArea.gd" type="Script" id=8]
+[ext_resource path="res://components/ActionIndicationArea.tscn" type="PackedScene" id=8]
 [ext_resource path="res://entities/Entity.gd" type="Script" id=9]
 [ext_resource path="res://components/SpriteContainer.gd" type="Script" id=10]
 [ext_resource path="res://assets/sprites/crab.png" type="Texture" id=11]
+[ext_resource path="res://components/EffectHandler.tscn" type="PackedScene" id=12]
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 5 )
@@ -215,9 +216,6 @@ region = Rect2( 128, 128, 16, 16 )
 radius = 4.0
 height = 6.0
 
-[sub_resource type="RectangleShape2D" id=9]
-extents = Vector2( 15.5, 15.5 )
-
 [node name="Entity" type="Node2D"]
 script = ExtResource( 9 )
 
@@ -252,6 +250,8 @@ text = "name"
 align = 1
 valign = 1
 clip_text = true
+
+[node name="EffectHandler" parent="." instance=ExtResource( 12 )]
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 position = Vector2( 8, 16 )
@@ -299,16 +299,8 @@ collision_mask = 2
 rotation = 1.5708
 shape = SubResource( 4 )
 
-[node name="ActionIndicationArea" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 0
-script = ExtResource( 8 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionIndicationArea"]
-position = Vector2( 8.5, 8.5 )
-shape = SubResource( 9 )
+[node name="ActionIndicationArea" parent="." instance=ExtResource( 8 )]
+position = Vector2( 8, 8 )
 
 [connection signal="body_entered" from="WorldDetector" to="SpriteContainer" method="_on_WorldDetector_body_entered"]
 [connection signal="body_exited" from="WorldDetector" to="SpriteContainer" method="_on_WorldDetector_body_exited"]
-[connection signal="mouse_entered" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_entered"]
-[connection signal="mouse_exited" from="ActionIndicationArea" to="ActionIndicationArea" method="_on_MouseHoverInteraction_mouse_exited"]

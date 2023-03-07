@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://game/Camera.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/sprites/ActionIndicator.png" type="Texture" id=9]
 [ext_resource path="res://assets/sprites/AttackActionIndicatorIcon.png" type="Texture" id=10]
 [ext_resource path="res://assets/sprites/MineActionIndicatorIcon.png" type="Texture" id=11]
+[ext_resource path="res://ui/uiComponents/Backdrop.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=1]
@@ -90,6 +91,8 @@ script = ExtResource( 2 )
 [node name="Escpanel" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
 
+[node name="Backdrop" parent="Escpanel" instance=ExtResource( 12 )]
+
 [node name="EscPanelContainer" type="CenterContainer" parent="Escpanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -136,12 +139,6 @@ text = "Leave World"
 [node name="Chat" type="CanvasLayer" parent="."]
 
 [node name="Chat" parent="Chat" instance=ExtResource( 5 )]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = -581.0
-margin_right = 457.0
-margin_bottom = -41.0
 
 [connection signal="pressed" from="Escpanel/EscPanelContainer/PanelContainer/MarginContainer/VBoxContainer/BackToTheGame" to="Escpanel" method="_on_BackToTheGame_pressed"]
 [connection signal="pressed" from="Escpanel/EscPanelContainer/PanelContainer/MarginContainer/VBoxContainer/LeaveGame" to="Escpanel" method="_on_LeaveGame_pressed"]

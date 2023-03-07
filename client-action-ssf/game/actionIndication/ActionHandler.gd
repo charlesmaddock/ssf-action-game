@@ -13,32 +13,47 @@ onready var mine_action_icon = $Container/MineActionIndicatorIcon
 
 
 func _ready():
-	Events.connect("hovered_over_entity", self, "_on_hovered_over_entity")
-	Events.connect("left_hover_over_entity", self, "_on_left_hover_over_entity")
+	Events.connect("hovered_over_entity_or_resource", self, "_on_hovered_over_entity_or_resource")
+	Events.connect("left_hover_over_entity_or_resource", self, "_on_left_hover_over_entity_or_resource")
+	Events.connect("touched_entity_or_resource", self, "_one_touched_entity_or_resource")
 
 
-func _on_hovered_over_entity(entity):
-	if hovering_over_entities.find(entity) == -1:
-		hovering_over_entities.append(entity)
+func _on_hovered_over_entity_or_resource(entity_or_resource):
+	if hovering_over_entities.find(entity_or_resource) == -1:
+		hovering_over_entities.append(entity_or_resource)
 		animation_player.play("appear")
 	
 	if hovering_over_entities.size() != 0:
 		visible = true
 
 
-func _on_left_hover_over_entity(entity):
-	var index = hovering_over_entities.erase(entity)
-	entity.modulate = Color.white
+func _on_left_hover_over_entity_or_resource(entity_or_resource):
+	var index = hovering_over_entities.erase(entity_or_resource)
+	entity_or_resource.modulate = Color.white
 	
 	if hovering_over_entities.size() == 0:
 		currently_hovering_over = null
 		visible = false
 
 
+func _one_touched_entity_or_resource(entity_or_resource):
+	action_with(entity_or_resource)
+
+
 func _input(event):
-	if is_instance_valid(currently_hovering_over):
-		if Input.is_action_just_pressed("interact_action") && currently_hovering_over.has_method("get_id"):
-			API.request_harvest(currently_hovering_over.get_id())
+	if Input.is_action_just_pressed("interact_action") && is_instance_valid(currently_hovering_over) == false:
+		var my_player_pos = Client.get_my_player().global_position + Vector2.ONE * 8
+		var velocity = get_global_mouse_position() - my_player_pos
+		Events.emit_signal("effect", Client.get_my_account().id, velocity.normalized())
+
+
+func action_with(entity_or_resource):
+	if is_instance_valid(entity_or_resource):
+		if entity_or_resource.has_method("get_id"):
+			if Util.is_entity(entity_or_resource):
+				API.request_attack(entity_or_resource.global_position, entity_or_resource.get_id())
+			else:
+				API.request_harvest(entity_or_resource.get_id())
 
 
 func _process(delta):
@@ -58,7 +73,7 @@ func _process(delta):
 		currently_hovering_over = closest_entity
 		closest_entity.modulate = Color(1.2, 1.2, 1.2)
 		
-		if closest_entity.get("is_high_detail_entity") != null:
+		if Util.is_entity(closest_entity):
 			indicator_offset = Vector2(8, -8)
 			attack_action_icon.visible = true
 			mine_action_icon.visible = false

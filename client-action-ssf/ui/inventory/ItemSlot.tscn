@@ -20,6 +20,8 @@ script = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
 z_index = 10
+collision_layer = 8
+collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -36,6 +38,3 @@ custom_fonts/font = ExtResource( 2 )
 text = "+"
 align = 1
 valign = 1
-
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_Area2D_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_Area2D_mouse_exited"]

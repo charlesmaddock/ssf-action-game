@@ -1,26 +1,34 @@
-extends Area2D
+extends TextureButton
 class_name Item
 
 
 signal started_dragging(item)
 
 
-var hovering_over: bool
-onready var item_desc = $ItemDesc
+export(bool) var show_amount = true 
+
+
+onready var item_desc = $Area2D/ItemDesc
+onready var area2d: Area2D = $Area2D
 
 
 var id = ""
 var amount = 0
-var type = Constants.ItemTypes.LOG
+var type = Constants.ItemType.LOG
 var _is_preview = false
+var colliding_item_slot_areas = []
 
 
 func init(item_data: Dictionary, is_preview = false):
 	var item_info = Constants.item_info[int(item_data.type)]
-	get_node("Sprite").texture = item_info.image
-	get_node("StackAmountLabel").text = str(item_data.amount)
+	get_node("Area2D/Sprite").texture = item_info.image
+	get_node("Area2D/Sprite").modulate = item_info.mod
+	get_node("Area2D/ItemDesc").init(item_info.name)
 	
-	get_node("ItemDesc").init(item_info.name)
+	if show_amount == true:
+		get_node("Area2D/StackAmountLabel").text = str(item_data.amount)
+	else:
+		get_node("Area2D/StackAmountLabel").text = ""
 	
 	id = item_data.id
 	amount = item_data.amount
@@ -32,18 +40,54 @@ func get_is_preview():
 	return _is_preview
 
 
-func _input(event):
-	if Input.is_action_just_pressed("drag_item") && hovering_over && _is_preview == false:
-		ItemDragHandler.started_dragging_item(self, get_parent())
+func get_closest_item_slot(prev_item_slot):
+	var closest_item_slot = null
+	var closest_dist = 999999
+	var item_slot_extents = Vector2(25.5, 25.5)
+	for item_slot_area in colliding_item_slot_areas:
+		if is_instance_valid(item_slot_area):
+			var item_slot = item_slot_area.get_parent()
+			if item_slot.get_item() == null && item_slot != prev_item_slot:
+				var item_slot_pos = item_slot.rect_global_position + item_slot_extents
+				var item_pos = rect_global_position
+				var dist = item_slot_pos.distance_to(item_pos)
+				if dist < closest_dist:
+					closest_item_slot = item_slot
+					closest_dist = dist
+	
+	return closest_item_slot
+
+
+func hide_item_desc():
+	item_desc.hide()
+
+
+func _on_Item_button_up():
+	if _is_preview == false:
+		ItemDragHandler.try_place_dragged_item() 
+		area2d.z_index = 2
+	item_desc.hide()
+
+
+func _on_Item_button_down():
+	if _is_preview == false:
+		area2d.z_index = 3
+		ItemDragHandler.started_dragging_item(self, get_parent()) 
+	item_desc.hide()
 
 
 func _on_Item_mouse_entered():
-	hovering_over = true
 	item_desc.show()
-	z_index = 2
 
 
 func _on_Item_mouse_exited():
-	hovering_over = false
 	item_desc.hide()
-	z_index = 1
+
+
+func _on_Area2D_area_entered(area):
+	if colliding_item_slot_areas.find(area) == -1:
+		colliding_item_slot_areas.append(area)
+
+
+func _on_Area2D_area_exited(area):
+	colliding_item_slot_areas.erase(area)
