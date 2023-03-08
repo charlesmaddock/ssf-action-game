@@ -11,6 +11,7 @@ func _ready():
 	if(Constants.app_mode == Constants.AppMode.DEVELOPMENT):
 		UsernameLineEdit.text = "charles"
 		PasswordLineEdit.text = "Abc123!!!."
+	
 	SubmitHTTPRequest.connect("request_completed", self, "_on_request_completed")
 
 

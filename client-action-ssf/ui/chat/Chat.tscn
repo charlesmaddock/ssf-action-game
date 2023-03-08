@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://ui/uiComponents/Backdrop.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/chat/Chat.gd" type="Script" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
+[ext_resource path="res://ui/uiComponents/CustomLineEdit.tscn" type="PackedScene" id=4]
 
 [node name="ChatContainer" type="Control"]
 anchor_right = 1.0
@@ -55,24 +56,24 @@ size_flags_horizontal = 3
 custom_constants/separation = 0
 alignment = 2
 
-[node name="LineEdit" type="LineEdit" parent="Control"]
+[node name="LineEdit" parent="Control" instance=ExtResource( 4 )]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 12.0
 margin_top = -30.0
-max_length = 299
-caret_blink = true
-caret_blink_speed = 0.5
+margin_right = 0.0
+margin_bottom = 0.0
+placeholder_text = "Chat message"
 
 [node name="SendChatMsg" type="Button" parent="Control/LineEdit"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -44.0
-margin_top = -16.0
-margin_right = 11.0
-margin_bottom = 23.0
+margin_left = -55.0
+margin_top = -15.5
+margin_bottom = 23.5
 rect_scale = Vector2( 0.8, 0.8 )
 text = "SEND"
 

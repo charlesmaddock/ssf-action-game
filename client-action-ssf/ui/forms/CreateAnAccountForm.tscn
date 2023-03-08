@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=2]
 [ext_resource path="res://networking/CustomHTTPRequest.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/forms/CreateAnAccountForm.gd" type="Script" id=4]
-[ext_resource path="res://ui/uiComponents/SecretLineEdit.tscn" type="PackedScene" id=5]
+[ext_resource path="res://ui/uiComponents/CustomLineEdit.tscn" type="PackedScene" id=5]
 
 [node name="CreateAnAccountForm" type="PanelContainer"]
 margin_top = 219.0
@@ -17,28 +17,27 @@ script = ExtResource( 4 )
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 393.0
-margin_bottom = 182.0
+margin_bottom = 170.0
 
 [node name="CreateAnAccountForm" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 376.0
-margin_bottom = 165.0
+margin_bottom = 153.0
 
 [node name="Label" type="Label" parent="MarginContainer/CreateAnAccountForm"]
 margin_right = 366.0
 margin_bottom = 20.0
 text = "Create an Account"
 
-[node name="Username" type="LineEdit" parent="MarginContainer/CreateAnAccountForm"]
+[node name="Username" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 5 )]
 margin_top = 28.0
-margin_right = 366.0
 margin_bottom = 58.0
-max_length = 20
+secret = false
 placeholder_text = "Username"
 
 [node name="Password" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 5 )]
-placeholder_text = "Password (Don't forget it)"
+is_password = true
 
 [node name="Email" type="LineEdit" parent="MarginContainer/CreateAnAccountForm"]
 visible = false
@@ -56,14 +55,9 @@ margin_bottom = 134.0
 max_length = 20
 placeholder_text = "Confirm Email"
 
-[node name="Margin" type="Control" parent="MarginContainer/CreateAnAccountForm"]
-margin_top = 104.0
-margin_right = 366.0
-margin_bottom = 108.0
-rect_min_size = Vector2( 0, 4 )
-
 [node name="SubmitButton" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 1 )]
-margin_bottom = 155.0
+margin_top = 104.0
+margin_bottom = 143.0
 default_text = "Submit"
 
 [node name="SubmitHTTPRequest" parent="MarginContainer/CreateAnAccountForm" instance=ExtResource( 3 )]
