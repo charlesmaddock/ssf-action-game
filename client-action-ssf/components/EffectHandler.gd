@@ -2,28 +2,38 @@ extends Node
 
 
 var _parent_entity
-var slash_scene = preload("res://effects/Slash.tscn")
+onready var slash = $Slash
+onready var text_effect = $TextEffect
+onready var text_effect_anim_player = $AnimationPlayer
 
 
 func _ready():
 	_parent_entity = get_parent()
 	Events.connect("effect", self, "_on_effect")
+	Events.connect("text_effect", self, "_on_text_effect")
 	API.connect("packet_received", self, "_on_packet_received")
 
 
 func _on_packet_received(event: String, data: Dictionary):
 	if event == WsEvents.attacked:
-		var attacker = Util.get_entity(data.attackerId)
 		var attacked = Util.get_entity(data.attackedId)
-		if attacker != null && attacked != null:
-			var dir: Vector2 = attacked.global_position - attacker.global_position 
-			Events.emit_signal("effect", data.attackerId, dir)
+		if attacked != null:
+			if data.success == false:
+				Events.emit_signal("text_effect", data.attackedId, "Miss!", Color.gray)
+			
+			# Events.emit_signal("effect", data.attackerId, attacked.global_position)
 
 
-func _on_effect(id: String, direction: Vector2):
+func _on_text_effect(id: String, text: String, modulate: Color):
 	if is_instance_valid(_parent_entity):
 		if id == _parent_entity.get_id():
-			var slash = slash_scene.instance()
-			_parent_entity.add_child(slash)
-			slash.init(direction.normalized())
+			text_effect.text = text
+			text_effect.modulate = modulate
+			text_effect_anim_player.play("textEffect")
+
+
+func _on_effect(id: String, effect_target_pos: Vector2):
+	if is_instance_valid(_parent_entity):
+		if id == _parent_entity.get_id():
+			slash.init(effect_target_pos)
 			slash.position += Vector2.ONE * 8

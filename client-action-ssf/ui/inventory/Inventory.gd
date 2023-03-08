@@ -113,3 +113,7 @@ func toggle_visible():
 			var is_hot_bar_slot = item_slot_i >= item_grid.get_child_count() - INVENTORY_WIDTH
 			item_grid.get_child(item_slot_i).set_visible(is_hot_bar_slot)
 	
+
+
+func _on_CloseInventoryButton_pressed():
+	toggle_visible()

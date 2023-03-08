@@ -17,14 +17,19 @@ func _ready():
 func init(spawn_entity_dto: Dictionary):
 	if spawn_entity_dto.has("healthComponent"):
 		entity_id = spawn_entity_dto.id
+		health = spawn_entity_dto.healthComponent.health
 		Bar.max_value = spawn_entity_dto.healthComponent.maxHealth
-		Bar.value = spawn_entity_dto.healthComponent.health
-		set_visible(health != Bar.max_value)
+		Bar.value = health
+		set_visible(int(health) != int(Bar.max_value))
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
 	if event == WsEvents.setEntityHealth:
 		if data.id == entity_id:
+			
+			if int(data.health) < health:
+				Events.emit_signal("text_effect", entity_id, str(health - data.health), Color("#f57d7d"))
+			
 			set_visible(int(health) != int(Bar.max_value))
 			health = int(data.health)
 			Bar.value = int(health)

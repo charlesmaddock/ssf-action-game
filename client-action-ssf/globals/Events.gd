@@ -30,3 +30,4 @@ signal touched_entity_or_resource(entity_or_resource)
 
 
 signal effect(id, direction)
+signal text_effect(id, text, modulate)

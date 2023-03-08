@@ -86,5 +86,6 @@ func get_input():
 	if Input.is_action_pressed("ui_up"):
 		velocity.y -= 1
 	
-	return velocity.normalized() + JoyStick.get_velocity()
+	var combined = velocity.normalized() + JoyStick.get_velocity()
+	return combined
 

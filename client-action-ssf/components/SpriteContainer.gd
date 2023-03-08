@@ -25,9 +25,13 @@ func _on_damage_taken(damage, dir) -> void:
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
-	if event == "harvestedItem":
-		if get_parent().get_id() == Client.get_my_account().id:
-			MovementAnimator.play("itemSlash")
+	if event == "isHarvesting":
+		if get_parent().get_id() == data.id:
+			if data.val == true:
+				MovementAnimator.play("itemSlash")
+			else:
+				MovementAnimator.play("idle")
+				
 
 
 func check_if_in_water():
@@ -41,12 +45,13 @@ func play_idle():
 
 
 func play_move_anim():
-	if in_water:
-		if MovementAnimator.current_animation != "swim":
-			MovementAnimator.play("swim")
-	else:
-		if MovementAnimator.current_animation != "jump":
-			MovementAnimator.play("jump")
+	if MovementAnimator.current_animation != "itemSlash":
+		if in_water:
+			if MovementAnimator.current_animation != "swim":
+				MovementAnimator.play("swim")
+		else:
+			if MovementAnimator.current_animation != "jump":
+				MovementAnimator.play("jump")
 
 
 func _on_WorldDetector_body_entered(body):

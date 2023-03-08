@@ -40,7 +40,6 @@ radius = 40.0
 script = ExtResource( 4 )
 
 [node name="HUDButtons" parent="." instance=ExtResource( 1 )]
-is_desktop_buttons = true
 
 [node name="Inventory" type="Control" parent="."]
 anchor_right = 1.0
@@ -64,18 +63,10 @@ margin_bottom = 600.0
 mouse_filter = 2
 alignment = 1
 
-[node name="HUDButtons" parent="Inventory/HBoxContainer/VBoxContainer" instance=ExtResource( 1 )]
-anchor_top = 0.0
-anchor_bottom = 0.0
-margin_left = 0.0
-margin_top = 146.0
-margin_right = 402.0
-margin_bottom = 178.0
-
 [node name="PanelContainer" type="PanelContainer" parent="Inventory/HBoxContainer/VBoxContainer"]
-margin_top = 186.0
+margin_top = 166.0
 margin_right = 402.0
-margin_bottom = 453.0
+margin_bottom = 433.0
 rect_min_size = Vector2( 400, 0 )
 mouse_filter = 2
 
@@ -93,24 +84,36 @@ mouse_filter = 2
 alignment = 2
 
 [node name="CraftingContainer" type="HBoxContainer" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory"]
-margin_left = 166.0
 margin_right = 388.0
 margin_bottom = 45.0
 mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 2
 script = ExtResource( 9 )
 
+[node name="Control" type="Control" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
+margin_right = 162.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+
+[node name="CloseInventoryButton" type="Button" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/Control"]
+margin_right = 16.0
+margin_bottom = 45.0
+text = "Close (e)"
+
 [node name="Ingredient1ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
-margin_right = 45.0
+margin_left = 166.0
+margin_right = 211.0
 is_crafting_slot = true
 
 [node name="Ingredient2ItemSlot" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer" instance=ExtResource( 7 )]
-margin_left = 49.0
-margin_right = 94.0
+margin_left = 215.0
+margin_right = 260.0
 is_crafting_slot = true
 
 [node name="CraftButton" type="Button" parent="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer"]
-margin_left = 98.0
-margin_right = 222.0
+margin_left = 264.0
+margin_right = 388.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 124, 0 )
 text = "..."
@@ -339,4 +342,5 @@ movement_path = NodePath("..")
 position = Vector2( 40, 40 )
 texture = ExtResource( 11 )
 
+[connection signal="pressed" from="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/Control/CloseInventoryButton" to="Inventory" method="_on_CloseInventoryButton_pressed"]
 [connection signal="pressed" from="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton" to="Inventory/HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory/CraftingContainer/CraftButton" method="_on_CraftButton_pressed"]

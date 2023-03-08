@@ -111,7 +111,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=8]
 resource_name = "itemSlash"
-length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer/Item:visible")
 tracks/0/interp = 1
@@ -119,7 +119,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -159,6 +159,18 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 0.9, 1.2 ), Vector2( 0.9, 1.2 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpriteContainer/Sprite:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -225,8 +237,8 @@ position = Vector2( 8, 8 )
 texture = SubResource( 6 )
 
 [node name="Health" parent="." instance=ExtResource( 4 )]
-position = Vector2( 8, 20 )
-scale = Vector2( 0.5, 0.8 )
+position = Vector2( 7, 35 )
+scale = Vector2( 0.7, 1.2 )
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
 speed = 95.0
@@ -250,8 +262,6 @@ text = "name"
 align = 1
 valign = 1
 clip_text = true
-
-[node name="EffectHandler" parent="." instance=ExtResource( 12 )]
 
 [node name="SpriteContainer" type="Node2D" parent="."]
 position = Vector2( 8, 16 )
@@ -290,6 +300,8 @@ position = Vector2( -4, -2 )
 texture = SubResource( 7 )
 offset = Vector2( 0.0489349, -7.49307 )
 region_rect = Rect2( 128, 128, 16, 16 )
+
+[node name="EffectHandler" parent="." instance=ExtResource( 12 )]
 
 [node name="WorldDetector" type="Area2D" parent="."]
 position = Vector2( 8, 16 )

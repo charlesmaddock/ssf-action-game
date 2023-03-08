@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/Game.gd" type="Script" id=1]
 [ext_resource path="res://game/Camera.gd" type="Script" id=2]
@@ -7,44 +7,9 @@
 [ext_resource path="res://ui/chat/Chat.tscn" type="PackedScene" id=5]
 [ext_resource path="res://world/World.gd" type="Script" id=6]
 [ext_resource path="res://ui/hud/HUD.tscn" type="PackedScene" id=7]
-[ext_resource path="res://game/actionIndication/ActionHandler.gd" type="Script" id=8]
-[ext_resource path="res://assets/sprites/ActionIndicator.png" type="Texture" id=9]
-[ext_resource path="res://assets/sprites/AttackActionIndicatorIcon.png" type="Texture" id=10]
-[ext_resource path="res://assets/sprites/MineActionIndicatorIcon.png" type="Texture" id=11]
+[ext_resource path="res://game/actionIndication/ActionHandler.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/uiComponents/Backdrop.tscn" type="PackedScene" id=12]
 [ext_resource path="res://game/Entities.gd" type="Script" id=15]
-
-[sub_resource type="Animation" id=1]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("Container:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1e-05, 1e-05 ) ]
-}
-
-[sub_resource type="Animation" id=2]
-resource_name = "appear"
-length = 0.4
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("Container:scale")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1e-05, 1e-05 ), Vector2( 0.9, 1.3 ), Vector2( 1.2, 0.9 ), Vector2( 1, 1 ) ]
-}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -58,31 +23,7 @@ script = ExtResource( 15 )
 
 [node name="WorldYSort" type="YSort" parent="."]
 
-[node name="ActionHandler" type="Node2D" parent="."]
-z_index = 10
-script = ExtResource( 8 )
-
-[node name="Container" type="Node2D" parent="ActionHandler"]
-scale = Vector2( 1e-05, 1e-05 )
-
-[node name="ActionIndicator" type="Sprite" parent="ActionHandler/Container"]
-position = Vector2( -16, -32 )
-texture = ExtResource( 9 )
-centered = false
-
-[node name="AttackActionIndicatorIcon" type="Sprite" parent="ActionHandler/Container"]
-visible = false
-position = Vector2( -1, -16 )
-texture = ExtResource( 10 )
-
-[node name="MineActionIndicatorIcon" type="Sprite" parent="ActionHandler/Container"]
-visible = false
-position = Vector2( -1, -16 )
-texture = ExtResource( 11 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ActionHandler"]
-anims/RESET = SubResource( 1 )
-anims/appear = SubResource( 2 )
+[node name="ActionHandler" parent="." instance=ExtResource( 8 )]
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true

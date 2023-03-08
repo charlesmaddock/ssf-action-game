@@ -1,13 +1,6 @@
 extends HBoxContainer
 
 
-export(bool) var is_desktop_buttons
-
-
-func _ready():
-	set_visible(!is_desktop_buttons && Util.is_mobile() || is_desktop_buttons && !Util.is_mobile())
-
-
 func _on_ChatButton_pressed():
 	Events.emit_signal("chat_button_pressed")
 

@@ -4,12 +4,14 @@ extends Node2D
 var hovering_over_entities: Array = []
 var currently_hovering_over: Node2D = null
 var indicator_offset: Vector2 = Vector2.ZERO
+var action_in_progress: bool
 
 onready var animation_player = $AnimationPlayer
 
 onready var action_indicator = $Container/ActionIndicator
 onready var attack_action_icon = $Container/AttackActionIndicatorIcon
 onready var mine_action_icon = $Container/MineActionIndicatorIcon
+onready var cancel_action_icon = $Container/CancelActionIndicatorIcon
 
 
 func _ready():
@@ -21,7 +23,7 @@ func _ready():
 func _on_hovered_over_entity_or_resource(entity_or_resource):
 	if hovering_over_entities.find(entity_or_resource) == -1:
 		hovering_over_entities.append(entity_or_resource)
-		animation_player.play("appear")
+		#animation_player.play("appear")
 	
 	if hovering_over_entities.size() != 0:
 		visible = true
@@ -30,21 +32,25 @@ func _on_hovered_over_entity_or_resource(entity_or_resource):
 func _on_left_hover_over_entity_or_resource(entity_or_resource):
 	var index = hovering_over_entities.erase(entity_or_resource)
 	entity_or_resource.modulate = Color.white
-	
-	if hovering_over_entities.size() == 0:
-		currently_hovering_over = null
-		visible = false
+	hide_inidicator()
 
 
 func _one_touched_entity_or_resource(entity_or_resource):
 	action_with(entity_or_resource)
 
 
-func _input(event):
-	if Input.is_action_just_pressed("interact_action") && is_instance_valid(currently_hovering_over) == false:
-		var my_player_pos = Client.get_my_player().global_position + Vector2.ONE * 8
-		var velocity = get_global_mouse_position() - my_player_pos
-		Events.emit_signal("effect", Client.get_my_account().id, velocity.normalized())
+func hide_inidicator():
+	if hovering_over_entities.size() == 0:
+		currently_hovering_over = null
+		visible = false
+
+
+func set_icon_visible(icon_to_set_visible):
+	attack_action_icon.visible = false
+	mine_action_icon.visible = false
+	cancel_action_icon.visible = false
+	
+	icon_to_set_visible.visible = true
 
 
 func action_with(entity_or_resource):
@@ -60,28 +66,34 @@ func _process(delta):
 	var closest_entity = null
 	var closest_dist = 999999
 	var hover_pos = get_viewport().get_mouse_position()
-	for entity in hovering_over_entities:
+	var invalid_at_i = -1
+	for entity_i in hovering_over_entities.size():
+		var entity = hovering_over_entities[entity_i]
 		if is_instance_valid(entity):
 			var entity_screen_pos = entity.get_global_transform_with_canvas().origin
 			var dist = entity_screen_pos.distance_to(hover_pos)
 			if dist < closest_dist:
 				closest_entity = entity
 				closest_dist = dist
+		else:
+			invalid_at_i = entity_i
 	
+	if invalid_at_i != -1:
+		hovering_over_entities.remove(invalid_at_i)
+		hide_inidicator()
 	
 	if closest_entity != null && closest_entity != currently_hovering_over:
 		currently_hovering_over = closest_entity
-		closest_entity.modulate = Color(1.2, 1.2, 1.2)
+		closest_entity.modulate = Color(1.5, 1.5, 1.5)
 		
 		if Util.is_entity(closest_entity):
 			indicator_offset = Vector2(8, -8)
-			attack_action_icon.visible = true
-			mine_action_icon.visible = false
+			set_icon_visible(attack_action_icon)
 		else:
 			indicator_offset = Vector2(24, 18)
-			mine_action_icon.visible = true
-			attack_action_icon.visible = false
-			
+			set_icon_visible(mine_action_icon)
 	
 	if is_instance_valid(currently_hovering_over): 
 		global_position = currently_hovering_over.global_position + indicator_offset
+
+
