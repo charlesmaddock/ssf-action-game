@@ -1,8 +1,8 @@
 extends Node
 
 
-const RESOURCE_DIM: Vector2 = Vector2(48, 48)
 const TILE_DIM: Vector2 = Vector2(16, 16)
+const RESOURCE_DIM: Vector2 = Vector2(TILE_DIM.x * 6, TILE_DIM.y * 6)
 
 
 enum EntityTypes {

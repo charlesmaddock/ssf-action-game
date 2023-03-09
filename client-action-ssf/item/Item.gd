@@ -43,14 +43,13 @@ func get_is_preview():
 func get_closest_item_slot(prev_item_slot):
 	var closest_item_slot = null
 	var closest_dist = 999999
-	var item_slot_extents = Vector2(25.5, 25.5)
+	var item_slot_extents = prev_item_slot.get_extents()
 	for item_slot_area in colliding_item_slot_areas:
 		if is_instance_valid(item_slot_area):
 			var item_slot = item_slot_area.get_parent()
 			if item_slot.get_item() == null && item_slot != prev_item_slot:
 				var item_slot_pos = item_slot.rect_global_position + item_slot_extents
-				var item_pos = rect_global_position
-				var dist = item_slot_pos.distance_to(item_pos)
+				var dist = item_slot_pos.distance_to(get_global_mouse_position())
 				if dist < closest_dist:
 					closest_item_slot = item_slot
 					closest_dist = dist
@@ -66,22 +65,31 @@ func _on_Item_button_up():
 	if _is_preview == false:
 		ItemDragHandler.try_place_dragged_item() 
 		area2d.z_index = 2
+	
 	item_desc.hide()
 
 
 func _on_Item_button_down():
 	if _is_preview == false:
-		area2d.z_index = 3
+		area2d.z_index = 4
 		ItemDragHandler.started_dragging_item(self, get_parent()) 
-	item_desc.hide()
+	
+	if Util.is_mobile() == true:
+		item_desc.show()
+	else:
+		item_desc.hide()
 
 
 func _on_Item_mouse_entered():
-	item_desc.show()
+	if Util.is_mobile() == false:
+		area2d.z_index = 3
+		item_desc.show()
 
 
 func _on_Item_mouse_exited():
-	item_desc.hide()
+	if Util.is_mobile() == false:
+		area2d.z_index = 2
+		item_desc.hide()
 
 
 func _on_Area2D_area_entered(area):

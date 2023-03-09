@@ -9,7 +9,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 293, 392, 45, 45 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 25.5, 25.5 )
+extents = Vector2( 22.5, 22.5 )
 
 [node name="ItemSlot" type="TextureButton"]
 margin_right = 44.0

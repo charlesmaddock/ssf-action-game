@@ -16,7 +16,7 @@ script = ExtResource( 3 )
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 435.0
-margin_bottom = 325.0
+margin_bottom = 353.0
 rect_min_size = Vector2( 400, 0 )
 
 [node name="Label" type="Label" parent="VBox"]
@@ -25,10 +25,30 @@ margin_bottom = 20.0
 custom_colors/font_color = Color( 0.329412, 0.239216, 0.0666667, 1 )
 text = "World Map"
 
-[node name="HBoxContainer" type="GridContainer" parent="VBox"]
+[node name="WorldLoadedInfo" type="HBoxContainer" parent="VBox"]
 margin_top = 28.0
 margin_right = 428.0
-margin_bottom = 110.0
+margin_bottom = 48.0
+
+[node name="PercentExplored" type="Label" parent="VBox/WorldLoadedInfo"]
+margin_right = 9.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 549, 97 )
+custom_colors/font_color = Color( 0.505882, 0.356863, 0.309804, 1 )
+text = "..."
+
+[node name="PercentLoaded" type="Label" parent="VBox/WorldLoadedInfo"]
+margin_left = 13.0
+margin_right = 22.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 536, 97 )
+custom_colors/font_color = Color( 0.505882, 0.356863, 0.309804, 1 )
+text = "..."
+
+[node name="HBoxContainer" type="GridContainer" parent="VBox"]
+margin_top = 56.0
+margin_right = 428.0
+margin_bottom = 138.0
 columns = 3
 
 [node name="ShowHeatCheckBox" type="CheckBox" parent="VBox/HBoxContainer"]
@@ -57,9 +77,9 @@ pressed = true
 text = "Show Moisture"
 
 [node name="WorldMapSprite" type="TextureRect" parent="VBox"]
-margin_top = 118.0
+margin_top = 146.0
 margin_right = 428.0
-margin_bottom = 318.0
+margin_bottom = 346.0
 rect_min_size = Vector2( 400, 200 )
 expand = true
 stretch_mode = 7

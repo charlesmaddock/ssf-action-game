@@ -19,6 +19,7 @@ onready var harvestedItem = $HarvestedItem
 
 var _id: String  
 var original_pos: Vector2
+var loaded = false
 
 
 var anim_progress: float = 0
@@ -33,7 +34,7 @@ func _ready():
 
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
-	if event == "harvestedItem":
+	if event == WsEvents.harvestedItem:
 		if data.resourceId == _id:
 			var my_player = Client.get_my_player()
 			if my_player != null:
@@ -41,17 +42,26 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 				harvestedItem.fly_to(global_position + get_resource_extents(), my_player.global_position, data.type)
 				set_process(true)
 				anim_progress = 0
+	elif event == WsEvents.resourceStatus:
+		if data.id == _id:
+			for child in get_children():
+				if child is AnimatedSprite:
+					child.update_resource_status(data.procentFull)
 
 
 func init(resource_data: Dictionary):
 	_id = resource_data.id
-	for x in Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x:
-		for y in Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y:
-			if randf() > 0.3 || (x > 0 && x < Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x - 1 && y > 0 && y < Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y - 1):
-				var resource = resource_scenes[int(resource_data.type)].instance()
-				add_child(resource)
-				var rand_displacement = Vector2((randf() - 0.5) * 10, (randf() - 0.5) * 10)
-				resource.position = Vector2((x + 1) * 16 - 8, (y + 1) * 16 - 8) + rand_displacement
+	
+	if loaded == false:
+		loaded = true
+		for x in Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x:
+			for y in Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y:
+				if x % 2 == 0 || y % 2 == 0:
+					continue  
+				if randf() > 0.3 || (x > 0 && x < Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x - 1 && y > 0 && y < Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y - 1):
+					var resourceSprite = resource_scenes[int(resource_data.type)].instance()
+					add_child(resourceSprite)
+					resourceSprite.init(x, y, resource_data.dropsPercent)
 	
 	global_position = Vector2(resource_data.x, resource_data.y)
 	original_pos = global_position

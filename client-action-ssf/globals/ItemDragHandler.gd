@@ -17,7 +17,7 @@ func started_dragging_item(item, item_slot):
 
 func _process(delta):
 	if draging_item != null:
-		draging_item.rect_global_position = get_viewport().get_mouse_position() 
+		draging_item.rect_global_position = get_viewport().get_mouse_position() + Vector2(-1, -1) * 16
 
 
 func try_place_dragged_item():

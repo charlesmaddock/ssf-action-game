@@ -1,8 +1,29 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/sprites/stone.png" type="Texture" id=1]
+[ext_resource path="res://resources/ResourceSprite.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/stones.png" type="Texture" id=2]
 
-[node name="Sprite" type="Sprite"]
-position = Vector2( 8, 16 )
-texture = ExtResource( 1 )
-offset = Vector2( 0, -8 )
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 48, 64 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Stone" type="AnimatedSprite"]
+frames = SubResource( 4 )
+offset = Vector2( -2, -30 )
+script = ExtResource( 1 )

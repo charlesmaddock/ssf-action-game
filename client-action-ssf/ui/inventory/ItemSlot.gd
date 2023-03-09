@@ -9,6 +9,9 @@ signal removed_item(item)
 export(bool) var is_crafting_slot = false
 
 
+onready var collision_shape = $Area2D/CollisionShape2D
+
+
 var item_scene = load("res://item/Item.tscn")
 var holding_item = null
 var locked = false
@@ -20,6 +23,10 @@ func _ready():
 
 func get_item():
 	return holding_item
+
+
+func get_extents() -> Vector2:
+	return collision_shape.shape.extents
 
 
 func get_item_id() -> String:

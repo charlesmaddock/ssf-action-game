@@ -26,30 +26,35 @@ func _input(event):
 		var pos = WorldMapSprite.get_local_mouse_position()
 		var x_ratio = WorldMapSprite.texture.get_width() / WorldMapSprite.rect_size.x
 		var y_ratio = WorldMapSprite.texture.get_height() / WorldMapSprite.rect_size.y
-		NorthLabel.text = "North: " + str(clamp(floor(pos.y * y_ratio), 0, _world_map.height))
-		EastLabel.text = "East: " + str(clamp(floor(pos.x * x_ratio), 0, _world_map.width))
+		NorthLabel.text = "North: " + str(clamp(floor(pos.y * y_ratio * _world_map.lod), 0, _world_map.height))
+		EastLabel.text = "East: " + str(clamp(floor(pos.x * x_ratio * _world_map.lod), 0, _world_map.width))
 
 
 func _on_GetWorldMap_request_completed(result, response_code, headers, body):
 	var json = JSON.parse(body.get_string_from_utf8())
 	if response_code >= 200 && response_code < 300:
 		_world_map = json.result
+		
+		$VBox/WorldLoadedInfo/PercentExplored.text = str(stepify(_world_map.chunksExplored / (_world_map.width * _world_map.height) * 100, 0.01)) + "% of the world is explored."
+		$VBox/WorldLoadedInfo/PercentLoaded.text = str(stepify(_world_map.chunksLoaded / (_world_map.width * _world_map.height) * 100, 0.01)) + "% is loaded right now."
+		
 		draw_map_on_sprite(_world_map)
 
 
-func draw_map_on_sprite(worldMap: Dictionary) -> void:
+func draw_map_on_sprite(world_map: Dictionary) -> void:
 	var image: Image = Image.new()
-	image.create(worldMap.width, worldMap.height, false, Image.FORMAT_RGBA8)
+	image.create(world_map.width / world_map.lod, world_map.height / world_map.lod, false, Image.FORMAT_RGBA8)
 	image.lock()
-	for val in worldMap.chunkData:
+	
+	for val in world_map.chunkData:
 		var noise_map_data: Dictionary = val
-		var noise_map_pos: Vector2 = Vector2(noise_map_data.x, noise_map_data.y)
+		var noise_map_pos: Vector2 = Vector2(noise_map_data.x / world_map.lod, noise_map_data.y / world_map.lod)
 		var heat_map: Array = noise_map_data.chunkNoiseMaps.heat
 		var fertility_map: Array = noise_map_data.chunkNoiseMaps.fertility
 		var height_map: Array = noise_map_data.chunkNoiseMaps.height
 		var moisture_map: Array = noise_map_data.chunkNoiseMaps.moisture
 		
-		var noise_map_size = heat_map.size()
+		var noise_map_size = heat_map.size() / world_map.lod
 		for x in noise_map_size:
 			for y in noise_map_size:
 				var heat_value = heat_map[x][y]
@@ -66,6 +71,7 @@ func draw_map_on_sprite(worldMap: Dictionary) -> void:
 					fertility_color = Color(0,0,0,0)
 				
 				var moisture_value = moisture_map[x][y]
+				
 				var moisture_color: Color = Color(0, 0, moisture_value, 0.2) 
 				
 				var combined_color: Color 
