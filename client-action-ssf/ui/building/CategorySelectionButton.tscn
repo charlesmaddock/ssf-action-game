@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/building/CategorySelectionButton.gd" type="Script" id=1]
+
+[node name="CategorySelectionButton" type="Button"]
+margin_right = 55.0
+margin_bottom = 39.0
+text = "Walls"
+script = ExtResource( 1 )
+
+[connection signal="button_down" from="." to="." method="_on_CategorySelectionButton_button_down"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ui/uiComponents/FlexContainer.gd" type="Script" id=2]
+
+[node name="FlexContainer" type="Container"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 997.0
+margin_bottom = 122.0
+script = ExtResource( 2 )

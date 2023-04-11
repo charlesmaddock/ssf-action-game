@@ -70,6 +70,9 @@ func _input(event):
 	if Input.is_action_just_pressed("open_chat"):
 		API.send_input(Vector2(0, 0))
 	
+	if Input.is_action_just_pressed("open_inventory"):
+		API.send_input(Vector2(0, 0))
+	
 	if _prev_input != input && in_gameplay_mode():
 		_prev_input = Vector2(input.x, input.y)
 		API.send_input(input)

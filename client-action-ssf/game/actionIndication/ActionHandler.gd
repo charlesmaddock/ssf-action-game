@@ -1,11 +1,6 @@
 extends Node2D
 
 
-var hovering_over_entities: Array = []
-var currently_hovering_over: Node2D = null
-var indicator_offset: Vector2 = Vector2.ZERO
-var action_in_progress: bool
-
 onready var animation_player = $AnimationPlayer
 
 onready var action_indicator = $Container/ActionIndicator
@@ -14,10 +9,18 @@ onready var mine_action_icon = $Container/MineActionIndicatorIcon
 onready var cancel_action_icon = $Container/CancelActionIndicatorIcon
 
 
+var hovering_over_entities: Array = []
+var currently_hovering_over: Node2D = null
+var indicator_offset: Vector2 = Vector2.ZERO
+var action_in_progress: bool
+var currently_selected_item_id: String = ""
+
+
 func _ready():
 	Events.connect("hovered_over_entity_or_resource", self, "_on_hovered_over_entity_or_resource")
 	Events.connect("left_hover_over_entity_or_resource", self, "_on_left_hover_over_entity_or_resource")
 	Events.connect("touched_entity_or_resource", self, "_one_touched_entity_or_resource")
+	Events.connect("selected_item", self, "_on_selected_item")
 
 
 func _on_hovered_over_entity_or_resource(entity_or_resource):
@@ -39,6 +42,12 @@ func _one_touched_entity_or_resource(entity_or_resource):
 	action_with(entity_or_resource)
 
 
+func _on_selected_item(entity_id: String, item_id: String, item_type: int, item_made_of: Array):
+	if item_id != currently_selected_item_id && Client.is_mine(entity_id):
+		currently_selected_item_id = item_id
+		API.select_item(item_id)
+
+
 func hide_inidicator():
 	if hovering_over_entities.size() == 0:
 		currently_hovering_over = null
@@ -55,11 +64,13 @@ func set_icon_visible(icon_to_set_visible):
 
 func action_with(entity_or_resource):
 	if is_instance_valid(entity_or_resource):
-		if entity_or_resource.has_method("get_id"):
+		if entity_or_resource.has_method("get_id") && currently_hovering_over == entity_or_resource:
 			if Util.is_entity(entity_or_resource):
 				API.request_attack(entity_or_resource.global_position, entity_or_resource.get_id())
-			else:
+			elif Util.is_building(entity_or_resource):
 				API.request_harvest(entity_or_resource.get_id())
+			else:
+				API.building_interact(entity_or_resource.get_id(), entity_or_resource.global_position)
 
 
 func _process(delta):
@@ -83,6 +94,10 @@ func _process(delta):
 		hide_inidicator()
 	
 	if closest_entity != null && closest_entity != currently_hovering_over:
+		
+		for interactable in hovering_over_entities:
+			interactable.modulate = Color.white
+		
 		currently_hovering_over = closest_entity
 		closest_entity.modulate = Color(1.5, 1.5, 1.5)
 		

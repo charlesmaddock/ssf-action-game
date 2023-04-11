@@ -1,23 +1,14 @@
 extends YSort
 
 
-enum ResourceType {
-	TREE,
-	STONE,
-	BUSH,
-	MUSHROOM
-}
-
-var resource_scenes = {
-	ResourceType.TREE: preload("res://resources/tree.tscn"),
-	ResourceType.STONE: preload("res://resources/stone.tscn")
-}
-
 export(Curve) var shake_curve: Curve
 
-onready var harvestedItem = $HarvestedItem
+
+onready var harvested_item = $HarvestedItem
+
 
 var _id: String  
+var _type: int
 var original_pos: Vector2
 var loaded = false
 
@@ -35,33 +26,33 @@ func _ready():
 
 func _on_packet_received(event: String, data: Dictionary) -> void:
 	if event == WsEvents.harvestedItem:
-		if data.resourceId == _id:
-			var my_player = Client.get_my_player()
-			if my_player != null:
-				yield(get_tree().create_timer(0.4), "timeout")
-				harvestedItem.fly_to(global_position + get_resource_extents(), my_player.global_position, data.type)
+		if data.harvestedFromId == _id:
+			var harvester = Util.get_entity(data.harvesterId)
+			if harvester != null:
+				harvested_item.fly_to(global_position + get_resource_extents(), harvester.global_position, data.itemConfig.itemType, data.itemConfig.madeOf)
 				set_process(true)
 				anim_progress = 0
 	elif event == WsEvents.resourceStatus:
 		if data.id == _id:
 			for child in get_children():
-				if child is AnimatedSprite:
+				if child.has_method("update_resource_status"):
 					child.update_resource_status(data.procentFull)
 
 
 func init(resource_data: Dictionary):
 	_id = resource_data.id
+	_type = resource_data.type
+	
+	var amount_to_spawn = 3 + (randi() % 3)
 	
 	if loaded == false:
 		loaded = true
-		for x in Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x:
-			for y in Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y:
-				if x % 2 == 0 || y % 2 == 0:
-					continue  
-				if randf() > 0.3 || (x > 0 && x < Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x - 1 && y > 0 && y < Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y - 1):
-					var resourceSprite = resource_scenes[int(resource_data.type)].instance()
-					add_child(resourceSprite)
-					resourceSprite.init(x, y, resource_data.dropsPercent)
+		while amount_to_spawn > 0:
+			amount_to_spawn -= 1
+			var rand_pos = Vector2(randf() * (Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x), randf() * (Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y))
+			var resource_sprite = ResourceConstants.resource_info[int(resource_data.type)].scene.instance()
+			add_child(resource_sprite)
+			resource_sprite.init(rand_pos.x, rand_pos.y, resource_data.dropsPercent, int(resource_data.type))
 	
 	global_position = Vector2(resource_data.x, resource_data.y)
 	original_pos = global_position

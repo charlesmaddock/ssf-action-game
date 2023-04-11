@@ -1,11 +1,10 @@
 extends Area2D
 
 
-onready var collision_shape = $CollisionShape2D
-
-
 func init_indication_area(size: Vector2, pos: Vector2):
-	collision_shape.shape.extents = size
+	var shape = RectangleShape2D.new()
+	shape.extents = size
+	$CollisionShape2D.shape = shape
 	position = pos
 
 

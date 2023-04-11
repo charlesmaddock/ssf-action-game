@@ -1,8 +1,10 @@
 extends YSort
 
 
-var high_detail_entity_scene = preload("res://entities/Entity.tscn")
-var low_detail_entity_scene = preload("res://entities/LowDetailEntity.tscn")
+var projectile_scene = load("res://entities/Projectile.tscn")
+var high_detail_entity_scene = load("res://entities/Entity.tscn")
+var low_detail_entity_scene = load("res://entities/LowDetailEntity.tscn")
+
 var entity_data = {}
 var my_entity = null
 var high_detail_render_distance = pow(Constants.TILE_DIM.x * 30, 2)
@@ -24,7 +26,7 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 			entity_data[data.id] = data
 			
 			var spawn_pos = Vector2(data.movementComponent.x, data.movementComponent.y)
-			var entity = create_entity(data, false, Client.is_mine(data.id), spawn_pos)
+			var entity = create_entity(data, false, true, spawn_pos)
 			
 			if Client.is_mine(data.id):
 				my_entity = entity
@@ -32,12 +34,21 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 				Events.emit_signal("follow_w_camera", entity)
 			
 		WsEvents.despawnEntity:
+			yield(get_tree().create_timer(1), "timeout")
 			entity_data.erase(data.id)
 			remove_entity_w_id(data.id)
 			
 			if Client.is_mine(data.id):
 				my_entity = null
 				set_process(false)
+		WsEvents.attacked:
+			if data.ranged == true:
+				var attacker = get_entity(data.attackerId)
+				var attacked = get_entity(data.attackedId)
+				if attacker != null && attacked  != null:
+					var projectile = projectile_scene.instance()
+					add_child(projectile)
+					projectile.fire(attacker, attacked, data.success)
 
 
 func get_my_entity():
@@ -52,6 +63,8 @@ func get_entity(id: String):
 
 
 func _process(delta):
+	return
+	
 	LOD_check_iteration += 1
 	var segement = LOD_check_iteration % LOD_segment_amount
 	

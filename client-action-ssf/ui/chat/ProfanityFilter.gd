@@ -664,6 +664,9 @@ var bad_words = [
 
 func filter(string: String) -> String:
 	for bad_word in bad_words:
-		string = string.replacen(bad_word, "€*%#!")
+		if randf() > 0.9:
+			string = string.replacen(bad_word, "*%gloob!€")
+		else:
+			string = string.replacen(bad_word, "€*%#!")
 	
 	return string

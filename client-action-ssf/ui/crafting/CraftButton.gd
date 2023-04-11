@@ -24,22 +24,21 @@ func _on_packet_received(event: String, data: Dictionary):
 		elif data.type == -426:
 			clear_preview(true, true)
 		else:
-			set_preview(data.type, data.amount)
+			set_preview(data)
 	if event == WsEvents.addItemInv:
 		if data.crafted == true:
 			clear_preview(false)
 
 
-func set_preview(item_type: int, amount: int):
+func set_preview(serialized_item: Dictionary):
 	disabled = false
 	text = "Make "
-	max_result_amount = amount
+	max_result_amount = serialized_item.amount
 	preview_item.set_visible(true)
-	var item_data = { "id": "preview " + str(randi()), "type": item_type, "amount": amount}
-	preview_item.init(item_data, true)
+	preview_item.init(serialized_item, true)
 	loading_anim_player.play("RESET")
 	make_amount_line_edit.visible = true
-	make_amount_line_edit.text = str(amount)
+	make_amount_line_edit.text = str(max_result_amount)
 	align = ALIGN_LEFT
 
 

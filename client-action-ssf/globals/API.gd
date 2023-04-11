@@ -71,6 +71,7 @@ func _process(delta):
 
 
 func attempt_connect():
+	_client.disconnect_from_host()
 	var err = _client.connect_to_url(ws_api_url)
 	if err == ERR_ALREADY_IN_USE:
 		print("The websocket is already connected.")
@@ -79,7 +80,7 @@ func attempt_connect():
 		set_process(false)
 
 
-func send_packet(event: String, data: Dictionary = {}, useAccessToken: bool = false) -> void:
+func send_packet(event: String, data: Dictionary = {}, useAccessToken: bool = true) -> void:
 	var packet = {
 		"event": event, 
 		"data": data, 
@@ -92,38 +93,53 @@ func send_packet(event: String, data: Dictionary = {}, useAccessToken: bool = fa
 	_client.get_peer(1).put_packet(json.to_utf8())
 
 
-func requestSpawnPlayer(requested_spawn_pos: Vector2) -> void:
-	send_packet(WsEvents.requestSpawnPlayer, {"x": requested_spawn_pos.x, "y": requested_spawn_pos.y}, true)
+func request_spawn_player(requested_spawn_pos: Vector2) -> void:
+	send_packet(WsEvents.requestSpawnPlayer, {"x": requested_spawn_pos.x, "y": requested_spawn_pos.y})
 
 
 func request_load_world() -> void:
-	send_packet(WsEvents.requestLoadWorld, {}, true)
+	send_packet(WsEvents.requestLoadWorld, {})
 
 
 func leave_world() -> void:
-	send_packet(WsEvents.leaveWorld, {}, true)
+	send_packet(WsEvents.leaveWorld, {})
 
 
 func send_input(input_vec: Vector2) -> void:
-	send_packet(WsEvents.setMoveInput, {"x": input_vec.x, "y": input_vec.y}, true)
+	send_packet(WsEvents.setMoveInput, {"x": input_vec.x, "y": input_vec.y})
 
 
 func send_chat(text: String) -> void:
-	send_packet(WsEvents.sendChat, {"text": text}, true)
+	send_packet(WsEvents.sendChat, {"text": text})
 
 
 func request_harvest(id: String) -> void:
-	send_packet(WsEvents.harvest, {"resourceId": id}, true)
+	send_packet(WsEvents.harvest, {"resourceId": id})
 
 
-func request_attack(pos: Vector2, id: String = "") -> void:
-	send_packet(WsEvents.attack, {"id": id, "x": pos.x, "y": pos.y}, true)
+func request_attack(pos: Vector2, id: String) -> void:
+	send_packet(WsEvents.attack, {"id": id, "x": pos.x, "y": pos.y})
+
+
+func select_item(item_id: String) -> void:
+	send_packet(WsEvents.selectItem, {"itemId": item_id})
 
 
 func craft_item(ingredients_request: Array, requested_amount: int) -> void:
-	send_packet(WsEvents.craftItem, {"ingredientsRequest": ingredients_request, "amount": requested_amount}, true)
+	send_packet(WsEvents.craftItem, {"ingredientsRequest": ingredients_request, "amount": requested_amount})
 
 
 func request_craft_preview(ingredients_request: Array) -> void:
-	send_packet(WsEvents.requestCraftPreview, {"ingredientsRequest": ingredients_request}, true)
-	
+	send_packet(WsEvents.requestCraftPreview, {"ingredientsRequest": ingredients_request})
+
+
+func place_construction_site(pos: Vector2, type: int) -> void:
+	send_packet(WsEvents.placeConstructionSite, {"buildingType": type, "x": pos.x, "y": pos.y})
+
+
+func building_interact(id: String, pos: Vector2) -> void:
+	send_packet(WsEvents.interactBuilding, {"id": id, "x": pos.x, "y": pos.y})
+
+
+func add_to_construction_site(building_id: String, pos: Vector2, added_items: Array) -> void:
+	send_packet(WsEvents.addToConstructionSite, {"id": building_id, "x": pos.x, "y": pos.y, "addedItems": added_items})

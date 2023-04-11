@@ -16,8 +16,10 @@ func set_fly_finished():
 	set_process(false)
 
 
-func fly_to(start_pos: Vector2, target_pos: Vector2, type: int):
+func fly_to(start_pos: Vector2, target_pos: Vector2, type: int, made_of: Array):
+	var made_of_resource_info = Util.get_highest_priority_made_of_resource(made_of)
 	texture = Constants.item_info[type].image
+	modulate = made_of_resource_info.default_modulate
 	fly_to_target_pos = Vector2(target_pos.x + 8, target_pos.y) 
 	fly_to_start_pos = start_pos
 	fly_time = 0

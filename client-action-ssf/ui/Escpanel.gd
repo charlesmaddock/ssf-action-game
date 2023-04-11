@@ -14,7 +14,7 @@ func _on_settings_button_pressed():
 	toggle_visible()
 
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("settings"):
 		toggle_visible()
 

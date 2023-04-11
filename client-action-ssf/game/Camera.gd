@@ -42,10 +42,10 @@ func _process(delta):
 		if follow_prev_pos.distance_squared_to(follow.global_position) < 1000:
 			dir = Vector2.ZERO
 		
-		position = position.linear_interpolate(follow.global_position + (dir * 40) + Vector2(1, 1) * 8, delta * 4)
+		position = position.linear_interpolate(follow.global_position + Vector2(1, 1) * 8, delta * 4)
 		follow_prev_pos = follow.global_position
 		
 		zoom = zoom.linear_interpolate(target_zoom, delta * 10)
 		
-		if follow.global_position.distance_squared_to(global_position) > 1000:
+		if follow.global_position.distance_squared_to(global_position) > 100000:
 			position = follow.global_position

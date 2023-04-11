@@ -40,7 +40,7 @@ func _on_chat_button_pressed():
 		open_chat()
 
 
-func _input(event) -> void:
+func _input(_event) -> void:
 	if Input.is_action_just_pressed("ui_accept"): 
 		send_chat_message()
 	

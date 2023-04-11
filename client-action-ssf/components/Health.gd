@@ -29,12 +29,15 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 			
 			if int(data.health) < health:
 				Events.emit_signal("text_effect", entity_id, str(health - data.health), Color("#f57d7d"))
+				get_parent().emit_signal("damage_taken", health, Vector2.ZERO)
+			
+			if Client.is_mine(entity_id):
+				Events.emit_signal("my_health_changed", health)
 			
 			set_visible(int(health) != int(Bar.max_value))
 			health = int(data.health)
 			Bar.value = int(health)
 			
-			get_parent().emit_signal("damage_taken", health, Vector2.ZERO)
 			if health <= 0 && _is_dead == false:
 				_is_dead = true
-				get_parent().rotation_degrees = 90
+				get_parent().get_node("SpriteContainer").get_node("Sprite").rotation_degrees = 90

@@ -15,29 +15,71 @@ onready var area2d: Area2D = $Area2D
 var id = ""
 var amount = 0
 var type = Constants.ItemType.LOG
+var made_of: Array = []
 var _is_preview = false
 var colliding_item_slot_areas = []
+var _item_slot = null
 
 
-func init(item_data: Dictionary, is_preview = false):
-	var item_info = Constants.item_info[int(item_data.type)]
-	get_node("Area2D/Sprite").texture = item_info.image
-	get_node("Area2D/Sprite").modulate = item_info.mod
-	get_node("Area2D/ItemDesc").init(item_info.name)
+func init(serialized_item: Dictionary, is_preview = false):
+	var item_type = int(serialized_item.type)
+	var item_info = Constants.item_info[item_type]
+	var made_of_resource_info = Util.get_highest_priority_made_of_resource(serialized_item.madeOf)
+	var sprite = get_sprite()
+	sprite.texture = item_info.image
 	
-	if show_amount == true:
-		get_node("Area2D/StackAmountLabel").text = str(item_data.amount)
-	else:
-		get_node("Area2D/StackAmountLabel").text = ""
+	if made_of_resource_info != null:
+		if made_of_resource_info.item_modulate.has(item_type):
+			sprite.modulate = made_of_resource_info.item_modulate[item_type]
+		else:
+			sprite.modulate = made_of_resource_info.default_modulate
 	
-	id = item_data.id
-	amount = item_data.amount
-	type = int(item_data.type)
+	get_node("Area2D/ItemDesc").init(serialized_item)
+	set_amount(serialized_item.amount)
+	
+	id = serialized_item.id
+	type = int(serialized_item.type)
+	made_of = serialized_item.madeOf
 	_is_preview = is_preview
+
+
+func _ready():
+	Events.connect("inventory_toggled", self, "_on_inventory_toggled")
+	_on_inventory_toggled(false)
+
+
+func _on_inventory_toggled(inventory_visible: bool):
+	disabled = !inventory_visible
+	item_desc.hide()
+	mouse_filter = Control.MOUSE_FILTER_STOP if inventory_visible else Control.MOUSE_FILTER_IGNORE
+
+
+func get_id():
+	return id
+
+
+func get_type():
+	return type
+
+
+func get_made_of():
+	return made_of
 
 
 func get_is_preview():
 	return _is_preview
+
+
+func get_sprite():
+	return get_node("Area2D/Sprite")
+
+
+func get_current_item_slot():
+	return _item_slot
+
+
+func set_current_item_slot(item_slot):
+	_item_slot = item_slot
 
 
 func get_closest_item_slot(prev_item_slot):
@@ -47,7 +89,7 @@ func get_closest_item_slot(prev_item_slot):
 	for item_slot_area in colliding_item_slot_areas:
 		if is_instance_valid(item_slot_area):
 			var item_slot = item_slot_area.get_parent()
-			if item_slot.get_item() == null && item_slot != prev_item_slot:
+			if (item_slot.get_item() == null || prev_item_slot == item_slot) && item_slot.get_is_available():
 				var item_slot_pos = item_slot.rect_global_position + item_slot_extents
 				var dist = item_slot_pos.distance_to(get_global_mouse_position())
 				if dist < closest_dist:
@@ -55,6 +97,14 @@ func get_closest_item_slot(prev_item_slot):
 					closest_dist = dist
 	
 	return closest_item_slot
+
+
+func set_amount(a: int):
+	amount = a
+	if show_amount == true:
+		get_node("Area2D/StackAmountLabel").text = str(a)
+	else:
+		get_node("Area2D/StackAmountLabel").text = ""
 
 
 func hide_item_desc():

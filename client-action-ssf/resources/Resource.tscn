@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://resources/Resource.gd" type="Script" id=1]
 [ext_resource path="res://components/ActionIndicationArea.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/tiles/simpleTilemap.png" type="Texture" id=3]
-[ext_resource path="res://item/HarvestedItem.gd" type="Script" id=4]
-[ext_resource path="res://assets/sprites/log.png" type="Texture" id=5]
+[ext_resource path="res://item/HarvestedItem.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Curve" id=6]
 min_value = -1.0
@@ -26,7 +25,4 @@ texture = SubResource( 4 )
 
 [node name="ActionIndicationArea" parent="." instance=ExtResource( 2 )]
 
-[node name="HarvestedItem" type="Sprite" parent="."]
-z_index = 1
-texture = ExtResource( 5 )
-script = ExtResource( 4 )
+[node name="HarvestedItem" parent="." instance=ExtResource( 4 )]

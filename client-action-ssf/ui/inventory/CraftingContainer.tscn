@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://item/Item.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/ui/uipack_rpg_sheet.png" type="Texture" id=2]
+[ext_resource path="res://ui/crafting/CraftButton.gd" type="Script" id=3]
+[ext_resource path="res://ui/crafting/CraftingContainer.gd" type="Script" id=4]
+[ext_resource path="res://ui/inventory/ItemSlot.tscn" type="PackedScene" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 293, 392, 45, 45 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+
+[sub_resource type="Animation" id=2]
+resource_name = "loading"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ "...", "·..", ".·.", "..·" ]
+}
+
+[sub_resource type="MeshTexture" id=4]
+image_size = Vector2( 46, 46 )
+
+[node name="CraftingContainer" type="HBoxContainer"]
+margin_right = 388.0
+margin_bottom = 45.0
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 2
+script = ExtResource( 4 )
+
+[node name="Ingredient1ItemSlot" parent="." instance=ExtResource( 7 )]
+margin_left = 166.0
+margin_right = 211.0
+texture_normal = SubResource( 1 )
+is_crafting_slot = true
+
+[node name="Ingredient2ItemSlot" parent="." instance=ExtResource( 7 )]
+margin_left = 215.0
+margin_right = 260.0
+texture_normal = SubResource( 1 )
+is_crafting_slot = true
+
+[node name="CraftButton" type="Button" parent="."]
+margin_left = 264.0
+margin_right = 388.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 124, 0 )
+text = "..."
+script = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CraftButton"]
+anims/RESET = SubResource( 3 )
+anims/loading = SubResource( 2 )
+
+[node name="PreviewItem" type="Control" parent="CraftButton"]
+margin_left = 47.0
+margin_top = 1.0
+margin_right = 79.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 56, 38 )
+mouse_filter = 1
+
+[node name="Item" parent="CraftButton/PreviewItem" instance=ExtResource( 1 )]
+margin_left = -6.0
+margin_top = -1.0
+margin_right = 40.0
+margin_bottom = 45.0
+texture_normal = SubResource( 4 )
+show_amount = false
+
+[node name="MakeAmountLineEdit" type="LineEdit" parent="CraftButton/PreviewItem"]
+margin_left = 33.0
+margin_top = 4.0
+margin_right = 71.0
+margin_bottom = 36.0
+custom_constants/minimum_spaces = 0
+align = 1
+placeholder_text = "1"
+
+[connection signal="pressed" from="CraftButton" to="CraftButton" method="_on_CraftButton_pressed"]

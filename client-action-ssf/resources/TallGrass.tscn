@@ -1,0 +1,62 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://resources/TallGrass.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/tallgrass.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/tallgrassVariations.png" type="Texture" id=3]
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 3 )
+region = Rect2( 96, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 144, 0, 48, 64 )
+
+[sub_resource type="SpriteFrames" id=12]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
+region = Rect2( 48, 0, 48, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 48, 64 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="TallGrass" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Variations" type="AnimatedSprite" parent="."]
+position = Vector2( 1, -31 )
+frames = SubResource( 12 )
+frame = 2
+
+[node name="TallGrass" type="AnimatedSprite" parent="."]
+position = Vector2( 6, -1 )
+frames = SubResource( 4 )
+offset = Vector2( -2, -30 )

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/ui/rect.png" type="Texture" id=2]
+[ext_resource path="res://ui/building/BuildingSelectionButton.gd" type="Script" id=3]
+
+[node name="BuildingSelectionButton" type="TextureButton"]
+self_modulate = Color( 1, 1, 1, 0.662745 )
+margin_right = 64.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="BuildingPreview" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = -7.0
+margin_bottom = -7.0
+expand = true
+stretch_mode = 6
+
+[connection signal="button_down" from="." to="." method="_on_BuildingSelectionButton_button_down"]
