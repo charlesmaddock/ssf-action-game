@@ -6,6 +6,7 @@ signal damage_taken(health, dir)
 
 
 onready var harvested_item = $HarvestedItem
+onready var sprite_container = $SpriteContainer 
 
 
 var is_high_detail_entity = true
@@ -40,3 +41,6 @@ func set_entity_data(spawn_entity_dto: Dictionary, pos: Vector2) -> void:
 	get_node("Health").init(spawn_entity_dto)
 	get_node("SpriteContainer").init(spawn_entity_dto)
 
+
+func swing_item(target_pos):
+	sprite_container.swing_item(target_pos)

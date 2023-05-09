@@ -45,6 +45,7 @@ func get_item():
 	return holding_item
 
 
+
 func get_extents() -> Vector2:
 	return collision_shape.shape.extents
 

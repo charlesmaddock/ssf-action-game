@@ -11,7 +11,7 @@ onready var Leaves: AnimatedSprite = $Leaves
 func init(x: int, y: int, percent_drops_left: float, resource_type: int):
 	var frame = resource_sprite.get_init_status(percent_drops_left)
 	
-	var rand_displacement = Vector2((randf() - 0.5) * 32, (randf() - 0.5) * 32)
+	var rand_displacement = Vector2((randf() - 0.5) * 16, (randf() - 0.5) * 16)
 	position = Vector2((x + 1) * 16 - 8, (y + 1) * 16 - 8) + rand_displacement
 	
 	var flip_h = randi() % 2 == 0

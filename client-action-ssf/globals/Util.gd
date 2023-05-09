@@ -30,7 +30,7 @@ func get_highest_priority_made_of_resource(made_of: Array) -> Dictionary:
 		return ResourceConstants.resource_info[-1]
 	
 	for made_of_data in made_of:
-		var res_info = ResourceConstants.resource_info[int(made_of_data.resource)]
+		var res_info = ResourceConstants.resource_info[int(made_of_data.source)]
 		if res_info.name_priority < curr_prio:
 			curr_prio = res_info.name_priority
 			highest_prio_resource = res_info

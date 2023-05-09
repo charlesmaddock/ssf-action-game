@@ -42,13 +42,15 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 				my_entity = null
 				set_process(false)
 		WsEvents.attacked:
-			if data.ranged == true:
-				var attacker = get_entity(data.attackerId)
-				var attacked = get_entity(data.attackedId)
-				if attacker != null && attacked  != null:
+			var attacker = get_entity(data.attackerId)
+			var attacked = get_entity(data.attackedId)
+			if attacker != null && attacked  != null:
+				if data.ranged == true:
 					var projectile = projectile_scene.instance()
 					add_child(projectile)
 					projectile.fire(attacker, attacked, data.success)
+				else:
+					attacker.swing_item(attacked.global_position)
 
 
 func get_my_entity():

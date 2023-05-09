@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sfx/opera.wav" type="AudioStream" id=1]
+[ext_resource path="res://components/Music.gd" type="Script" id=2]
+[ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
+[ext_resource path="res://ui/uiComponents/FlexContainer.gd" type="Script" id=4]
+
+[node name="Music" type="Control"]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+autoplay = true
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 3 )
+
+[node name="Pages" type="HBoxContainer" parent="VBox"]
+visible = false
+margin_right = 242.0
+margin_bottom = 39.0
+alignment = 1
+
+[node name="Page1" type="Button" parent="VBox/Pages"]
+margin_left = 80.0
+margin_right = 119.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 39 )
+text = "1"
+
+[node name="Page2" type="Button" parent="VBox/Pages"]
+margin_left = 123.0
+margin_right = 162.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 39, 39 )
+text = "2"
+
+[node name="Settings" type="HBoxContainer" parent="VBox"]
+margin_right = 300.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 300, 0 )
+custom_constants/separation = 12
+
+[node name="PlayButton" type="Button" parent="VBox/Settings"]
+margin_right = 48.0
+margin_bottom = 39.0
+text = "Play"
+
+[node name="StaccatoCheckBox" type="CheckBox" parent="VBox/Settings"]
+margin_left = 60.0
+margin_right = 153.0
+margin_bottom = 39.0
+text = "Staccato"
+
+[node name="OctaveButton" type="Button" parent="VBox/Settings"]
+margin_left = 165.0
+margin_right = 242.0
+margin_bottom = 39.0
+text = "Octave 4"
+
+[node name="Sliders" type="Container" parent="VBox"]
+margin_top = 47.0
+margin_right = 300.0
+margin_bottom = 107.0
+rect_min_size = Vector2( 0, 60 )
+script = ExtResource( 4 )
+
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_AudioStreamPlayer2D_finished"]
+[connection signal="pressed" from="VBox/Settings/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="toggled" from="VBox/Settings/StaccatoCheckBox" to="." method="_on_StaccatoCheckBox_toggled"]
+[connection signal="pressed" from="VBox/Settings/OctaveButton" to="." method="_on_OctaveButton_pressed"]

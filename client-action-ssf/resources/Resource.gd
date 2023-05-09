@@ -11,7 +11,7 @@ var _id: String
 var _type: int
 var original_pos: Vector2
 var loaded = false
-
+var points = [Vector2(0.3, 0.2), Vector2(0.7, 0.1), Vector2(0.1, 0.5), Vector2(0.85, 0.6), Vector2(0.4, 0.9), Vector2(0.8, 1)]
 
 var anim_progress: float = 0
 const anim_time = 0.5
@@ -29,6 +29,7 @@ func _on_packet_received(event: String, data: Dictionary) -> void:
 		if data.harvestedFromId == _id:
 			var harvester = Util.get_entity(data.harvesterId)
 			if harvester != null:
+				harvester.swing_item(global_position + + get_resource_extents())
 				harvested_item.fly_to(global_position + get_resource_extents(), harvester.global_position, data.itemConfig.itemType, data.itemConfig.madeOf)
 				set_process(true)
 				anim_progress = 0
@@ -43,13 +44,15 @@ func init(resource_data: Dictionary):
 	_id = resource_data.id
 	_type = resource_data.type
 	
-	var amount_to_spawn = 3 + (randi() % 3)
+	var amount_to_spawn = 3 + randi() % 3
 	
 	if loaded == false:
 		loaded = true
 		while amount_to_spawn > 0:
 			amount_to_spawn -= 1
-			var rand_pos = Vector2(randf() * (Constants.RESOURCE_DIM.x / Constants.TILE_DIM.x), randf() * (Constants.RESOURCE_DIM.y / Constants.TILE_DIM.y))
+			var rand_point_i = randi() % points.size()
+			var rand_pos = points[rand_point_i] * Constants.RESOURCE_DIM / Constants.TILE_DIM
+			points.remove(rand_point_i)
 			var resource_sprite = ResourceConstants.resource_info[int(resource_data.type)].scene.instance()
 			add_child(resource_sprite)
 			resource_sprite.init(rand_pos.x, rand_pos.y, resource_data.dropsPercent, int(resource_data.type))

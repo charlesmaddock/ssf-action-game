@@ -43,4 +43,5 @@ var itemSelected: String = "itemSelected"
 var openBuildingCost: String = "openBuildingCost"
 var openBuildingContainer: String = "openBuildingContainer"
 var updateBuildingState: String = "updateBuildingState"
+var experiencePoints: String = "experiencePoints"
 

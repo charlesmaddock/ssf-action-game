@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/gloobertssonata.mp3-9dfc1db892438503b6f526e58f715c3f.mp3str"
+
+[deps]
+
+source_file="res://assets/music/gloobertssonata.mp3"
+dest_files=[ "res://.import/gloobertssonata.mp3-9dfc1db892438503b6f526e58f715c3f.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

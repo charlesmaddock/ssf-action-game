@@ -23,3 +23,7 @@ func _on_ZoomOutButton_button_down():
 
 func _on_BuildButton_button_down():
 	Events.emit_signal("build_button_pressed")
+
+
+func _on_MusicButton_button_down():
+	Events.emit_signal("music_button_pressed")

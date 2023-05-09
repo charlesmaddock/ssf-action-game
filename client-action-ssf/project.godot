@@ -39,6 +39,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/inventory/ItemSlot.gd"
 }, {
+"base": "Reference",
+"class": "SfxrGenerator",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrGenerator.gd"
+}, {
+"base": "Object",
+"class": "SfxrGlobals",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrGlobals.gd"
+}, {
+"base": "Object",
+"class": "SfxrStreamPlayerInterface",
+"language": "GDScript",
+"path": "res://addons/godot_sfxr/SfxrStreamPlayerInterface.gd"
+}, {
 "base": "Node2D",
 "class": "SpriteContainer",
 "language": "GDScript",
@@ -51,6 +66,9 @@ _global_script_class_icons={
 "Game": "",
 "Item": "",
 "ItemSlot": "",
+"SfxrGenerator": "",
+"SfxrGlobals": "",
+"SfxrStreamPlayerInterface": "",
 "SpriteContainer": ""
 }
 
@@ -74,6 +92,7 @@ ItemDragHandler="*res://globals/ItemDragHandler.gd"
 WindowScaler="*res://globals/WindowScaler.gd"
 ResourceConstants="*res://globals/ResourceConstants.gd"
 BuildingConstants="*res://globals/BuildingConstants.gd"
+Music="*res://globals/Music.tscn"
 
 [display]
 
@@ -84,6 +103,10 @@ window/handheld/orientation="sensor_landscape"
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 window/stretch/shrink=2.0
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot_sfxr/plugin.cfg" )
 
 [input]
 
@@ -174,6 +197,5 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
-2d/snapping/use_gpu_pixel_snap=true
 environment/default_clear_color=Color( 0.941176, 0.956863, 1, 1 )
 environment/default_environment="res://default_env.tres"

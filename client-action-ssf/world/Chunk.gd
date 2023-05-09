@@ -12,7 +12,7 @@ var chunk_resources: Array = []
 var loaded: bool = false
 
 var grass_tuft = preload("res://assets/sprites/grassTuft.png")
-var small_stone = preload("res://assets/sprites/stone.png")
+var small_stone = preload("res://assets/environment/smallStones.png")
 var small_bush = preload("res://assets/sprites/smallBush.png")
 var sprout = preload("res://assets/vegetation/sprout.png")
 
@@ -55,7 +55,7 @@ func get_tile_map_index_from_type(tile_type: int) -> Array:
 
 func get_decorative_env_from_type(tile_type: int) -> Array:
 	match(tile_type):
-		Constants.TileType.GRASS:
+		Constants.TileType.GRASS, Constants.TileType.FOREST, Constants.TileType.FLOWERS:
 			return [grass_tuft, small_bush, sprout]
 		Constants.TileType.GRAVEL:
 			return [small_stone]
@@ -76,7 +76,7 @@ func init(chunk_data: Dictionary, resource_scene: PackedScene, WorldYSort: YSort
 			var tile_index = tile_index_options[randi() % tile_index_options.size()] 
 			set_cell(iterated_tile.y, iterated_tile.x, tile_index)
 			
-			if randf() > 0.98 && decorative_env_options.size() > 0:
+			if randf() > 1 && decorative_env_options.size() > 0:
 				var decorative_env_texture = decorative_env_options[randi() % decorative_env_options.size()] 
 				var sprite = Sprite.new()
 				sprite.texture = decorative_env_texture

@@ -19,7 +19,7 @@ var made_of: Array = []
 var _is_preview = false
 var colliding_item_slot_areas = []
 var _item_slot = null
-
+var _hotbar_active: bool = true
 
 func init(serialized_item: Dictionary, is_preview = false):
 	var item_type = int(serialized_item.type)
@@ -49,9 +49,8 @@ func _ready():
 
 
 func _on_inventory_toggled(inventory_visible: bool):
-	disabled = !inventory_visible
 	item_desc.hide()
-	mouse_filter = Control.MOUSE_FILTER_STOP if inventory_visible else Control.MOUSE_FILTER_IGNORE
+	_hotbar_active = !inventory_visible
 
 
 func get_id():
@@ -113,8 +112,13 @@ func hide_item_desc():
 
 func _on_Item_button_up():
 	if _is_preview == false:
-		ItemDragHandler.try_place_dragged_item() 
+		var switched_slot = ItemDragHandler.try_place_dragged_item() 
 		area2d.z_index = 2
+		
+		print("switched_slot: ", switched_slot)
+		
+		if _hotbar_active && switched_slot == false:
+			Events.emit_signal("hotbar_slot_pressed", _item_slot.hotbar_index)
 	
 	item_desc.hide()
 

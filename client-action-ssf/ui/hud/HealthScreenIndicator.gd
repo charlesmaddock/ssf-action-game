@@ -10,6 +10,7 @@ func _ready():
 
 
 func _on_my_health_changed(health: int):
+	print("_on_my_health_changed! ", health)
 	target_opacity = clamp(1 - (float(clamp(health, 0, 60)) / 60.0), 0, 1)
 
 

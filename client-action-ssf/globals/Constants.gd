@@ -79,19 +79,20 @@ enum AppMode {
 
 
 onready var entity_info = {
-	EntityTypes.HUMAN: {"image": load("res://assets/sprites/human.png"), "modulate": Color.white},
-	EntityTypes.CRAB: {"image": load("res://assets/sprites/crab.png"), "modulate": Color.white},
-	EntityTypes.GLOOBERT: {"image": load("res://assets/sprites/gloobert.png"), "modulate": Color.white},
-	EntityTypes.BUNNY: {"image": load("res://assets/entity/bunny.png"), "modulate": Color.white},
-	EntityTypes.BOAR: {"image": load("res://assets/entity/boar.png"), "modulate": Color("#e6c4b8")},
-	EntityTypes.BROWN_BEAR: {"image": load("res://assets/entity/bear.png"), "modulate": Color("#bf9682")},
-	EntityTypes.POLAR_BEAR: {"image": load("res://assets/entity/bear.png"), "modulate": Color.white},
-	EntityTypes.SNAKE: {"image": load("res://assets/entity/snake.png"), "modulate": Color("#8fbf82")},
-	EntityTypes.SKELETON_WARRIOR:  {"image": load("res://assets/entity/skeleton.png"), "modulate": Color.white},
-	EntityTypes.IMP:  {"image": load("res://assets/entity/imp.png"), "modulate": Color("#c57ae6")},
-	EntityTypes.FIRE_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#e6937a")},
-	EntityTypes.ICE_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#adccf0")},
-	EntityTypes.EARTH_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#a89c94")},
+	EntityTypes.HUMAN: {"image": load("res://assets/sprites/human.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.CRAB: {"image": load("res://assets/sprites/crab.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.GLOOBERT: {"image": load("res://assets/sprites/gloobert.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.BUNNY: {"image": load("res://assets/entity/bunny.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.BOAR: {"image": load("res://assets/entity/boar.png"), "modulate": Color("#e6c4b8"), "scale": 1},
+	EntityTypes.BROWN_BEAR: {"image": load("res://assets/entity/bear.png"), "modulate": Color("#bf9682"), "scale": 1},
+	EntityTypes.POLAR_BEAR: {"image": load("res://assets/entity/bear.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.SNAKE: {"image": load("res://assets/entity/snake.png"), "modulate": Color("#8fbf82"), "scale": 1},
+	EntityTypes.SKELETON_WARRIOR:  {"image": load("res://assets/entity/skeleton.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.SKELETON_ARCHER:  {"image": load("res://assets/entity/skeleton.png"), "modulate": Color.white, "scale": 1},
+	EntityTypes.IMP:  {"image": load("res://assets/entity/imp.png"), "modulate": Color("#c57ae6"), "scale": 1.5},
+	EntityTypes.FIRE_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#e6937a"), "scale": 2},
+	EntityTypes.ICE_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#adccf0"), "scale": 2},
+	EntityTypes.EARTH_ELEMENTAL:  {"image": load("res://assets/entity/elemental.png"), "modulate": Color("#a89c94"), "scale": 2},
 }
 
 

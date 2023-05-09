@@ -26,6 +26,7 @@ signal zoom_in_button_pressed()
 signal open_inv_button_pressed()
 signal settings_button_pressed()
 signal build_button_pressed()
+signal music_button_pressed()
 
 
 signal inventory_toggled(visible)

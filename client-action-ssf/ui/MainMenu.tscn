@@ -38,7 +38,7 @@ margin_top = 4.0
 margin_right = 44.0
 margin_bottom = 24.0
 custom_colors/font_color = Color( 0.266667, 0.0823529, 0.027451, 1 )
-text = "Indev (v. 0.0.8)"
+text = "Indev (v. 0.0.9)"
 script = ExtResource( 10 )
 
 [node name="Loading" type="Control" parent="."]
@@ -199,7 +199,6 @@ margin_top = 211.0
 margin_bottom = 397.0
 
 [node name="SelectPlayerPage" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 4 )

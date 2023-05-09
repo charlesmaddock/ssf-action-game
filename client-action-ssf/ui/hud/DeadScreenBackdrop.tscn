@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assets/font/averia/averia-regular.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/font/pangolin/pangolin-lg.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/theme/theme.tres" type="Theme" id=3]
 [ext_resource path="res://ui/hud/DeadScreenBackdrop.gd" type="Script" id=4]
@@ -51,16 +50,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -199.5
-margin_top = -228.0
-margin_right = 199.5
-margin_bottom = 228.0
+margin_left = -204.0
+margin_top = -180.0
+margin_right = 204.0
+margin_bottom = 180.0
 
 [node name="MarginContainer" type="MarginContainer" parent="DeathScreenBackdrop/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 392.0
-margin_bottom = 449.0
+margin_right = 401.0
+margin_bottom = 353.0
 custom_constants/margin_right = 8
 custom_constants/margin_top = 8
 custom_constants/margin_left = 8
@@ -69,13 +68,13 @@ custom_constants/margin_bottom = 8
 [node name="Control" type="VBoxContainer" parent="DeathScreenBackdrop/PanelContainer/MarginContainer"]
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 377.0
-margin_bottom = 434.0
+margin_right = 386.0
+margin_bottom = 338.0
 rect_min_size = Vector2( 200, 0 )
 mouse_filter = 2
 
 [node name="Title" type="Label" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
-margin_right = 369.0
+margin_right = 378.0
 margin_bottom = 31.0
 custom_fonts/font = ExtResource( 2 )
 text = "You Died"
@@ -85,37 +84,38 @@ autowrap = true
 
 [node name="Margin" type="Control" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
 margin_top = 39.0
-margin_right = 369.0
+margin_right = 378.0
 margin_bottom = 51.0
 rect_min_size = Vector2( 0, 12 )
 
-[node name="Label" type="Label" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
+[node name="RichTextLabel" type="RichTextLabel" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
 margin_top = 59.0
-margin_right = 369.0
-margin_bottom = 355.0
-custom_fonts/font = ExtResource( 1 )
-text = "Everyone knows of death, but now that its vast darkness looms over you it feels different.
-
-Time grinds to a halt as milliseconds turn into years. You are given a chance to think about your life.
+margin_right = 378.0
+margin_bottom = 259.0
+rect_min_size = Vector2( 0, 200 )
+bbcode_enabled = true
+bbcode_text = "As you draw your last breaths, seconds turn to years. You are given a final chance to reflect on your life.
 
 Did you change this world, or will your actions and their consequences fade away to the tides of time?
 
-Will your soul return to this world, manifesting a new body? If so, God help those who wronged you, and God bless those who will behold your compassion and guidance."
-align = 1
-valign = 1
-autowrap = true
+Will your soul return to this world, manifesting a new body? If so, blessed are those who will witness your compassion and [color=red]God help those who wronged you.[/color]"
+text = "As you draw your last breaths, seconds turn to years. You are given a final chance to reflect on your life.
+
+Did you change this world, or will your actions and their consequences fade away to the tides of time?
+
+Will your soul return to this world, manifesting a new body? If so, blessed are those who will witness your compassion and God help those who wronged you."
 
 [node name="Margin2" type="Control" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
-margin_top = 363.0
-margin_right = 369.0
-margin_bottom = 379.0
+margin_top = 267.0
+margin_right = 378.0
+margin_bottom = 283.0
 rect_min_size = Vector2( 0, 16 )
 
 [node name="LeaveGame" type="Button" parent="DeathScreenBackdrop/PanelContainer/MarginContainer/Control"]
 self_modulate = Color( 0.329412, 0.321569, 0.321569, 1 )
-margin_top = 387.0
-margin_right = 369.0
-margin_bottom = 426.0
+margin_top = 291.0
+margin_right = 378.0
+margin_bottom = 330.0
 custom_colors/font_color = Color( 100, 100, 100, 1 )
 text = "Leave World"
 

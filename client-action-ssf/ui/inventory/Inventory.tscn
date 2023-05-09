@@ -37,9 +37,9 @@ mouse_filter = 2
 alignment = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 124.0
+margin_top = 185.0
 margin_right = 406.0
-margin_bottom = 476.0
+margin_bottom = 415.0
 rect_min_size = Vector2( 406, 0 )
 mouse_filter = 2
 
@@ -47,7 +47,7 @@ mouse_filter = 2
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 399.0
-margin_bottom = 345.0
+margin_bottom = 223.0
 mouse_filter = 2
 
 [node name="CloseButton" type="Control" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
@@ -64,7 +64,7 @@ text = "X"
 [node name="UpperInventory" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
 margin_top = 8.0
 margin_right = 392.0
-margin_bottom = 130.0
+margin_bottom = 8.0
 mouse_filter = 2
 alignment = 2
 
@@ -78,6 +78,7 @@ margin_left = 226.0
 inventory_node_path = NodePath("../../../../../..")
 
 [node name="ContainerDisplay" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer/UpperInventory"]
+visible = false
 margin_right = 392.0
 margin_bottom = 122.0
 size_flags_horizontal = 3
@@ -177,14 +178,14 @@ margin_right = 388.0
 margin_bottom = 94.0
 
 [node name="Margin" type="Control" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
-margin_top = 138.0
+margin_top = 16.0
 margin_right = 392.0
-margin_bottom = 138.0
+margin_bottom = 16.0
 
 [node name="ItemsGrid" type="GridContainer" parent="HBoxContainer/VBoxContainer/PanelContainer/VBoxContainer"]
-margin_top = 146.0
+margin_top = 24.0
 margin_right = 392.0
-margin_bottom = 338.0
+margin_bottom = 216.0
 mouse_filter = 2
 columns = 8
 

@@ -698,6 +698,7 @@ tracks/0/keys = {
 
 [node name="Chunk" type="TileMap"]
 modulate = Color( 1, 1, 1, 0 )
+scale = Vector2( 1.001, 1.001 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 2

@@ -9,7 +9,7 @@ onready var TallGrassVariations: AnimatedSprite = $Variations
 
 
 func init(x: float, y: float, percent_drops_left: float, resource_type: int):
-	var rand_displacement = Vector2((randf() - 0.5) * 32, (randf() - 0.5) * 32)
+	var rand_displacement = Vector2((randf() - 0.5) * 16, (randf() - 0.5) * 16)
 	position = Vector2((x + 1) * 16 - 8, (y + 1) * 16 - 8) + rand_displacement
 	
 	TallGrass.flip_h = randi() % 2 == 0

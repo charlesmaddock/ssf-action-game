@@ -1,8 +1,8 @@
-extends MarginContainer
+extends VBoxContainer
 
 
-onready var building_category_tabs = $PanelContainer/VBox/BuildingCategoryTabs
-onready var building_options_container = $PanelContainer/VBox/BuildingOptions
+onready var building_category_tabs = $BuildingCategoryTabs
+onready var building_options_container = $BuildingOptions
 
 
 var building_selection_button_scene = load("res://ui/building/BuildingSelectionButton.tscn")
@@ -13,7 +13,6 @@ var building_category_selection_button = load("res://ui/building/CategorySelecti
 func _ready():
 	Events.connect("building_selected", self, "_on_building_selected")
 	Events.connect("building_dropped", self, "_on_building_dropped")
-	Events.connect("build_button_pressed", self, "_on_build_button_pressed")
 	
 	for c in BuildingConstants.BuildingCategory.values():
 		var category = int(c)
@@ -49,20 +48,3 @@ func _on_building_dropped():
 func _on_category_selected(category: int):
 	for child in building_options_container.get_children():
 		child.set_visible(child.get_category() == category)
-
-
-func _input(event):
-	if Input.is_action_just_pressed("open_building_HUD") && Client.ui_interaction_mode != Client.UIInteractionModes.CHAT:
-		toggle_visible()
-
-
-func _on_build_button_pressed():
-	toggle_visible()
-
-
-func toggle_visible():
-	set_visible(!visible)
-
-
-func _on_CloseButton_button_down():
-	set_visible(false)
