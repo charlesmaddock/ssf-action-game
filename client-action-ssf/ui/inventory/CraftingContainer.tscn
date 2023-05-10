@@ -4,31 +4,13 @@
 [ext_resource path="res://assets/ui/uipack_rpg_sheet.png" type="Texture" id=2]
 [ext_resource path="res://ui/crafting/CraftButton.gd" type="Script" id=3]
 [ext_resource path="res://ui/crafting/CraftingContainer.gd" type="Script" id=4]
+[ext_resource path="res://assets/font/pangolin/pangolin-lg.tres" type="DynamicFont" id=5]
+[ext_resource path="res://ui/crafting/CraftControls.gd" type="Script" id=6]
 [ext_resource path="res://ui/inventory/ItemSlot.tscn" type="PackedScene" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
 region = Rect2( 293, 392, 45, 45 )
-
-[sub_resource type="Animation" id=3]
-length = 0.001
-
-[sub_resource type="Animation" id=2]
-resource_name = "loading"
-length = 0.4
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:text")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ "...", "·..", ".·.", "..·" ]
-}
 
 [sub_resource type="MeshTexture" id=4]
 image_size = Vector2( 46, 46 )
@@ -42,52 +24,81 @@ alignment = 2
 script = ExtResource( 4 )
 
 [node name="Ingredient1ItemSlot" parent="." instance=ExtResource( 7 )]
-margin_left = 166.0
-margin_right = 211.0
+margin_left = 19.0
+margin_right = 64.0
 texture_normal = SubResource( 1 )
 is_crafting_slot = true
 
 [node name="Ingredient2ItemSlot" parent="." instance=ExtResource( 7 )]
-margin_left = 215.0
-margin_right = 260.0
+margin_left = 68.0
+margin_right = 113.0
 texture_normal = SubResource( 1 )
 is_crafting_slot = true
 
-[node name="CraftButton" type="Button" parent="."]
-margin_left = 264.0
+[node name="Equals" type="Label" parent="."]
+margin_left = 117.0
+margin_top = 7.0
+margin_right = 144.0
+margin_bottom = 38.0
+custom_colors/font_color = Color( 0.337255, 0.180392, 0.156863, 1 )
+custom_fonts/font = ExtResource( 5 )
+text = "=>"
+
+[node name="CraftControls" type="HBoxContainer" parent="."]
+visible = false
+margin_left = 160.0
 margin_right = 388.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 124, 0 )
-text = "..."
-script = ExtResource( 3 )
+margin_bottom = 46.0
+rect_min_size = Vector2( 240, 0 )
+alignment = 2
+script = ExtResource( 6 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CraftButton"]
-anims/RESET = SubResource( 3 )
-anims/loading = SubResource( 2 )
-
-[node name="PreviewItem" type="Control" parent="CraftButton"]
-margin_left = 47.0
-margin_top = 1.0
-margin_right = 79.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 56, 38 )
-mouse_filter = 1
-
-[node name="Item" parent="CraftButton/PreviewItem" instance=ExtResource( 1 )]
-margin_left = -6.0
-margin_top = -1.0
-margin_right = 40.0
-margin_bottom = 45.0
+[node name="PreviewItem" parent="CraftControls" instance=ExtResource( 1 )]
+margin_right = 46.0
+margin_bottom = 46.0
 texture_normal = SubResource( 4 )
 show_amount = false
 
-[node name="MakeAmountLineEdit" type="LineEdit" parent="CraftButton/PreviewItem"]
-margin_left = 33.0
-margin_top = 4.0
-margin_right = 71.0
-margin_bottom = 36.0
+[node name="CraftOneButton" type="Button" parent="CraftControls"]
+margin_left = 50.0
+margin_right = 124.0
+margin_bottom = 46.0
+text = "Make one"
+
+[node name="CraftManyButton" type="Button" parent="CraftControls"]
+margin_left = 128.0
+margin_right = 228.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 100, 0 )
+text = "Make          "
+script = ExtResource( 3 )
+
+[node name="MakeAmountLineEdit" type="LineEdit" parent="CraftControls/CraftManyButton"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -47.0
+margin_top = -16.0
+margin_right = -9.0
+margin_bottom = 16.0
 custom_constants/minimum_spaces = 0
 align = 1
 placeholder_text = "1"
 
-[connection signal="pressed" from="CraftButton" to="CraftButton" method="_on_CraftButton_pressed"]
+[node name="FailedCraftInfo" type="Control" parent="."]
+margin_left = 148.0
+margin_right = 388.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 240, 0 )
+
+[node name="Label" type="Label" parent="FailedCraftInfo"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 0.278431, 0.14902, 0.14902, 1 )
+text = "Add items to make something"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="CraftControls/CraftOneButton" to="CraftControls" method="_on_CraftOneButton_pressed"]
+[connection signal="pressed" from="CraftControls/CraftManyButton" to="CraftControls" method="_on_CraftManyButton_pressed"]
